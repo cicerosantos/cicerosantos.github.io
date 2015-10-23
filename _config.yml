@@ -1,11 +1,11 @@
 # Site settings
-title: CS231n Convolutional Neural Networks for Visual Recognition
-email: karpathy@cs.stanford.edu
-description: "Course materials and notes for Stanford class CS231n: Convolutional Neural Networks for Visual Recognition."
+title: "Prof. Cicero A. dos Santos<br>Instituto Federal da Paraíba - IFPB /João Pessoa <br> Laboratório de Acionamento de Máquinas, Controle e Eletrônica Industrial"
+email: cicero.santos@ifpb.edu.br
+description: "Materiais e notas de aula para a disciplina de Eletrônica Industrial do Curso Superior em Automação Industrial do IFPB/João Pessoa."
 baseurl: ""
-url: "http://cs231n.github.io"
-twitter_username: cs231n
-github_username:  cs231n
+url: "http://cicerosantos.github.io"
+twitter_username: ciceroAlisson
+github_username:  cicerosantos
 
 # Build settings
 markdown: redcarpet

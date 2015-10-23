@@ -1,0 +1,534 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"da",
+				"dashed"
+			],
+			[
+				"ganho",
+				"ganho_estatico"
+			],
+			[
+				"ondu",
+				"ondulacao_corrente"
+			],
+			[
+				"gn",
+				"ganhoEstatico"
+			],
+			[
+				"ond",
+				"ondCorrente"
+			],
+			[
+				"ma",
+				"main	main()"
+			],
+			[
+				"tex",
+				"texlive"
+			],
+			[
+				"inc",
+				"include"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/User/myC++.sublime-build",
+					""
+				],
+				[
+					"Packages/User/myC++.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/User/myC++.sublime-build",
+				"Run"
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"R",
+				"Set Syntax: R"
+			],
+			[
+				"projet",
+				"Project: Edit"
+			],
+			[
+				"linter",
+				"SublimeLinter: Show Errors on Save"
+			],
+			[
+				"intall",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"js",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"fe",
+				"Fetch: Manage"
+			],
+			[
+				"css",
+				"Set Syntax: CSS"
+			],
+			[
+				"f",
+				"Fetch: Manage"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"html",
+				"Set Syntax: HTML"
+			],
+			[
+				"synta",
+				"Set Syntax: PHP"
+			],
+			[
+				"syntax p",
+				"Set Syntax: PHP"
+			],
+			[
+				"syntax mar",
+				"Set Syntax: Markdown"
+			],
+			[
+				"syntax c",
+				"Set Syntax: C"
+			],
+			[
+				"ssyntax per",
+				"Set Syntax: Perl"
+			],
+			[
+				"snippet",
+				"Snippet: griddata"
+			],
+			[
+				"sni",
+				"Snippet: Lorem ipsum"
+			],
+			[
+				"sidebar",
+				"View: Toggle Side Bar"
+			],
+			[
+				"java",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"mark",
+				"Set Syntax: Markdown"
+			],
+			[
+				"c++",
+				"Set Syntax: C++"
+			],
+			[
+				"syntax ja",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"syntax mat",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"javas",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"latextools",
+				"LaTeXTools: Reconfigure and migrate settings"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 416.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/G/OneDrive/Repo/github/cicerosantos.github.io/_includes"
+	],
+	"file_history":
+	[
+		"/G/OneDrive/Repo/github/cicerosantos.github.io/assignment1.md",
+		"/G/OneDrive/Projetos/Artigos/Transmissao_DC-DC/sbc-template.bib",
+		"/G/OneDrive/Projetos/Artigos/Transmissao_DC-DC/Transmissao_DC-DC.tex",
+		"/G/Dropbox/Public/Industrial/teste.txt",
+		"/G/Dropbox/Public/Industrial/exemplo5.md",
+		"/G/Trabalhando/pandcoc-test/SLIDES.txt",
+		"/G/Dropbox/Public/Industrial/teste.md",
+		"/G/Dropbox/Public/Industrial/pandoc.css",
+		"/G/Trabalhando/pandcoc-test/example2.md",
+		"/G/Trabalhando/pandcoc-test/pandoc_ex.txt",
+		"/G/Dropbox/Public/Industrial/README.md",
+		"/G/Dropbox/Public/Monitoria_selecao_20151 - Copia.html",
+		"/G/OneDrive/Repo/Bitbucket_local/documento_teste.txt",
+		"/G/OneDrive/Repo/teste_remoto/documento.txt",
+		"/G/OneDrive/Repo/teste_local/arquivo_01.txt",
+		"/G/OneDrive/Repo/teste_remoto/arquivo_01.txt",
+		"/G/OneDrive/Repo/teste_remoto/arquivo1.txt",
+		"/G/OneDrive/Repo/teste_remoto/.gitignore",
+		"/G/OneDrive/Repo/teste-remote/testando_texto.txt",
+		"/C/Users/Cicero/Downloads/28pins-1.1/TODO/Read me ToDo.txt",
+		"/C/Users/Cicero/AppData/Roaming/Sublime Text 3/Packages/LaTeXTools/LaTeX.sublime-build",
+		"/G/OneDrive/Projetos/Artigos/Transmissao_DC-DC/Transmissao_DC-DC.bbl",
+		"/G/OneDrive/Projetos/Artigos/Transmissao_DC-DC/Transmissao_DC-DC.sublime-project",
+		"/G/OneDrive/Projetos/Artigos/Transmissao_DC-DC/sbc-template.sty",
+		"/G/OneDrive/Projetos/Artigos/Template_SBC/template-latex/sbc-template.tex",
+		"/G/OneDrive/Projetos/Artigos/Template_SBC/template-latex/sbc-template.bib",
+		"/G/OneDrive/Projetos/Artigos/Template_SBC/template-latex/sbc-template.sty",
+		"/G/OneDrive/Projetos/Artigos/Revisao Transmissão CC/sbc-template.tex",
+		"/G/OneDrive/Projetos/Artigos/Template_SBC/template-latex/sbc-template.pdf",
+		"/G/OneDrive/Documentos/Latex/Inversor Half-Bridge/Testando.tex",
+		"/G/OneDrive/Projetos/Artigos/Revisao Transmissão CC/Template_SBC/template-latex/sbc-template.tex",
+		"/G/OneDrive/Documentos/R_Studio/vsi_half-bridge_ondulacao_corrente.R",
+		"/C/Users/Cicero/AppData/Local/Temp/Temp1_Re Contato compra de componentes.zip/Driver 1.TXT",
+		"/G/Programas/Adobe Acrobat XI Pro 11.0.08/Instructions.txt",
+		"/G/Programas/Adobe Acrobat XI Pro 11.0.08/Patch/3.Patch/1.Patch MPT/Readme.txt",
+		"/G/OneDrive/Documentos/Latex/figuras_R/ganho_estatico.tex",
+		"/G/OneDrive/Documentos/Latex/Inversor Half-Bridge/teste_site_script.tex",
+		"/G/OneDrive/Documentos/Latex/figuras_R/example3.tex",
+		"/C/Users/Cicero/Documents/figuras_R/example3.tex",
+		"/G/Dropbox/impime_sala_automacao/pgto_impressora.txt",
+		"/G/Dropbox/Notas/Senha.txt",
+		"/G/OneDrive/Cursos/Coursera/R Programming Language/swirl Lessons/_Basic_Building_Blocks.txt",
+		"/C/Users/Cicero/AppData/Roaming/Sublime Text 3/Packages/User/myC++.sublime-build",
+		"/C/Users/Cicero/AppData/Roaming/Sublime Text 3/Packages/User/myR.sublime-build",
+		"/G/Trabalhando/teste.R",
+		"/G/Dropbox/Aplicativos/dbinbox/industrial_josegilsivan_tarefa03.zip (1).txt",
+		"/G/Dropbox/Aplicativos/dbinbox/industrial_josegilsivan_tarefa03.zip.txt",
+		"/G/OneDrive/Documentos/Latex/Artigo-Base/Testando.tex",
+		"/G/Copy/Projeto 02/Artigo/Artigo Latex/bare_conf.tex",
+		"/G/OneDrive/Documentos/Latex/Inversor Half-Bridge/Testando.bbl",
+		"/G/OneDrive/Documentos/Latex/Inversor Half-Bridge/Inversor Half-Bridge.sublime-project",
+		"/G/OneDrive/Documentos/Latex/Projeto-Base/principal.tex",
+		"/G/OneDrive/Documentos/Latex/Inversor Half-Bridge/figuras.tex",
+		"/G/OneDrive/Documentos/Latex/latex-basico.tex",
+		"/G/OneDrive/Documentos/Latex/Inversor Half-Bridge/referencias.bib",
+		"/C/Users/Cicero/Downloads/teste/Documento Base/principal.pdf",
+		"/G/OneDrive/Documentos/Latex/sample/testando.js",
+		"/G/OneDrive/Documentos/Latex/sample/tenstando.cpp",
+		"/G/OneDrive/Documentos/Latex/sample/CONTRIBUTING.md",
+		"/G/OneDrive/Documentos/Latex/sample/testando.cpp",
+		"/G/OneDrive/Documentos/Latex/sample/testando/teste1/teste2/teste.php",
+		"/G/OneDrive/Documentos/Latex/sample/gulpfile.js",
+		"/C/Users/Cicero/AppData/Roaming/Sublime Text 3/Packages/User/Fetch.sublime-settings",
+		"/G/OneDrive/Documentos/Latex/sample/dist/robots.txt",
+		"/C/Users/Cicero/Downloads/teste/sublime/index.html",
+		"/G/OneDrive/Documentos/MathType/Teste.wmf",
+		"/C/Users/Cicero/AppData/Local/Temp/Temp1_MathType 6.9.zip/3-SN.txt",
+		"/G/Programas/MathType/Install.txt",
+		"/G/Trabalhando/[CC-CC] Half-Bridge CCM(warning messages).txt",
+		"/G/OneDrive/Documentos/PSIM/Simulacao/[CC-CC] Half-Bridge CCM(warning messages).txt",
+		"/G/OneDrive/Documentos/PSIM/Simulacao/[CC-CC] Half-Bridge CCM(warning messages)-Vostro-Cicero.txt",
+		"/C/Program Files (x86)/Powersim/PSIM9.1.1_Trial/examples/custom dll/embedded software block/code/PsimBlock.h",
+		"/C/Program Files (x86)/Powersim/PSIM9.1.1_Trial/examples/custom dll/embedded software block/code/psimutil.cpp",
+		"/C/Program Files (x86)/Powersim/PSIM9.1.1_Trial/examples/custom dll/embedded software block/code/comparator.cpp",
+		"/C/Program Files (x86)/Powersim/PSIM9.1.1_Trial/examples/custom dll/embedded software block/comparator_esb.dll",
+		"/G/OneDrive/Repo/version-control/pappu-pakia/js/utils.js",
+		"/G/OneDrive/Repo/version-control/pappu-pakia/js/pappu.js",
+		"/G/OneDrive/Repo/version-control/pappu-pakia/index.htm",
+		"/G/OneDrive/Cursos/Coursera/Get Organized/reflections/week_1_reflections.txt",
+		"/G/OneDrive/Repo/github/datasciencecoursera/HelloWorld.md",
+		"/G/OneDrive/Repo/datasciencecoursera/.git/config",
+		"/G/OneDrive/Repo/testando/testando01",
+		"/G/OneDrive/Repo/testando/teste00",
+		"/G/OneDrive/Cursos/Coursera/Get Organized/reflections/lesson_1_reflections.txt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 3 Procrastination/2. Tackling Proscrastination.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 3 Procrastination/1. Introduction to Procrastination and Memory.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 2 Chunking - The Esssentials/9. Summary.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 2 Chunking - The Esssentials/Bonus/3. Interview with Amy Alkon.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 2 Chunking - The Esssentials/Bonus/1. Interview with Dr Norman Fortenberry - Learning at MIT.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 2 Chunking - The Esssentials/Bonus/2. Interview with Scott Young - a Marco Polo of Learning.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 2 Chunking - The Esssentials/8. Overlearing Choking Einstellung and Interleaving.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 2 Chunking - The Esssentials/7. The Value of a Library of Chunks.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 2 Chunking - The Esssentials/6. What motivates you.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 1 What is Learning/Bonus/2. Interview with Daphne Gra-Grant.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 1 What is Learning/Bonus/3. Interview with Benny the Irish Polyglot.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 2 Chunking - The Esssentials/1. Introduction to Chunking.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 2 Chunking - The Esssentials/5. Illusions of Competence.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 2 Chunking - The Esssentials/4. How to Form a Chunk - Part 1.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 2 Chunking - The Esssentials/4. How to Form a Chunk - Part 1.txt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 2 Chunking - The Esssentials/3. What is a Chunk.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 2 Chunking - The Esssentials/5. How to Form a Chunk - Part 2.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 1 What is Learning/10. Summary video for Module 1.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 1 What is Learning/Bonus/1. Interview with Dr Robert Bilder.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 1 What is Learning/11. Excitement About Whats Next.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 1 What is Learning/9. Interview with Dr. Terrence Sejnowski.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 1 What is Learning/8. Importance of Sleep in Learning.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 1 What is Learning/7. Introdcution to Memory.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 1 What is Learning/6. Practices Makes Permanent.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 1 What is Learning/5. A Procrastination Preview.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 1 What is Learning/4. What is learning.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 1 What is Learning/2. Introduction to the Course Structure.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 1 What is Learning/3. Using the Focused and Diffused Modes.srt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 1 What is Learning/index.vtt",
+		"/G/OneDrive/Cursos/Coursera/Learning How to Learn/Week 1 What is Learning/subtitles.vtt",
+		"/G/OneDrive/Repo/version-control/reflections/lesson_1_reflections.txt",
+		"/G/OneDrive/Cursos/Coursera/Hardware Security/Week 2 Intellectual Propoerty Protection/Video Lectures/2 - 1 - week2_01 Introduction to IP Protection (11-'26--).txt",
+		"/G/OneDrive/Cursos/Coursera/Data Scientist Toolbox/Week 01/1 - 1 - Series Motivation (12-03).srt",
+		"/G/OneDrive/Repo/version-control/asteroids/game.js",
+		"/G/OneDrive/Repo/version-control/asteroids/diff-teste.txt",
+		"/G/OneDrive/Cursos/Udacity/How to Use Git and GitHub/diff.txt",
+		"/G/OneDrive/Cursos/Udacity/How to Use Git and GitHub/game_new.js",
+		"/G/OneDrive/Repo/test.js",
+		"/G/OneDrive/Repo/github/cs231n.github.io-master/_includes/footer.html",
+		"/G/OneDrive/Repo/myblog/myblog",
+		"/C/Users/Cicero/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/G/OneDrive/Repo/github/cs231n.github.io-master/index.html",
+		"/G/OneDrive/Cursos/Outros/Tutsplus - Perfect Workflow in Sublime Text 2/Info.txt",
+		"/G/Download/Tutsplus - Perfect Workflow in Sublime Text 2/Info.txt"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 90.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"ref",
+			"refe",
+			"captionmar",
+			"title",
+			"mathp",
+			"\\XIIIPT",
+			"vspace",
+			"z@",
+			"\\z@",
+			"skip",
+			"parskip",
+			"system",
+			"semi",
+			"babel",
+			"geoftese",
+			".",
+			"...",
+			".",
+			"spacr",
+			"typ",
+			"typo",
+			"int",
+			"class",
+			"sr",
+			"sr cicero\n",
+			"sr",
+			"sr cicero",
+			"sr",
+			"cicero",
+			"cicerocicerocicerocicerocicerocicero",
+			"cicero",
+			"class",
+			"c0",
+			"class",
+			"wrap",
+			"class",
+			"col",
+			"github_username",
+			"class",
+			"wrp",
+			"wrap",
+			"color",
+			"gra",
+			"gray",
+			"video",
+			"classi"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			",",
+			"wrap",
+			"wrp"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 100.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/LaTeXTools/LaTeX.sublime-build",
+	"project": "cicerosantos.github.io.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"G:\\OneDrive\\Documentos\\Latex\\Inversor Half-Bridge\\my-project.sublime-workspace"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 199.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
