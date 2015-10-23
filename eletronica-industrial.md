@@ -1,7 +1,7 @@
 ---
 layout: page
 mathjax: true
-permalink: /eletricidade-basica/
+permalink: /eletronica-industrial/
 ---
 
 Em construção...

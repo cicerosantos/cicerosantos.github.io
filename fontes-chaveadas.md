@@ -1,7 +1,7 @@
 ---
 layout: page
 mathjax: true
-permalink: /eletricidade-basica/
+permalink: /fontes-chaveadas/
 ---
 
 Em construção...
