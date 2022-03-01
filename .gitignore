@@ -1,0 +1,10 @@
+__site/
+.DS_Store
+node_modules/
+package-lock.json
+*.jpg
+*.png
+*.svg
+*.ttf
+*.woff
+*.woff2
