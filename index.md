@@ -58,11 +58,6 @@ If you want to show a backslash, just use it like so: \ ; if you want to force a
 
 If you want to show a backtick, escape it like so: \` and if you want to show a tick in inline code use double backticks like ``so ` ...``.
 
-Footnotes are nice too:
-
-[^1]: this is the text for the first footnote, you can style all this looking at `.fndef` elements; note that the whole footnote definition is _expected to be on the same line_.
-[^blah]: and this is a longer footnote with some blah from veggie ipsum: turnip greens yarrow ricebean rutabaga endive cauliflower sea lettuce kohlrabi amaranth water spinach avocado daikon napa cabbage asparagus winter purslane kale. Celery potato scallion desert raisin horseradish spinach carrot soko.
-
 ## Basic Franklin extensions
 
 ### Divs
@@ -140,7 +135,7 @@ This may be useful for local custom layouts like having a photo next to a text i
     <p>
     Evolution is cool.
     </p>
-    <div style="clear: both"></div>      
+    <div style="clear: both"></div>
   </div>
 </div>
 ~~~
@@ -185,3 +180,9 @@ Last modified: {{ fill fd_mtime }}.
 This dictionary of variables is accessed locally by pages through `@def varname = value` and globally through the `config.md` page via the same syntax.
 
 There's a few other such functions of the form `{{fname p₁ p₂}}` as well as support for conditional blocks. If you wander through the `src/_html_parts/` folder and its content, you should be able to see those in action.
+
+---
+Footnotes are nice too:
+[^1]: this is the text for the first footnote, you can style all this looking at `.fndef` elements; note that the whole footnote definition is _expected to be on the same line_.
+
+[^blah]: and this is a longer footnote with some blah from veggie ipsum: turnip greens yarrow ricebean rutabaga endive cauliflower sea lettuce kohlrabi amaranth water spinach avocado daikon napa cabbage asparagus winter purslane kale. Celery potato scallion desert raisin horseradish spinach carrot soko.
