@@ -1,0 +1,25 @@
+/* The charts' colours, shared by the oscilloscope (scope.css) and the notes' interactive figures
+   (assets/notes/widgets/widgets.css): the traces, the grid, the cursors and the loop gain's curves,
+   with light and dark values. Colours used as text or thin lines are at least 3:1 (lines) or 4.5:1
+   (text) on the panel. */
+:root {
+  --grid: #e6e9ee; --cursor: #64748b; --measure: #1d2330;
+  --vout: #2563eb; --vref: #64748b; --il: #0f766e; --vds: #7c3aed; --id: #dc2626; --vds2: #a855f7; --id2: #be123c;
+  --hg: #2563eb; --lg: #15803d; --trigger: #ea580c;
+  --plant: #0f766e; --loop: #2563eb; --running: #64748b; --margin: #c2410c; --bad: #dc2626;
+}
+/* Dark when the system asks for it, unless the page's theme says otherwise. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --grid: #2a3140; --cursor: #94a3b8; --measure: #e6e9ef;
+    --vout: #60a5fa; --vref: #94a3b8; --il: #2dd4bf; --vds: #a78bfa; --id: #f87171; --vds2: #d8b4fe; --id2: #fb7185;
+    --hg: #60a5fa; --lg: #4ade80; --trigger: #fb923c;
+    --plant: #2dd4bf; --loop: #60a5fa; --running: #94a3b8; --margin: #fb923c; --bad: #f87171;
+  }
+}
+:root[data-theme="dark"] {
+    --grid: #2a3140; --cursor: #94a3b8; --measure: #e6e9ef;
+    --vout: #60a5fa; --vref: #94a3b8; --il: #2dd4bf; --vds: #a78bfa; --id: #f87171; --vds2: #d8b4fe; --id2: #fb7185;
+    --hg: #60a5fa; --lg: #4ade80; --trigger: #fb923c;
+    --plant: #2dd4bf; --loop: #60a5fa; --running: #94a3b8; --margin: #fb923c; --bad: #f87171;
+}

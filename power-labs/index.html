@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-t="gallery.page">Power labs</title>
+<meta name="description" content="Simulated power converters: open one to see its waveforms in a browser oscilloscope, with prepared steps and controller designs." data-t-content="gallery.description">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="gallery.css">
+<!-- the language, English or Portuguese, chosen before the page is drawn; i18n.js translates it -->
+<script src="/assets/lang.js"></script>
+<script src="/assets/site.js"></script>
+<script type="module" src="gallery.js"></script>
+</head>
+<body>
+<div class="layout">
+  <aside class="side"></aside>
+  <main class="page">
+    <header>
+      <div class="lang-slot" data-lang-slot></div>
+      <h1 data-t="gallery.page">Power labs</h1>
+      <p data-t="gallery.intro">Simulated power converters with digital control. Open one to see its waveforms in a browser oscilloscope:
+        reference, input and load steps under several controller designs, with zoom, cursors, measurements and the loop gain.</p>
+    </header>
+    <section class="cards" id="cards" aria-label="Converters" data-t-aria="gallery.cards"></section>
+    <footer data-t="gallery.footer">Simulated with QSPICE, Qorvo's freeware circuit simulator, under Wine. This site is not affiliated with or endorsed by Qorvo.</footer>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,129 @@
+/* The notes' interactive figures (widgets/*.js), in the oscilloscope's look (power-labs/scope.css):
+   charts as panels on the page's background, the legend at a chart's upper right, the Bode window's
+   plot, margins grid, sliders and segmented switches. The trace colours, grid and cursor are the
+   oscilloscope's own tokens (traces.css); the page's (site.css) give the panel, text and accent. */
+@import url("../../pcl/traces.css");
+:root { --closed: #7c3aed; --alt1: #15803d; --alt2: #c2410c; --alt3: #7c3aed; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --closed: #c4b5fd; --alt1: #4ade80; --alt2: #fb923c; --alt3: #c4b5fd; }
+}
+:root[data-theme="dark"] { --closed: #c4b5fd; --alt1: #4ade80; --alt2: #fb923c; --alt3: #c4b5fd; }
+/* Print: the light colours whatever the theme on screen, as site.css does for the page. */
+@media print {
+  :root, :root[data-theme], :root:not([data-theme="light"]) {
+    --grid: #e6e9ee; --cursor: #64748b; --measure: #1d2330;
+    --vout: #2563eb; --vref: #64748b; --il: #0f766e; --vds: #7c3aed; --id: #dc2626; --vds2: #a855f7; --id2: #be123c;
+    --hg: #2563eb; --lg: #15803d; --trigger: #ea580c;
+    --plant: #0f766e; --loop: #2563eb; --running: #64748b; --margin: #c2410c; --bad: #dc2626;
+    --closed: #7c3aed; --alt1: #15803d; --alt2: #c2410c; --alt3: #7c3aed;
+  }
+}
+
+/* The figure: the page's background, as around the oscilloscope's panels. */
+.note figure.widget:has(> .widget-body.w) { background: var(--bg); }
+.w { display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.4; min-width: 0; }
+.w-plots { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.w-plots-row { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 8px; }
+.w-plots-row > div { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+@media (max-width: 640px) { .w-plots-row { grid-template-columns: minmax(0, 1fr); } }
+
+/* A chart: a panel with its canvas, the legend at its upper right, the Y button at its upper left. */
+.w-panel, .w-chart { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+.w-chart { position: relative; width: 100%; min-width: 0; overflow: hidden; }
+.w-chart canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.w-chart.hover canvas { cursor: crosshair; touch-action: pan-y; }
+.w-chart.square { max-width: 420px; margin: 0 auto; }
+.w-chart-legend { position: absolute; top: 6px; right: 10px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0 12px;
+                  max-width: calc(100% - 20px); font-size: 12px; line-height: 1.5; color: var(--muted); pointer-events: none;
+                  font-variant-numeric: tabular-nums; }
+.w-chart-legend i { display: inline-block; width: 14px; height: 0; border-top: 3px solid; vertical-align: middle; margin-right: 4px; }
+.w-chart-legend b { display: inline-block; min-width: 7.5ch; text-align: right; font-weight: 400; color: var(--text); }
+.w-chart:has(.w-ymode) .w-chart-legend { max-width: calc(100% - 110px); }
+.w-ymode { position: absolute; top: 4px; left: 6px; z-index: 1; font: inherit; font-size: 11px; padding: 1px 7px; min-height: 24px;
+           border: 1px solid var(--field-border); border-radius: 7px; color: var(--text); background: var(--panel); cursor: pointer; }
+.w-ymode:hover { border-color: var(--accent); }
+@media (pointer: coarse) { .w-ymode { min-height: 36px; padding: 4px 12px; font-size: 12px; } }
+
+/* The line over the charts: the time per division and what the figure shows, as the oscilloscope's toolbar. */
+.w-toolbar { display: flex; flex-wrap: wrap; gap: 2px 10px; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+
+/* Legends under a plot, as the Bode window's. */
+.w-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.w-legend span { display: inline-flex; align-items: center; gap: 4px; }
+.w-legend i, .w-key { display: inline-block; width: 16px; height: 0; border-top: 2px solid var(--c, currentColor); }
+.w-key.dashed { border-top-style: dashed; }
+.w-key.dot { width: 9px; height: 9px; border: 0; border-radius: 50%; background: var(--c); }
+.w-key.ring { width: 9px; height: 9px; border: 1.6px solid var(--c); border-radius: 50%; }
+.w-key.cross { width: 10px; height: 10px; border: 0; background:
+  linear-gradient(45deg, transparent 43%, var(--c) 43% 57%, transparent 57%),
+  linear-gradient(-45deg, transparent 43%, var(--c) 43% 57%, transparent 57%); }
+
+/* The Bode window: a title bar, the plot, then its legend, margins, form and sliders. */
+.w-window { display: flex; flex-direction: column; overflow: hidden; }
+.w-window-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; padding: 6px 12px; border-bottom: 1px solid var(--line); }
+.w-window-title { font-size: 14px; font-weight: 600; }
+.w-window-op { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.w-window .w-chart { border: 0; border-radius: 0; }
+.w-window-body { display: flex; flex-direction: column; gap: 9px; padding: 6px 12px 12px; font-size: 12px; font-variant-numeric: tabular-nums; }
+.w-grid-table { display: grid; grid-template-columns: auto repeat(3, minmax(0, 1fr)); gap: 2px 12px; }
+.w-grid-table span:nth-child(-n+4) { color: var(--muted); }
+.w-grid-table .bad { color: var(--bad); font-weight: 600; }
+.w-window details summary { cursor: pointer; color: var(--muted); }
+.w-pid { display: grid; grid-template-columns: repeat(5, auto); justify-content: start; gap: 2px 16px; margin-top: 6px; }
+.w-pid .name { color: var(--muted); }
+.w-pid .title { grid-column: 1 / -1; color: var(--muted); margin-top: 4px; }
+.w-window .w-formula { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 11.5px; white-space: pre-wrap; margin-top: 6px; overflow-wrap: anywhere; }
+
+/* Readouts and notes. */
+.w-readout { display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; }
+.w-readout:empty { display: none; }
+.w-readout p, .w-window-body p { margin: 0; max-width: none; }
+.w-note { color: var(--muted); font-size: 12px; }
+.w-ok { color: var(--plant); font-weight: 600; }
+.w-bad { color: var(--bad); font-weight: 600; }
+/* Tables, as the oscilloscope's measurements: no rules, the heading muted, figures aligned. */
+.note .w-table, .w-table { display: table; border-collapse: separate; border-spacing: 0 2px; margin: 0; font-size: 12px; font-variant-numeric: tabular-nums; }
+.w-table-wrap { position: relative; overflow-x: auto; max-width: 100%; }
+.note .w-table th, .note .w-table td, .w-table th, .w-table td { border: 0; padding: 2px 12px; text-align: right; background: none; }
+.w-table th:first-child, .w-table td:first-child { text-align: left; padding-left: 0; }
+.w-table th { color: var(--muted); font-weight: 500; }
+.w-table .bad { color: var(--bad); font-weight: 600; }
+.w-coeffs td:not(:first-child) { white-space: nowrap; }
+.w-coeffs td:first-child { min-width: 11em; }
+.w-rule { color: var(--muted); font-size: 12px; }
+.w-rule .katex { font-size: 1.15em; }
+
+/* Controls: a panel, sliders as the Bode window's (label, track, value), switches segmented. */
+.w-controls { display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; font-size: 12px; }
+.w-controls:empty { display: none; }
+.w-sliders { display: grid; grid-template-columns: auto minmax(0, 1fr) 72px; gap: 3px 10px; align-items: center; }
+.w-sliders label { white-space: nowrap; }
+.w-sliders input[type="range"] { width: 100%; min-width: 0; margin: 0; accent-color: var(--accent); min-height: 26px; }
+.w-sliders output { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.w-sliders input:disabled + output, .w-sliders label.off { color: var(--muted); }
+.w-switch { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; border: 0; padding: 0; margin: 2px 0; min-width: 0; }
+.w-switch legend { float: left; color: var(--muted); padding: 0; margin: 0; }
+.w-segmented { display: flex; flex-wrap: nowrap; min-width: 0; }
+.w-segmented span { position: relative; display: flex; flex: 0 1 auto; min-width: 0; }
+.w-switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.w-switch label { display: inline-flex; align-items: center; min-height: 30px; padding: 5px 9px; border: 1px solid var(--field-border);
+                  margin-left: -1px; background: var(--bg); color: var(--text); font-size: 13px; cursor: pointer; border-radius: 0; }
+.w-segmented span:first-child label { border-radius: 7px 0 0 7px; margin-left: 0; }
+.w-segmented span:last-child label { border-radius: 0 7px 7px 0; }
+.w-switch label:hover { border-color: var(--accent); position: relative; z-index: 1; }
+.w-switch input:checked + label { background: var(--selected-bg); color: var(--selected-text); border-color: var(--accent); font-weight: 600;
+                                  position: relative; z-index: 1; }
+.w-switch input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 2px; position: relative; z-index: 2; }
+.w-toggle { display: flex; align-items: center; gap: 6px; min-height: 30px; }
+.w-toggle input { width: 16px; height: 16px; accent-color: var(--accent); margin: 0; }
+@media (pointer: coarse) { .w-toggle { min-height: 44px; } .w-toggle input { width: 22px; height: 22px; } }
+.w-foot { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font-size: 13px; }
+.w-foot:empty { display: none; }
+.w-scope { display: inline-flex; align-items: center; min-height: 30px; padding: 3px 10px; border: 1px solid var(--field-border); border-radius: 7px;
+           background: var(--panel); color: var(--text); font-size: 12px; font-weight: 600; text-decoration: none; }
+.w-scope:hover { border-color: var(--accent); color: var(--accent); }
+
+@media (max-width: 480px) {
+  .w-sliders { grid-template-columns: minmax(0, 1fr) 72px; gap: 0 8px; }
+  .w-sliders label { grid-column: 1 / -1; margin-top: 4px; }
+}

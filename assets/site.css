@@ -56,7 +56,7 @@ button:hover { border-color: var(--accent); }
 
 /* Narrow screens: the menu folds into a bar at the top, always with its labels. */
 @media (max-width: 760px) {
-  .layout, :root[data-side="collapsed"] .layout { grid-template-columns: 1fr; }
+  .layout, :root[data-side="collapsed"] .layout { grid-template-columns: minmax(0, 1fr); }
   .side { position: sticky; z-index: 5; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center;
           gap: 8px; padding: 10px 16px; border-right: 0; border-bottom: 1px solid var(--line); }
   :root[data-side="collapsed"] .side .label, :root[data-side="collapsed"] .side .who b { display: inline; }
@@ -67,4 +67,29 @@ button:hover { border-color: var(--accent); }
   .side .end { margin-top: 0; padding-bottom: 6px; }
   .side #fold { display: none; }
   .page { padding: 22px 16px 36px; }
+}
+
+/* ---- language link (lang.js) ---- */
+/* A page puts <div class="lang-slot" data-lang-slot></div> where the link goes, usually first in its
+   header, which floats it to the top-right corner; without a slot the link is fixed there. */
+.lang-slot { float: right; margin: 0 0 8px 16px; }
+.lang-switch { display: inline-flex; align-items: center; min-height: 30px; padding: 3px 10px; border: 1px solid var(--field-border);
+               border-radius: 7px; background: var(--panel); color: var(--text); font-size: 13px; font-weight: 600; text-decoration: none; }
+.lang-switch:hover { border-color: var(--accent); color: var(--accent); }
+.lang-switch.floating { position: fixed; top: 12px; right: 16px; z-index: 6; }
+@media (max-width: 760px) { .lang-switch.floating { top: 13px; right: 78px; } } /* phones: left of the menu button */
+
+/* "Skip to content", first in the tab order (site.js): shown only when focused. */
+.skip-link { position: absolute; left: 12px; top: -60px; z-index: 50; padding: 8px 14px; border-radius: 8px;
+             background: var(--panel); color: var(--accent); border: 1px solid var(--accent); font-weight: 600; }
+.skip-link:focus { top: 12px; }
+
+/* Print: the light tokens whatever the theme on screen, and no menu or language link. */
+@media print {
+  :root, :root[data-theme], :root:not([data-theme="light"]) {
+    --bg: #ffffff; --panel: #ffffff; --text: #1d2330; --muted: #5d6779; --line: #e3e6eb; --field-border: #98a2b3;
+    --accent: #2563eb; --selected-bg: #e8effd; --selected-text: #1d4ed8; --shadow: transparent;
+    --vout: #2563eb; --il: #0f766e; --hg: #2563eb; --lg: #15803d; color-scheme: light;
+  }
+  .side, .lang-switch, .skip-link { display: none !important; }
 }

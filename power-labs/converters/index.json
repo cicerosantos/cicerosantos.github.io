@@ -1,0 +1,82 @@
+{
+  "converters": [
+    {
+      "id": "buck",
+      "title": {
+        "en": "Synchronous buck",
+        "pt": "Buck síncrono"
+      },
+      "summary": {
+        "en": "24 V → 9 V at 200 kHz, with digital voltage-mode control: an ADC sample and a controller update every PWM period, run by firmware written in C.",
+        "pt": "24 V → 9 V em 200 kHz, com controle digital por modo de tensão: uma amostra do ADC e uma atualização do controlador a cada período do PWM, executadas por um firmware escrito em C."
+      },
+      "specs": [
+        "24 V → 9 V",
+        "1–2 A",
+        "200 kHz",
+        "L 22 µH, C 47 µF"
+      ],
+      "controls": {
+        "en": "PID and 2p2z, four designs",
+        "pt": "PID e 2p2z, quatro projetos"
+      },
+      "diagram": {
+        "en": "Synchronous buck: input source feeding a half-bridge leg of high-side and low-side switches, inductor from the switch node to the output capacitor and load; the firmware, drawn below it, samples the output with its ADC and drives both gates from its PWM",
+        "pt": "Buck síncrono: fonte de entrada alimentando um braço em meia ponte com chaves superior e inferior, indutor do nó de chaveamento ao capacitor de saída e à carga; o firmware, desenhado abaixo, amostra a saída com seu ADC e comanda os dois gates com seu PWM"
+      },
+      "open": "2p2z-load"
+    },
+    {
+      "id": "boost",
+      "title": {
+        "en": "Synchronous boost",
+        "pt": "Boost síncrono"
+      },
+      "summary": {
+        "en": "12 V → 48 V at 100 kHz, with the same digital voltage-mode firmware: the right-half-plane zero of the boost keeps the crossover near 1.5 kHz.",
+        "pt": "12 V → 48 V em 100 kHz, com o mesmo firmware de controle digital por modo de tensão: o zero no semiplano direito do boost mantém o cruzamento perto de 1,5 kHz."
+      },
+      "specs": [
+        "12 V → 48 V",
+        "1–2 A",
+        "100 kHz",
+        "L 33 µH, C 100 µF"
+      ],
+      "controls": {
+        "en": "PID and 2p2z, four designs",
+        "pt": "PID e 2p2z, quatro projetos"
+      },
+      "diagram": {
+        "en": "Synchronous boost: input source and inductor into the switch node of a half-bridge leg, low-side main switch and high-side synchronous rectifier, output capacitor and load; the firmware, drawn below it, samples the output with its ADC and drives both gates from its PWM",
+        "pt": "Boost síncrono: fonte de entrada e indutor ligados ao nó de chaveamento de um braço em meia ponte, com a chave principal embaixo e o retificador síncrono em cima, capacitor de saída e carga; o firmware, desenhado abaixo, amostra a saída com seu ADC e comanda os dois gates com seu PWM"
+      },
+      "open": "2p2z-load"
+    },
+    {
+      "id": "buckboost",
+      "title": {
+        "en": "Four-switch buck-boost",
+        "pt": "Buck-boost de quatro chaves"
+      },
+      "summary": {
+        "en": "8–16 V → 12 V at 100 kHz: two legs and one inductor, so the input can sit above or below the output. Buck-boost mode, all four switches switching, with the same firmware.",
+        "pt": "8–16 V → 12 V em 100 kHz: dois braços e um só indutor, de modo que a entrada pode ficar acima ou abaixo da saída. Modo buck-boost, com as quatro chaves comutando, e o mesmo firmware."
+      },
+      "specs": [
+        "8–16 V → 12 V",
+        "1–3 A",
+        "100 kHz",
+        "L 22 µH, C 100 µF"
+      ],
+      "controls": {
+        "en": "PID and 2p2z, four designs",
+        "pt": "PID e 2p2z, quatro projetos"
+      },
+      "diagram": {
+        "en": "Four-switch non-inverting buck-boost: input source feeding an input half-bridge leg of Q1 and Q2, inductor between its switch node and the switch node of an output half-bridge leg of Q3 and Q4, whose top feeds the output capacitor and load; the firmware, drawn below it, samples the output with its ADC and drives G1 to Q1 and Q4 and G2 to Q2 and Q3 from its PWM",
+        "pt": "Buck-boost não inversor de quatro chaves: fonte de entrada alimentando um braço de entrada em meia ponte, com Q1 e Q2, indutor entre o seu nó de chaveamento e o nó de chaveamento de um braço de saída em meia ponte, com Q3 e Q4, cujo topo alimenta o capacitor de saída e a carga; o firmware, desenhado abaixo, amostra a saída com seu ADC e comanda G1 para Q1 e Q4 e G2 para Q2 e Q3 com seu PWM"
+      },
+      "open": "2p2z-vin"
+    }
+  ]
+}

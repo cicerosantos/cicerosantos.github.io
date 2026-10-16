@@ -3,70 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Power converters lab</title>
-<meta name="description" content="Simulated power converters: open one to see its waveforms in a browser oscilloscope, with prepared steps and controller designs.">
-<link rel="stylesheet" href="/assets/site.css">
-<script src="/assets/site.js"></script>
-<style>
-  header { margin-bottom: 24px; }
-  h1 { font-size: 26px; margin: 0 0 6px; font-weight: 650; }
-  header p { margin: 0; color: var(--muted); max-width: 70ch; }
-  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
-  .card { display: flex; flex-direction: column; background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
-          overflow: hidden; color: inherit; text-decoration: none; transition: box-shadow .15s, border-color .15s; }
-  .card:hover { border-color: var(--accent); box-shadow: 0 8px 24px var(--shadow); }
-  .card .topology { padding: 14px 16px 10px; border-bottom: 1px solid var(--line); }
-  .card .topology svg { display: block; width: 100%; height: auto; }
-  .card .body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
-  .card h2 { font-size: 18px; margin: 0; font-weight: 600; }
-  .card p { margin: 0; color: var(--muted); font-size: 14px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .chips span { font-size: 12px; padding: 1px 8px; border-radius: 999px; background: var(--selected-bg); color: var(--selected-text);
-                font-variant-numeric: tabular-nums; }
-  .card .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
-                font-size: 13px; color: var(--muted); padding-top: 4px; }
-  .card .open { color: var(--accent); font-weight: 600; white-space: nowrap; }
-</style>
+<title>Power labs</title>
+<!-- The lab moved to /power-labs/; this page keeps old links working, with their query and hash. -->
+<link rel="canonical" href="https://cicerosantos.github.io/power-labs/">
+<meta http-equiv="refresh" content="0; url=/power-labs/">
+<script>location.replace("/power-labs/" + location.search + location.hash);</script>
 </head>
 <body>
-<div class="layout">
-  <aside class="side"></aside>
-  <main class="page">
-    <header>
-      <h1>Power converters lab</h1>
-      <p>Simulated power converters with digital control. Open one to see its waveforms in a browser oscilloscope:
-        reference, input and load steps under several controller designs, with zoom, cursors, measurements and the loop gain.</p>
-    </header>
-    <section class="cards" id="cards" aria-label="Converters"></section>
-    <footer>Simulated with QSPICE, Qorvo's freeware circuit simulator, under Wine. This site is not affiliated with or endorsed by Qorvo.</footer>
-  </main>
-</div>
-<script type="module">
-const $ = id => document.getElementById(id);
-const escape = text => String(text).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-
-// The card's picture: the converter's topology, an SVG drawn with the page's colour tokens, put
-// inline so it follows the theme.
-async function topology(base) {
-  try {
-    const response = await fetch(base + "topology.svg", { cache: "no-cache" });
-    return response.ok ? await response.text() : "";
-  } catch (error) { return ""; }
-}
-
-const list = await (await fetch("converters/index.json", { cache: "no-cache" })).json();
-for (const c of list.converters) {
-  const base = `converters/${c.id}/`;
-  const [spec, picture] = await Promise.all([fetch(base + "scenarios.json", { cache: "no-cache" }).then(r => r.json()), topology(base)]);
-  const card = document.createElement("a");
-  card.className = "card";
-  card.href = `scope.html?c=${encodeURIComponent(c.id)}` + (c.open ? `&s=${encodeURIComponent(c.open)}` : "");
-  card.innerHTML = `<div class="topology">${picture}</div>` +
-    `<div class="body"><h2>${escape(c.title)}</h2><p>${escape(c.summary)}</p>` +
-    `<div class="chips">${c.specs.map(s => `<span>${escape(s)}</span>`).join("")}</div>` +
-    `<div class="foot"><span>${spec.scenarios.length} scenarios · ${escape(c.controls)}</span><span class="open">Open →</span></div></div>`;
-  $("cards").append(card);
-}
-</script>
+<p>Moved to <a href="/power-labs/">/power-labs/</a>.</p>
 </body>
 </html>

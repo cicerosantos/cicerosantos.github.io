@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-t="scope.page">Converter</title>
+<link rel="stylesheet" href="scope.css">
+<!-- the language, English or Portuguese, chosen before the page is drawn; i18n.js translates it -->
+<script src="/assets/lang.js"></script>
+</head>
+<body>
+<header>
+  <a class="back" href="./" data-t="scope.back">← All converters</a>
+  <h1 id="title">…</h1>
+  <span class="scenario" id="scenario-name"></span>
+  <span class="spacer"></span>
+  <span class="corner"><button id="theme" title="Light, dark, or follow the system" data-t-title="scope.theme"></button><span data-lang-slot></span></span>
+</header>
+<main>
+  <section class="panel controls" aria-label="Scenario" data-t-aria="scope.scenario">
+    <div class="group"><h2 data-t="scope.controller">Controller</h2><div class="choices" id="controllers" role="group" aria-label="Controller" data-t-aria="scope.controller"></div>
+      <p class="note" id="controller-about"></p></div>
+    <div class="group"><h2 data-t="scope.event">Event</h2><div class="choices" id="events" role="group" aria-label="Event" data-t-aria="scope.event"></div>
+      <p class="note" id="event-about"></p></div>
+    <div class="group"><h2 data-t="scope.view">View</h2><div class="buttons">
+      <button id="zoom-in" title="Zoom in (or drag across a chart to zoom into that span, or the mouse wheel; Shift+drag pans, Shift+wheel zooms the Y axis)" aria-label="Zoom in" data-t-title="scope.zoomIn.title" data-t-aria="scope.zoomIn">+</button>
+      <button id="zoom-out" title="Zoom out" aria-label="Zoom out" data-t-title="scope.zoomOut" data-t-aria="scope.zoomOut">−</button>
+      <button id="zoom-fit" title="Whole frame (or double-click)" data-t-title="scope.fit.title" data-t="scope.fit">Fit</button>
+      <button id="bode-toggle" title="Show or hide the loop gain" data-t-title="scope.bode.title" data-t="scope.bode">Bode plot</button></div></div>
+    <p class="note" data-t="scope.qspice">Simulated with QSPICE (Qorvo freeware) under Wine; this site is not affiliated with Qorvo.</p>
+  </section>
+  <section class="scope" id="scope" aria-label="Oscilloscope" data-t-aria="scope.scope">
+    <div class="toolbar">
+      <span class="tools">
+        <button id="measure-toggle" title="Min, max, peak-to-peak, mean and RMS of each trace, over the view or between cursors A and B" data-t-title="scope.measure.title" data-t="scope.measure">Measure</button>
+        <button id="cursors-toggle" title="Two time cursors, A and B: drag them; the table shows each trace at A and B" data-t-title="scope.cursors.title" data-t="scope.cursors">Cursors A/B</button>
+        <label title="Round the measured span to whole PWM periods, so means are not biased by the ripple" data-t-title="scope.periods.title"><input type="checkbox" id="whole-periods" checked><span data-t="scope.periods">whole periods</span></label>
+      </span>
+      <span id="view-info"></span>
+      <span id="frame-info" class="loading" data-t="loading">loading…</span>
+    </div>
+    <div class="panel measure" id="measure" hidden></div>
+  </section>
+</main>
+<section class="panel bode" id="bode" hidden role="dialog" aria-label="Loop gain" data-t-aria="scope.loop">
+  <div class="bode-head" id="bode-head">
+    <h2 data-t="scope.loop">Loop gain</h2><span class="op" id="bode-op"></span>
+    <button id="bode-close" title="Hide (the Bode plot button brings it back)" aria-label="Close" data-t-title="scope.close.title" data-t-aria="scope.close">×</button>
+  </div>
+  <div class="bode-plot" id="bode-plot"><canvas role="img" aria-label="Bode plot of the loop gain" data-t-aria="scope.bode.canvas"></canvas></div>
+  <div class="bode-body">
+    <div class="bode-legend" id="bode-legend"></div>
+    <div class="grid-table" id="bode-margins"></div>
+    <div class="form-row"><span data-t="scope.form">Firmware form</span><div class="segmented" id="bode-form" role="group" aria-label="Firmware form" data-t-aria="scope.form"></div></div>
+    <div class="sliders" id="bode-sliders"></div>
+    <details id="bode-details"><summary data-t="scope.details">Formula, PID gains and 2p2z coefficients</summary>
+      <div class="formula" id="bode-formula"></div>
+      <div class="pid" id="bode-pid"></div>
+    </details>
+    <div class="form-row"><span data-t="scope.simulated">Simulated</span><div class="bode-actions" id="bode-simulated"></div></div>
+    <p class="note" id="bode-note"></p>
+  </div>
+</section>
+<script type="module" src="scope.js"></script>
+</body>
+</html>
