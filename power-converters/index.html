@@ -49,15 +49,15 @@ const escape = text => String(text).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<"
 // inline so it follows the theme.
 async function topology(base) {
   try {
-    const response = await fetch(base + "topology.svg");
+    const response = await fetch(base + "topology.svg", { cache: "no-cache" });
     return response.ok ? await response.text() : "";
   } catch (error) { return ""; }
 }
 
-const list = await (await fetch("converters/index.json")).json();
+const list = await (await fetch("converters/index.json", { cache: "no-cache" })).json();
 for (const c of list.converters) {
   const base = `converters/${c.id}/`;
-  const [spec, picture] = await Promise.all([fetch(base + "scenarios.json").then(r => r.json()), topology(base)]);
+  const [spec, picture] = await Promise.all([fetch(base + "scenarios.json", { cache: "no-cache" }).then(r => r.json()), topology(base)]);
   const card = document.createElement("a");
   card.className = "card";
   card.href = `scope.html?c=${encodeURIComponent(c.id)}` + (c.open ? `&s=${encodeURIComponent(c.open)}` : "");

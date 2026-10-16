@@ -8,7 +8,7 @@ const params = new URLSearchParams(location.search);
 const NAME = /^[a-z0-9-]+$/.test(params.get("c") || "") ? params.get("c") : "buck";
 const BASE = `converters/${NAME}/`;
 const converter = (await import(`./${BASE}converter.js`)).default;
-const spec = await (await fetch(BASE + "scenarios.json")).json();
+const spec = await (await fetch(BASE + "scenarios.json", { cache: "no-cache" })).json();
 const { COL, COLUMNS, CHARTS, GATE } = converter;
 
 const Y_MODES = { auto: "Y auto", detail: "Y detail", manual: "Y manual" };
@@ -117,8 +117,11 @@ function vrefAt(t) {
   return approach(from, to, rate, periods(t - since) + lead);
 }
 
-function valueAt(column, t) {
+// The value under the cursor: on the straight line drawn between the rows, as the plot shows it; a
+// gate changes only between the two rows kept around each edge, so it reads the nearest row.
+function valueAt(column, t, digital = false) {
   if (column === "vref") return vrefAt(t);
+  if (!digital) return interpolate(column, t);
   const i = Math.min(Math.max(lowerBound(t), 0), frame.rows - 1);
   const j = i > 0 && Math.abs(frame.data[(i - 1) * COLUMNS] - t) < Math.abs(frame.data[i * COLUMNS] - t) ? i - 1 : i;
   return frame.data[j * COLUMNS + column];
@@ -409,7 +412,7 @@ class Chart {
     for (const [label, column, color] of all) {
       let text = label;
       if (showCursor) {
-        const v = valueAt(column, cursorX);
+        const v = valueAt(column, cursorX, this.spec.digital);
         text += (this.spec.digital ? " <b class=\"state\">" : " <b>") + (this.spec.digital ? (v > 0.5 ? "on" : "off")
           : reading(v, this.spec.left.series.some(s => s[1] === column) ? this.spec.left.unit : this.spec.right.unit)) + "</b>";
       }
@@ -707,7 +710,7 @@ function describeFrame() {
     : name === "vinSlew" ? `input slew → ${value ? value + " V/ms" : "off"}`
     : name === "load" ? `load → ${ohms(value)}`
     : `${name === "vref" ? "reference" : "input"} → ${value} V`);
-  $("frame-info").textContent = $("frame-info").title = `${timeLabel(length, length)} · ${m.rows.toLocaleString()} time steps · ` +
+  $("frame-info").textContent = $("frame-info").title = `${timeLabel(length, length)} · ${m.rows.toLocaleString()} points · ` +
     `trigger: ${m.trigger === "gate" ? "gate rising edge" : "the event"}` + (events.length ? " · " + events.join(", ") : "");
   $("frame-info").classList.remove("loading");
 }
@@ -754,7 +757,7 @@ async function show(scenario) {
   if (!next) {
     $("frame-info").textContent = "loading…"; $("frame-info").classList.add("loading");
     try {
-      next = parseFrame(await (await fetch(BASE + scenario.file)).arrayBuffer());
+      next = parseFrame(await (await fetch(BASE + scenario.file, { cache: "no-cache" })).arrayBuffer());
     } catch (error) {
       if (loading === request) $("frame-info").textContent = "could not load this scenario";
       return;
@@ -821,9 +824,15 @@ const FORMULAS = {
   "2p2z": "C(z) = K·(1 − z1·z⁻¹)(1 − z2·z⁻¹) / [(1 − z⁻¹)(1 − p·z⁻¹)],  zi = e^(−ωzi·T), p = e^(−ωp·T)",
   pid: "C(s) = K·(1 + s/ωz1)(1 + s/ωz2) / [s·(1 + s/ωp)] = KP + KI/s + KD·s/(1 + s·TF), run with Euler's rules",
 };
-const FREQS = Array.from({ length: 481 }, (_, i) => 100 * 10 ** (i / 160));  // 100 Hz to 100 kHz (fs/2)
+// The plot's frequency range, up to fs/2, and the sliders' ranges come from the converter (in Hz);
+// these defaults are the buck's, at 200 kHz.
+const BODE = converter.bode || { from: 100, to: 100e3, sliders: { fc: [1e3, 30e3], fz1: [100, 20e3], fz2: [100, 20e3], fp: [5e3, 100e3] } };
+const DECADES = Math.log10(BODE.to / BODE.from);
+const STEPS = Math.round(160 * DECADES);  // about 160 per decade, ending exactly at BODE.to
+const FREQS = Array.from({ length: STEPS + 1 }, (_, i) => BODE.from * 10 ** (DECADES * i / STEPS));
 const SLIDERS = [  // key, label, range in Hz
-  ["fc", "Target crossover", 1e3, 30e3], ["fz1", "Zero 1", 100, 20e3], ["fz2", "Zero 2", 100, 20e3], ["fp", "Pole", 5e3, 100e3]];
+  ["fc", "Target crossover", ...BODE.sliders.fc], ["fz1", "Zero 1", ...BODE.sliders.fz1],
+  ["fz2", "Zero 2", ...BODE.sliders.fz2], ["fp", "Pole", ...BODE.sliders.fp]];
 const design = { ...converter.design, k: null };
 let bodeHover = null, bodeKey = "";
 
@@ -1010,7 +1019,7 @@ function drawBode() {
   const { curves, margins: m } = bodeData;
   const left = 48, right = 12, top = 10, gap = 24, bottom = 20, pw = w - left - right;
   const magH = (h - top - gap - bottom) * 0.56, phH = h - top - gap - bottom - magH, phTop = top + magH + gap;
-  const x = f => left + Math.log10(f / FREQS[0]) / 3 * pw;
+  const x = f => left + Math.log10(f / FREQS[0]) / DECADES * pw;
   const all = Object.values(curves).filter(Boolean);
   const snap = (v, step, up) => (up ? Math.ceil(v / step) : Math.floor(v / step)) * step;
   const dbLow = Math.max(snap(Math.min(...all.map(c => Math.min(...c.db))), 20, false), -80);
@@ -1020,14 +1029,16 @@ function drawBode() {
   const yDb = v => top + (dbHigh - v) / (dbHigh - dbLow) * magH;
   const yPh = v => phTop + (phHigh - v) / (phHigh - phLow) * phH;
   // grid: decades labelled, the 2..9 multiples lighter
-  for (let decade = 100; decade <= 1e5; decade *= 10)
-    for (let n = 1; n < 10 && decade * n <= 1e5; n++) {
+  const edge = 1 + 1e-9;
+  for (let decade = 10 ** Math.floor(Math.log10(BODE.from)); decade <= BODE.to * edge; decade *= 10)
+    for (let n = 1; n < 10 && decade * n <= BODE.to * edge; n++) {
+      if (decade * n < BODE.from / edge) continue;
       const px = x(decade * n);
       g.strokeStyle = css("--grid"); g.globalAlpha = n === 1 ? 1 : 0.5;
       g.beginPath(); g.moveTo(px, top); g.lineTo(px, top + magH); g.moveTo(px, phTop); g.lineTo(px, phTop + phH); g.stroke();
       g.globalAlpha = 1;
       if (n === 1) {
-        g.fillStyle = css("--muted"); g.textAlign = decade === 1e5 ? "right" : decade === 100 ? "left" : "center";
+        g.fillStyle = css("--muted"); g.textAlign = px > w - right - 20 ? "right" : px < left + 20 ? "left" : "center";
         g.fillText(decade >= 1e3 ? decade / 1e3 + " kHz" : decade + " Hz", px, h - 5); g.textAlign = "left";
       }
     }

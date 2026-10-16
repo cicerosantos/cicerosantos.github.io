@@ -4,7 +4,7 @@
   "defaults": { "vin": 24, "vref": 9, "load": 9, "slew": 50, "vinSlew": 20 },
   "controllers": [
     { "id": "pid", "label": "Original PID",
-      "about": "The PID of buck-pid.cir: KP 0.0565, KI 1309, KD 1.5 µs, no derivative filter. Phase margin 25° at 8.9 kHz.",
+      "about": "The PID of buck-pid.cir: KP 0.0565, KI 1309, KD 1.5 µs/V, no derivative filter. Phase margin 25° at 8.9 kHz.",
       "controller": { "form": "pid", "values": [0.0565, 1309, 1.5e-6, 0] } },
     { "id": "2p2z", "label": "2p2z",
       "about": "The Bode window's default design: crossover 8 kHz, two zeros at 2 kHz, pole at 60 kHz, matched to z. Phase margin 41°, gain margin 13.9 dB.",
@@ -23,7 +23,7 @@
     { "id": "vref", "label": "Reference 9 → 5 V", "about": "24 V in, 9 Ω, reference slew 50 V/ms." },
     { "id": "vin", "label": "Input 24 → 18 V", "about": "9 V out, 9 Ω, input slew 20 V/ms, like a bench supply." },
     { "id": "load", "label": "Load 1 → 2 A", "about": "24 V → 9 V, load 9 → 4.5 Ω." },
-    { "id": "vref-step", "label": "Reference 9 → 5 V, no slew", "about": "The reference steps at once: the error jumps, the duty saturates at zero and the inductor current goes negative." }
+    { "id": "vref-step", "label": "Reference 9 → 5 V, no slew", "about": "The reference steps at once: the PID's derivative kick drops the duty to zero for one period, and it then climbs back over about ten periods, well below its old value. The inductor current goes negative, down to about −5 A, and the high-side switch returns energy to the input." }
   ],
   "scenarios": [
     { "id": "pid-vref", "controller": "pid", "event": "vref", "step": ["vref", 5], "file": "data/pid-vref.bin" },

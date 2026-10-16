@@ -1,0 +1,272 @@
+{
+  "title": "Synchronous boost, 12 V → 48 V, 100 kHz",
+  "periods": 400,
+  "simulation": {
+    "fsw": 100000.0,
+    "dt": 1e-07,
+    "vfs": 60.0,
+    "bits": 12,
+    "dmin": 0.0,
+    "dmax": 0.85,
+    "tstep": 0.02,
+    "pre": 40,
+    "maxstep": "40n"
+  },
+  "plant": {
+    "L": "33u",
+    "RL": "15m",
+    "C": "100u",
+    "ESR": "10m",
+    "RON": "10m"
+  },
+  "defaults": {
+    "vin": 12,
+    "vref": 48,
+    "load": 48,
+    "slew": 10,
+    "vinSlew": 10
+  },
+  "controllers": [
+    {
+      "id": "pid",
+      "label": "PID",
+      "about": "PID with a derivative filter: KP 0.0114, KI 18.2, KD 1.75 µs/V, TF 7.96 µs (zeros at 500 Hz, below the LC resonance at 690 Hz, pole at 20 kHz). Crossover 1.5 kHz, phase margin 43° at 1 A and 38° at 2 A, gain margin 17 dB at 1 A and 13 dB at 2 A.",
+      "design": {
+        "form": "pid",
+        "fc": 1500,
+        "fz1": 500,
+        "fz2": 500,
+        "fp": 20000
+      },
+      "controller": {
+        "form": "pid",
+        "values": [
+          0.011422824483039997,
+          18.17005644514637,
+          1.7501116768429718e-06,
+          7.957747154594767e-06
+        ]
+      }
+    },
+    {
+      "id": "2p2z",
+      "label": "2p2z",
+      "about": "The Bode window's default design: crossover 1.5 kHz, two zeros at 500 Hz, below the LC resonance at 690 Hz, pole at 30 kHz, matched to z. Phase margin 45° at 1 A and 41° at 2 A, gain margin 17 dB at 1 A and 13 dB at 2 A. The right-half-plane zero (14 kHz at 1 A, 7 kHz at 2 A) keeps the crossover low.",
+      "design": {
+        "form": "2p2z",
+        "fc": 1500,
+        "fz1": 500,
+        "fz2": 500,
+        "fp": 30000
+      },
+      "controller": {
+        "form": "2p2z",
+        "values": [
+          0.1647988514091878,
+          -0.31940404557469515,
+          0.15476282670832106,
+          0.15183580198064886
+        ]
+      }
+    },
+    {
+      "id": "aggressive",
+      "label": "Aggressive",
+      "about": "Zeros at 700 Hz, on the LC resonance, with the crossover pushed to 4 kHz and the pole down to 10 kHz: phase margin 19° at 1 A, but 1° at 2 A, where the right-half-plane zero comes down to 7 kHz (gain margin 0.1 dB). Fast on the reference and input steps; the load step rings for milliseconds.",
+      "design": {
+        "form": "2p2z",
+        "fc": 4000,
+        "fz1": 700,
+        "fz2": 700,
+        "fp": 10000
+      },
+      "controller": {
+        "form": "2p2z",
+        "values": [
+          0.3442460456250138,
+          -0.6588668951290122,
+          0.31525822229038375,
+          0.5334880910911032
+        ]
+      }
+    },
+    {
+      "id": "unstable",
+      "label": "Unstable",
+      "about": "Crossover 8 kHz, zeros at 500 Hz, pole at 8 kHz: beyond the frequency where the right-half-plane zero and the delay use up the phase: phase margin −20°. The loop oscillates before any step, and the output's average sits below the reference.",
+      "design": {
+        "form": "2p2z",
+        "fc": 8000,
+        "fz1": 500,
+        "fz2": 500,
+        "fp": 8000
+      },
+      "controller": {
+        "form": "2p2z",
+        "values": [
+          0.7096547644709291,
+          -1.3754137288892243,
+          0.6664377597138138,
+          0.6049225627642709
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "id": "vref",
+      "label": "Reference 48 → 40 V",
+      "about": "12 V in, 48 Ω, reference slew 10 V/ms."
+    },
+    {
+      "id": "vin",
+      "label": "Input 12 → 10 V",
+      "about": "48 V out, 48 Ω, input slew 10 V/ms, like a battery under load."
+    },
+    {
+      "id": "load",
+      "label": "Load 1 → 2 A",
+      "about": "12 V → 48 V, load 48 → 24 Ω (1 → 2 A)."
+    },
+    {
+      "id": "vref-step",
+      "label": "Reference 48 → 40 V, no slew",
+      "about": "The reference steps at once: the PID's derivative kick drops the duty to zero for one period, and within five periods it is back near its old value. The inductor current reverses anyway, down to −16 A, and for about 0.25 ms the synchronous rectifier carries it from the output back to the input."
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "pid-vref",
+      "controller": "pid",
+      "event": "vref",
+      "step": [
+        "vref",
+        40
+      ],
+      "file": "data/pid-vref.bin"
+    },
+    {
+      "id": "pid-vin",
+      "controller": "pid",
+      "event": "vin",
+      "step": [
+        "vin",
+        10
+      ],
+      "file": "data/pid-vin.bin"
+    },
+    {
+      "id": "pid-load",
+      "controller": "pid",
+      "event": "load",
+      "step": [
+        "load",
+        24
+      ],
+      "file": "data/pid-load.bin"
+    },
+    {
+      "id": "pid-vref-step",
+      "controller": "pid",
+      "event": "vref-step",
+      "initial": {
+        "slew": 0
+      },
+      "step": [
+        "vref",
+        40
+      ],
+      "file": "data/pid-vref-step.bin"
+    },
+    {
+      "id": "2p2z-vref",
+      "controller": "2p2z",
+      "event": "vref",
+      "step": [
+        "vref",
+        40
+      ],
+      "file": "data/2p2z-vref.bin"
+    },
+    {
+      "id": "2p2z-vin",
+      "controller": "2p2z",
+      "event": "vin",
+      "step": [
+        "vin",
+        10
+      ],
+      "file": "data/2p2z-vin.bin"
+    },
+    {
+      "id": "2p2z-load",
+      "controller": "2p2z",
+      "event": "load",
+      "step": [
+        "load",
+        24
+      ],
+      "file": "data/2p2z-load.bin"
+    },
+    {
+      "id": "aggressive-vref",
+      "controller": "aggressive",
+      "event": "vref",
+      "step": [
+        "vref",
+        40
+      ],
+      "file": "data/aggressive-vref.bin"
+    },
+    {
+      "id": "aggressive-vin",
+      "controller": "aggressive",
+      "event": "vin",
+      "step": [
+        "vin",
+        10
+      ],
+      "file": "data/aggressive-vin.bin"
+    },
+    {
+      "id": "aggressive-load",
+      "controller": "aggressive",
+      "event": "load",
+      "step": [
+        "load",
+        24
+      ],
+      "file": "data/aggressive-load.bin"
+    },
+    {
+      "id": "unstable-vref",
+      "controller": "unstable",
+      "event": "vref",
+      "step": [
+        "vref",
+        40
+      ],
+      "file": "data/unstable-vref.bin"
+    },
+    {
+      "id": "unstable-vin",
+      "controller": "unstable",
+      "event": "vin",
+      "step": [
+        "vin",
+        10
+      ],
+      "file": "data/unstable-vin.bin"
+    },
+    {
+      "id": "unstable-load",
+      "controller": "unstable",
+      "event": "load",
+      "step": [
+        "load",
+        24
+      ],
+      "file": "data/unstable-load.bin"
+    }
+  ]
+}

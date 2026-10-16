@@ -8,8 +8,9 @@ const CURRENT = { width: 1, alpha: 0.85 };
 
 // Averaged power stage in continuous conduction (switch Ron plus the inductor's resistance,
 // capacitor ESR, load) and a delay of (1 + D)·T: the duty computed from a sample takes effect one
-// period later, and the PWM's falling edge comes D·T into it. Checked against QSPICE, injecting a
-// small sine into the duty: within 0.2 dB and 1° from 500 Hz to 30 kHz.
+// period later, and the PWM's falling edge comes D·T into it. Checked against QSPICE with
+// tools/qspice_loop_check.py, adding a small sine to the duty: within 0.3 dB and 1.5° from 500 Hz to
+// 15 kHz, across the LC resonance; 1.4 dB and 4° at 30 kHz.
 const PLANT = { L: 22e-6, R: 0.040, C: 47e-6, ESR: 0.005 };
 
 export default {

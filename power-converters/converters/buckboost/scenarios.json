@@ -1,0 +1,296 @@
+{
+  "title": "Four-switch buck-boost, 8–16 V → 12 V, 100 kHz",
+  "periods": 400,
+  "simulation": {
+    "fsw": 100000.0,
+    "dt": 1e-07,
+    "vfs": 20.0,
+    "bits": 12,
+    "dmin": 0.0,
+    "dmax": 0.8,
+    "tstep": 0.02,
+    "pre": 40,
+    "maxstep": "40n"
+  },
+  "plant": {
+    "L": "22u",
+    "RL": "15m",
+    "C": "100u",
+    "ESR": "10m",
+    "RON": "10m"
+  },
+  "defaults": {
+    "vin": 12,
+    "vref": 12,
+    "load": 6,
+    "slew": 10,
+    "vinSlew": 10
+  },
+  "controllers": [
+    {
+      "id": "pid",
+      "label": "PID",
+      "about": "PID with a derivative filter: KP 0.0163, KI 41.5, KD 1.37 µs/V, TF 5.31 µs (zeros at 600 Hz and 1.2 kHz, below the LC resonance, pole at 30 kHz). Crossover 2.5 kHz, phase margin 44–50° over the operating range, gain margin 14 dB.",
+      "design": {
+        "form": "pid",
+        "fc": 2500,
+        "fz1": 600,
+        "fz2": 1200,
+        "fp": 30000
+      },
+      "controller": {
+        "form": "pid",
+        "values": [
+          0.016285914505784368,
+          41.48408867705158,
+          1.3730508759136394e-06,
+          5.305164769729844e-06
+        ]
+      }
+    },
+    {
+      "id": "2p2z",
+      "label": "2p2z",
+      "about": "The Bode window's default design: crossover 3 kHz, two zeros at 1 kHz, below the LC resonance (1.4–1.9 kHz, from the inductor seen through D'), pole at 40 kHz, matched to z. Phase margin 38–43° over the operating range, gain margin 11 dB. The right-half-plane zero (20 kHz at 2 A, 13 kHz at 3 A) keeps the crossover low.",
+      "design": {
+        "form": "2p2z",
+        "fc": 3000,
+        "fz1": 1000,
+        "fz2": 1000,
+        "fp": 40000
+      },
+      "controller": {
+        "form": "2p2z",
+        "values": [
+          0.21983405311365176,
+          -0.41289291977090986,
+          0.19387415277833508,
+          0.0810025921579431
+        ]
+      }
+    },
+    {
+      "id": "aggressive",
+      "label": "Aggressive",
+      "about": "Crossover 6 kHz, zeros at 1.5 kHz, pole at 25 kHz: phase margin 12° at 2 A and 5° at 3 A, gain margin 1 dB. Fast on the reference and input steps; the load step rings.",
+      "design": {
+        "form": "2p2z",
+        "fc": 6000,
+        "fz1": 1500,
+        "fz2": 1500,
+        "fp": 25000
+      },
+      "controller": {
+        "form": "2p2z",
+        "values": [
+          0.5324721212143736,
+          -0.9691602187385253,
+          0.4409956372190775,
+          0.20787957635076193
+        ]
+      }
+    },
+    {
+      "id": "unstable",
+      "label": "Unstable",
+      "about": "Crossover 10 kHz, zeros at 1.5 kHz, pole at 20 kHz: beyond the frequency where the right-half-plane zero and the delay use up the phase. Phase margin −17° at 12 V and 2 A, down to −38° at 9 V and 3 A. The loop oscillates before any step, and the output's average sits below the reference.",
+      "design": {
+        "form": "2p2z",
+        "fc": 10000,
+        "fz1": 1500,
+        "fz2": 1500,
+        "fp": 20000
+      },
+      "controller": {
+        "form": "2p2z",
+        "values": [
+          0.8927396412529285,
+          -1.6248883491214887,
+          0.7393707037040617,
+          0.2846095433360292
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "id": "vref",
+      "label": "Reference 12 → 15 V",
+      "about": "12 V in, 6 Ω, reference slew 10 V/ms: the output rises above the input."
+    },
+    {
+      "id": "vin",
+      "label": "Input 9 → 15 V",
+      "about": "12 V out, 6 Ω, input slew 10 V/ms: the input crosses the output, from boosting to bucking, and the duty goes from about 0.58 to 0.45."
+    },
+    {
+      "id": "load",
+      "label": "Load 1 → 3 A",
+      "about": "12 V → 12 V, load 12 → 4 Ω (1 → 3 A)."
+    },
+    {
+      "id": "vref-step",
+      "label": "Reference 12 → 8 V, no slew",
+      "about": "The reference steps at once: the PID's derivative kick drops the duty to 0.08 for one period, and within five periods it is back near its old value. The inductor current reverses anyway, down to −4 A, and for about 0.1 ms Q1 carries it back to the input."
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "pid-vref",
+      "controller": "pid",
+      "event": "vref",
+      "step": [
+        "vref",
+        15
+      ],
+      "file": "data/pid-vref.bin"
+    },
+    {
+      "id": "pid-vin",
+      "controller": "pid",
+      "event": "vin",
+      "initial": {
+        "vin": 9
+      },
+      "step": [
+        "vin",
+        15
+      ],
+      "file": "data/pid-vin.bin"
+    },
+    {
+      "id": "pid-load",
+      "controller": "pid",
+      "event": "load",
+      "initial": {
+        "load": 12
+      },
+      "step": [
+        "load",
+        4
+      ],
+      "file": "data/pid-load.bin"
+    },
+    {
+      "id": "pid-vref-step",
+      "controller": "pid",
+      "event": "vref-step",
+      "initial": {
+        "slew": 0
+      },
+      "step": [
+        "vref",
+        8
+      ],
+      "file": "data/pid-vref-step.bin"
+    },
+    {
+      "id": "2p2z-vref",
+      "controller": "2p2z",
+      "event": "vref",
+      "step": [
+        "vref",
+        15
+      ],
+      "file": "data/2p2z-vref.bin"
+    },
+    {
+      "id": "2p2z-vin",
+      "controller": "2p2z",
+      "event": "vin",
+      "initial": {
+        "vin": 9
+      },
+      "step": [
+        "vin",
+        15
+      ],
+      "file": "data/2p2z-vin.bin"
+    },
+    {
+      "id": "2p2z-load",
+      "controller": "2p2z",
+      "event": "load",
+      "initial": {
+        "load": 12
+      },
+      "step": [
+        "load",
+        4
+      ],
+      "file": "data/2p2z-load.bin"
+    },
+    {
+      "id": "aggressive-vref",
+      "controller": "aggressive",
+      "event": "vref",
+      "step": [
+        "vref",
+        15
+      ],
+      "file": "data/aggressive-vref.bin"
+    },
+    {
+      "id": "aggressive-vin",
+      "controller": "aggressive",
+      "event": "vin",
+      "initial": {
+        "vin": 9
+      },
+      "step": [
+        "vin",
+        15
+      ],
+      "file": "data/aggressive-vin.bin"
+    },
+    {
+      "id": "aggressive-load",
+      "controller": "aggressive",
+      "event": "load",
+      "initial": {
+        "load": 12
+      },
+      "step": [
+        "load",
+        4
+      ],
+      "file": "data/aggressive-load.bin"
+    },
+    {
+      "id": "unstable-vref",
+      "controller": "unstable",
+      "event": "vref",
+      "step": [
+        "vref",
+        15
+      ],
+      "file": "data/unstable-vref.bin"
+    },
+    {
+      "id": "unstable-vin",
+      "controller": "unstable",
+      "event": "vin",
+      "initial": {
+        "vin": 9
+      },
+      "step": [
+        "vin",
+        15
+      ],
+      "file": "data/unstable-vin.bin"
+    },
+    {
+      "id": "unstable-load",
+      "controller": "unstable",
+      "event": "load",
+      "initial": {
+        "load": 12
+      },
+      "step": [
+        "load",
+        4
+      ],
+      "file": "data/unstable-load.bin"
+    }
+  ]
+}

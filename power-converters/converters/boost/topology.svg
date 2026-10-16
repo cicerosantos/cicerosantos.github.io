@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="15 0 424 268" role="img" aria-label="Synchronous boost: input source and inductor into the switch node of a half-bridge leg, low-side main switch and high-side synchronous rectifier, output capacitor and load; the firmware, drawn below it, samples the output with its ADC and drives both gates from its PWM">
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" style="stroke:var(--text)">
+    <!-- input source, inductor into the switch node -->
+    <path d="M40 96 V124 M40 132 V160 M40 96 H105 M159 96 H236"/>
+    <path d="M28 124 H52 M33 132 H47" stroke-width="2"/>
+    <path d="M105 96 a9 9 0 0 1 18 0 a9 9 0 0 1 18 0 a9 9 0 0 1 18 0" stroke-width="2" style="stroke:var(--il)"/>
+    <!-- half-bridge leg: synchronous rectifier Q2, gate on the left -->
+    <path d="M236 26 V47 H228 M228 75 H236 V96"/>
+    <path d="M228 45 V77" stroke-width="2.4"/>
+    <path d="M221 55 V77" stroke-width="2" style="stroke:var(--lg)"/>
+    <path d="M221 77 H209" style="stroke:var(--lg)"/>
+    <!-- half-bridge leg: main switch Q1, gate on the left -->
+    <path d="M236 96 V114 H228 M228 142 H236 V160"/>
+    <path d="M228 112 V144" stroke-width="2.4"/>
+    <path d="M221 122 V144" stroke-width="2" style="stroke:var(--hg)"/>
+    <path d="M221 144 H209" style="stroke:var(--hg)"/>
+    <!-- output rail from the top of the leg -->
+    <path d="M236 26 H390"/>
+    <!-- output capacitor -->
+    <path d="M316 26 V88 M316 96 V160"/>
+    <path d="M304 88 H328 M304 96 H328" stroke-width="2.4"/>
+    <!-- load -->
+    <path d="M360 26 V77 l6 4 l-12 8 l12 8 l-12 8 l6 4 V160"/>
+    <!-- ground rail, the reference under the input source -->
+    <path d="M40 160 H360 M40 160 V174 M31 174 H49 M34 178 H46 M37 182 H43"/>
+  </g>
+  <g style="fill:var(--text)">
+    <circle cx="236" cy="96" r="2.6"/><circle cx="316" cy="26" r="2.6"/><circle cx="360" cy="26" r="2.6"/><circle cx="316" cy="160" r="2.6"/><circle cx="236" cy="160" r="2.6"/><circle cx="40" cy="160" r="2.6"/>
+    <circle cx="390" cy="26" r="3" style="fill:var(--vout)"/>
+  </g>
+  <!-- firmware, below the power stage: the ADC samples V(out), the PWM drives G2 and G1 -->
+  <rect x="162" y="186" width="76" height="56" rx="5" fill="none" stroke-width="1.3" style="stroke:var(--muted)"/>
+  <g fill="none" stroke-width="1.3" stroke-dasharray="4 3">
+    <path d="M390 26 V228 H238" style="stroke:var(--vout)"/>
+    <path d="M209 77 H180 V186" style="stroke:var(--lg)"/>
+    <path d="M209 144 V186" style="stroke:var(--hg)"/>
+  </g>
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="15" style="fill:var(--muted)">
+    <text x="58" y="134">V</text><text x="68" y="138" font-size="11">in</text>
+    <text x="132" y="120" text-anchor="middle" style="fill:var(--il)">L</text>
+    <text x="246" y="66">Q2</text><text x="246" y="133">Q1</text>
+    <text x="291" y="98">C</text><text x="374" y="98">R</text>
+    <text x="398" y="22" style="fill:var(--vout)">V</text><text x="408" y="26" font-size="11" style="fill:var(--vout)">out</text>
+    <text x="200" y="259" text-anchor="middle" font-size="13" font-weight="600" style="fill:var(--text)">firmware</text>
+    <g font-size="11" text-anchor="middle">
+      <text x="180" y="199" style="fill:var(--lg)">G2</text>
+      <text x="209" y="199" style="fill:var(--hg)">G1</text>
+      <text x="194" y="215" font-size="10">PWM</text>
+      <text x="233" y="232" text-anchor="end" style="fill:var(--vout)">ADC</text>
+    </g>
+  </g>
+</svg>
