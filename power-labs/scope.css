@@ -140,7 +140,6 @@ button.on { background: var(--selected-bg); border-color: var(--accent); color: 
   .toolbar { flex-wrap: wrap; white-space: normal; }
   .bode { left: 16px; right: 16px; top: auto; bottom: 16px; width: auto; height: 78vh; min-width: 0; resize: none; }
 }
-#theme { font-size: 12px; padding: 3px 8px; }
 header .back { color: var(--accent); text-decoration: none; font-size: 13px; }
 header .back:hover { text-decoration: underline; }
 header .spacer { margin-left: auto; }
@@ -151,7 +150,12 @@ header .corner { display: flex; align-items: center; gap: 6px; margin-left: auto
 .choices button { text-align: left; width: 100%; }
 .group .note { margin-top: 6px; }
 .loading { color: var(--muted); }
-/* The language link, filled by /assets/lang.js, at the header's right end. */
-.lang-switch { display: inline-flex; align-items: center; min-height: 30px; padding: 3px 9px; border: 1px solid var(--field-border);
-               border-radius: 7px; color: var(--text); font-size: 12px; font-weight: 600; text-decoration: none; }
-.lang-switch:hover { border-color: var(--accent); color: var(--accent); }
+/* The language link (filled by /assets/lang.js) and the theme button, at the header's right end, as on
+   the site's other pages (site.css). */
+.top-button { display: inline-flex; align-items: center; justify-content: center; height: 32px; min-width: 32px; min-height: 0;
+              padding: 0 9px; border: 1px solid var(--field-border); border-radius: 8px; background: var(--panel);
+              color: var(--text); font: 600 12.5px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; text-decoration: none; }
+.top-button:hover { border-color: var(--accent); color: var(--accent); }
+button.top-button { padding: 0; }
+.top-button svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+@media (max-width: 800px) { .top-button { height: 40px; min-width: 40px; } }  /* phones: bigger touch targets */

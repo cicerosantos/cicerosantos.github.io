@@ -39,7 +39,6 @@ const STRINGS = {
   },
   "scope.page": { en: "Converter", pt: "Conversor" },
   "scope.back": { en: "← All converters", pt: "← Todos os conversores" },
-  "scope.theme": { en: "Light, dark, or follow the system", pt: "Claro, escuro ou como no sistema" },
   "scope.scenario": { en: "Scenario", pt: "Cenário" },
   "scope.controller": { en: "Controller", pt: "Controlador" },
   "scope.event": { en: "Event", pt: "Evento" },

@@ -32,8 +32,7 @@ const UI = preferredLang();
 const say = text => typeof text === "object" ? text[UI] ?? text.en : text;
 const TEXT = {
   menu: { en: "Menu", pt: "Menu" }, site: { en: "Site", pt: "Site" },
-  collapse: { en: "Collapse", pt: "Recolher" }, collapseTitle: { en: "Collapse or expand the menu", pt: "Recolher ou expandir o menu" },
-  themeTitle: { en: "Light, dark, or follow the system", pt: "Claro, escuro ou como no sistema" },
+  collapse: { en: "Collapse menu", pt: "Recolher menu" }, expand: { en: "Expand menu", pt: "Expandir menu" },
 };
 
 // The notes' sections. The equations, shared by both, belong to the section the reader came from.
@@ -48,8 +47,13 @@ function sectionHere() {
 
 const ICONS = {
   github: '<path d="M8.5 7 3.5 12l5 5M15.5 7l5 5-5 5"/>',
-  theme: '<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/>',
-  fold: '<path d="M14.5 6.5 9 12l5.5 5.5"/>',
+  fold: '<path d="M14 7l-5 5 5 5"/>',
+};
+// The theme button shows the current mode: auto (half dark), light (a sun) or dark (a moon).
+const THEME_ICONS = {
+  auto: '<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/>',
+  light: '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>',
+  dark: '<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>',
 };
 const icon = inside => `<svg viewBox="0 0 24 24" aria-hidden="true">${inside}</svg>`;
 
@@ -66,8 +70,12 @@ try { theme = localStorage.getItem("pcl-theme") || "auto"; } catch (error) { /* 
 function applyTheme() {
   if (theme === "auto") delete document.documentElement.dataset.theme;
   else document.documentElement.dataset.theme = theme;
-  const label = document.querySelector("#theme .label");
-  if (label) label.textContent = THEMES[theme];
+  const button = document.getElementById("theme");
+  if (button) {
+    button.innerHTML = icon(THEME_ICONS[theme]);
+    button.title = THEMES[theme];
+    button.setAttribute("aria-label", THEMES[theme]);
+  }
 }
 applyTheme();
 
@@ -91,25 +99,48 @@ document.addEventListener("DOMContentLoaded", () => {
   aside.innerHTML = `
     <a class="who" href="/" title="Cicero A. dos Santos"><img src="/assets/profile-320.webp" alt="" width="36" height="36"><b>Cicero A. dos Santos</b></a>
     <button class="menu" aria-expanded="false" aria-controls="site-menu">${say(TEXT.menu)}</button>
+    <button class="fold" id="fold" type="button" aria-controls="site-menu"></button>
     <nav id="site-menu" aria-label="${say(TEXT.site)}"><ul>${PAGES.map(page =>
       `<li>${item("a", `href="${hrefOf(page)}"${current(page) ? ' aria-current="page"' : ""}`, page.icon, say(page.label))}</li>`).join("")}</ul></nav>
     <div class="end">
       ${item("a", 'href="https://github.com/cicerosantos"', ICONS.github, "GitHub")}
-      ${item("button", 'id="theme" type="button"', ICONS.theme, THEMES[theme], say(TEXT.themeTitle))}
-      ${item("button", 'id="fold" type="button"', ICONS.fold, say(TEXT.collapse), say(TEXT.collapseTitle))}
     </div>`;
+  // The language link (lang.js) and the theme button, together at the top right: fixed in the corner
+  // on wide screens, in the bar left of "Menu" on phones. They follow the profile link in the tab order.
+  const controls = topControls();
+  aside.querySelector(".who").after(controls);
+  const themeButton = Object.assign(document.createElement("button"), { id: "theme", type: "button", className: "top-button" });
+  controls.append(themeButton);
   const menu = aside.querySelector(".menu");
   menu.onclick = () => menu.setAttribute("aria-expanded", aside.classList.toggle("open"));
-  aside.querySelector("#theme").onclick = () => {
+  themeButton.onclick = () => {
     const order = Object.keys(THEMES);
     theme = order[(order.indexOf(theme) + 1) % order.length];
     try { localStorage.setItem("pcl-theme", theme); } catch (error) { /* storage blocked */ }
     applyTheme();
   };
-  aside.querySelector("#fold").onclick = () => {
+  // The arrow on the menu's right edge (wide screens): left to collapse, right to expand.
+  const fold = aside.querySelector("#fold");
+  fold.innerHTML = icon(ICONS.fold);
+  const showFold = () => {
+    const label = say(side === "collapsed" ? TEXT.expand : TEXT.collapse);
+    fold.title = label;
+    fold.setAttribute("aria-label", label);
+    fold.setAttribute("aria-expanded", side !== "collapsed");
+  };
+  fold.onclick = () => {
     side = side === "collapsed" ? "expanded" : "collapsed";
     document.documentElement.dataset.side = side;
     try { localStorage.setItem("pcl-side", side); } catch (error) { /* storage blocked */ }
+    showFold();
   };
+  showFold();
   applyTheme();
 });
+
+// The group of the top-right controls, shared with lang.js, which may run first and create it.
+function topControls() {
+  let group = document.querySelector(".top-controls");
+  if (!group) group = Object.assign(document.createElement("div"), { className: "top-controls" });
+  return group;
+}

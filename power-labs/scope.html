@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <title data-t="scope.page">Converter</title>
 <link rel="stylesheet" href="scope.css">
 <!-- the language, English or Portuguese, chosen before the page is drawn; i18n.js translates it -->
@@ -14,7 +16,7 @@
   <h1 id="title">…</h1>
   <span class="scenario" id="scenario-name"></span>
   <span class="spacer"></span>
-  <span class="corner"><button id="theme" title="Light, dark, or follow the system" data-t-title="scope.theme"></button><span data-lang-slot></span></span>
+  <span class="corner"><span data-lang-slot></span><button id="theme" class="top-button" type="button"></button></span>
 </header>
 <main>
   <section class="panel controls" aria-label="Scenario" data-t-aria="scope.scenario">

@@ -1,5 +1,6 @@
 // The link to the other language, English or Portuguese. A page loads this file and, where the link
-// goes, puts an element with data-lang-slot; without one the link is fixed at the top-right corner.
+// goes, puts an element with data-lang-slot; without one the link goes in the top-right group of
+// controls (.top-controls), beside the theme button of site.js.
 // The choice is kept in localStorage "pcl-lang", which the side menu (site.js) reads too.
 //  - The notes, under /en/ and /pt/, have one page per language: the link goes to the same page in
 //    the other one, keeping the query and the fragment.
@@ -58,13 +59,18 @@
     const refresh = () => { link.href = target(); };
     for (const type of ["focus", "pointerenter", "mouseenter", "touchstart"]) link.addEventListener(type, refresh, { passive: true });
     link.addEventListener("click", () => { refresh(); store(other); });
+    link.classList.add("top-button");
     const slot = document.querySelector("[data-lang-slot]");
-    if (slot) slot.append(link);
-    else {  // early in the tab order: after site.js's skip link, before the menu and the page
-      link.classList.add("floating");
+    if (slot) { slot.append(link); return; }
+    // Otherwise first in the top-right group, beside site.js's theme button; site.js moves the group
+    // into the side menu, early in the tab order.
+    let group = document.querySelector(".top-controls");
+    if (!group) {
+      group = Object.assign(document.createElement("div"), { className: "top-controls" });
       const skip = document.querySelector("body > .skip-link");
-      skip ? skip.after(link) : document.body.prepend(link);
+      skip ? skip.after(group) : document.body.prepend(group);
     }
+    group.prepend(link);
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", place);
   else place();

@@ -915,12 +915,21 @@ new ResizeObserver(() => drawBode()).observe($("bode-plot"));
 function storage(key) { try { return localStorage.getItem(key); } catch (error) { return null; } }
 
 const THEMES = { auto: t("theme.auto"), light: t("theme.light"), dark: t("theme.dark") };
+// The same icons as the theme button of /assets/site.js: auto (half dark), light (a sun), dark (a moon).
+const THEME_ICONS = {
+  auto: '<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/>',
+  light: '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>',
+  dark: '<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>',
+};
 let theme = "auto";
 try { theme = localStorage.getItem("pcl-theme") || "auto"; } catch (error) { /* storage blocked */ }
 function applyTheme() {
   if (theme === "auto") delete document.documentElement.dataset.theme;
   else document.documentElement.dataset.theme = theme;
-  $("theme").textContent = THEMES[theme];
+  const button = $("theme");
+  button.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${THEME_ICONS[theme]}</svg>`;
+  button.title = THEMES[theme];
+  button.setAttribute("aria-label", THEMES[theme]);
   drawAll(); drawBode();
 }
 $("theme").onclick = () => {
