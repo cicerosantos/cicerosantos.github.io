@@ -1,0 +1,9 @@
+{
+  "converters": [
+    { "id": "buck", "title": "Synchronous buck",
+      "summary": "24 V → 9 V at 200 kHz, with digital voltage-mode control: an ADC sample and a controller update every PWM period, run by firmware written in C.",
+      "specs": ["24 V → 9 V", "1–2 A", "200 kHz", "L 22 µH, C 47 µF"],
+      "controls": "PID and 2p2z, four designs",
+      "open": "2p2z-load" }
+  ]
+}

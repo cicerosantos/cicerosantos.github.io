@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Converter</title>
+<style>
+  /* Colours used as text or thin lines are at least 3:1 (lines) or 4.5:1 (text) on the panel. */
+  :root {
+    --bg: #f6f7f9; --panel: #ffffff; --text: #1d2330; --muted: #5d6779; --line: #e3e6eb; --field-border: #98a2b3;
+    --accent: #2563eb; --selected-bg: #e8effd; --selected-text: #1d4ed8;
+    --armed: #f59e0b;
+    --grid: #e6e9ee; --cursor: #64748b; --measure: #1d2330;
+    --vout: #2563eb; --vref: #64748b; --il: #0f766e; --vds: #7c3aed; --id: #dc2626; --vds2: #a855f7; --id2: #be123c;
+    --hg: #2563eb; --lg: #15803d; --trigger: #ea580c;
+    --plant: #0f766e; --loop: #2563eb; --running: #64748b; --margin: #c2410c; --bad: #dc2626;
+    --shadow: rgba(16, 24, 40, .18); color-scheme: light;
+  }
+  /* Dark when the system asks for it, unless the page's theme button says otherwise. */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #11141a; --panel: #191d25; --text: #e6e9ef; --muted: #a3acbb; --line: #2a303b; --field-border: #4b5563;
+      --accent: #2563eb; --selected-bg: #1e2a44; --selected-text: #93c5fd;
+      --grid: #2a3140; --cursor: #94a3b8; --measure: #e6e9ef;
+      --vout: #60a5fa; --vref: #94a3b8; --il: #2dd4bf; --vds: #a78bfa; --id: #f87171; --vds2: #d8b4fe; --id2: #fb7185;
+      --hg: #60a5fa; --lg: #4ade80; --trigger: #fb923c;
+      --plant: #2dd4bf; --loop: #60a5fa; --running: #94a3b8; --margin: #fb923c; --bad: #f87171;
+      --shadow: rgba(0, 0, 0, .5); color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+      --bg: #11141a; --panel: #191d25; --text: #e6e9ef; --muted: #a3acbb; --line: #2a303b; --field-border: #4b5563;
+      --accent: #2563eb; --selected-bg: #1e2a44; --selected-text: #93c5fd;
+      --grid: #2a3140; --cursor: #94a3b8; --measure: #e6e9ef;
+      --vout: #60a5fa; --vref: #94a3b8; --il: #2dd4bf; --vds: #a78bfa; --id: #f87171; --vds2: #d8b4fe; --id2: #fb7185;
+      --hg: #60a5fa; --lg: #4ade80; --trigger: #fb923c;
+      --plant: #2dd4bf; --loop: #60a5fa; --running: #94a3b8; --margin: #fb923c; --bad: #f87171;
+      --shadow: rgba(0, 0, 0, .5); color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--text); display: flex; flex-direction: column;
+         font: 14px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  header { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; padding: 10px 20px 6px; }
+  h1 { font-size: 18px; margin: 0; font-weight: 600; }
+  .readout { display: flex; flex-wrap: wrap; gap: 2px 14px; font-variant-numeric: tabular-nums; }
+  .readout span span { color: var(--muted); margin-right: 4px; }
+  main { flex: 1; min-height: 0; display: grid; grid-template-columns: 272px minmax(0, 1fr); grid-template-rows: minmax(0, 1fr);
+         gap: 14px; padding: 6px 20px 16px; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+  .controls { display: flex; flex-direction: column; gap: 14px; overflow-y: auto; }
+  .group h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted);
+              margin: 0 0 6px; font-weight: 600; }
+  .group h2 small { text-transform: none; letter-spacing: 0; font-weight: 400; }
+  .buttons { display: flex; flex-wrap: wrap; gap: 6px; }
+  button { font: inherit; border: 1px solid var(--field-border); background: var(--bg); color: var(--text);
+           border-radius: 7px; padding: 5px 9px; cursor: pointer; min-width: 44px; min-height: 30px; }
+  button:hover:not(:disabled) { border-color: var(--accent); }
+  button:disabled { cursor: default; color: var(--muted); border-color: var(--line); background: var(--bg); }
+  /* A selected choice: tinted. */
+  button.on { background: var(--selected-bg); border-color: var(--accent); color: var(--selected-text); font-weight: 600; }
+  /* Exclusive choices as segmented controls: one row, joined. */
+  .segmented { display: flex; flex-wrap: nowrap; gap: 0; }
+  .segmented button { flex: 1 1 auto; min-width: 0; padding: 5px 4px; font-size: 13px; border-radius: 0; margin-left: -1px; }
+  .segmented button:first-child { border-radius: 7px 0 0 7px; margin-left: 0; }
+  .segmented button:last-child { border-radius: 0 7px 7px 0; }
+  .segmented button.on, .segmented button:hover, .segmented button:focus-visible { position: relative; z-index: 1; }
+  .note { color: var(--muted); font-size: 12px; margin: 0; }
+  /* Oscilloscope: the charts share the height left by the toolbar and the measurement table. */
+  .scope { display: flex; flex-direction: column; gap: 8px; min-width: 0; min-height: 0; }
+  .toolbar { display: flex; flex-wrap: nowrap; align-items: center; gap: 10px; color: var(--muted); min-height: 30px;
+             font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .toolbar .tools { display: flex; flex: none; align-items: center; gap: 6px; }
+  .toolbar button { font-size: 12px; padding: 2px 8px; min-width: 0; min-height: 26px; }
+  .toolbar label { display: inline-flex; align-items: center; gap: 4px; }
+  #frame-info, #view-info { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  #frame-info { flex: 1 1 auto; }
+  #view-info { flex: 0 1 auto; }
+  .chart { position: relative; flex: 1 1 0; min-height: 66px; padding: 0; overflow: hidden; touch-action: none; }
+  .chart.tall { flex-grow: 1.3; min-height: 84px; }
+  .chart.digital { flex-grow: .7; min-height: 64px; }
+  .chart canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .chart canvas.overlay { cursor: crosshair; }
+  .chart.dragging canvas.overlay { cursor: grabbing; }
+  .chart.near-cursor canvas.overlay { cursor: ew-resize; }
+  .ymode { position: absolute; top: 4px; left: 6px; z-index: 1; font-size: 11px; padding: 1px 7px; min-width: 0; min-height: 22px;
+           color: var(--text); background: var(--panel); }
+  .ymode.manual { border-color: var(--armed); background: color-mix(in srgb, var(--armed) 22%, var(--panel)); }
+  .legend { position: absolute; top: 6px; right: 10px; display: flex; gap: 12px; font-size: 12px;
+            color: var(--muted); pointer-events: none; font-variant-numeric: tabular-nums; }
+  .legend i { display: inline-block; width: 14px; height: 0; border-top: 3px solid; vertical-align: middle; margin-right: 4px; }
+  .legend b { display: inline-block; min-width: 7.5ch; text-align: right; font-weight: 400; color: var(--text); }
+  .legend b.state { min-width: 3ch; text-align: left; }
+  /* Measurements: a table of the visible window or of the span between cursors A and B. */
+  .measure { flex: none; max-height: 30vh; padding: 6px 10px; overflow: auto; }
+  .measure table { border-collapse: separate; border-spacing: 0 2px; font-size: 12px; font-variant-numeric: tabular-nums; }
+  .measure th, .measure td { text-align: right; padding: 2px 14px; white-space: nowrap; }
+  .measure td:first-child { border-left: 4px solid var(--c); font-weight: 600; padding-left: 8px; }
+  .measure tbody tr { background: color-mix(in srgb, var(--c) 8%, transparent); }
+  .measure tbody tr:hover { background: color-mix(in srgb, var(--c) 24%, transparent); }
+  .measure th { color: var(--muted); font-weight: 500; position: sticky; top: 0; background: var(--panel); }
+  .measure th:first-child, .measure td:first-child { text-align: left; }
+  .measure .gate { color: var(--muted); font-size: 12px; margin-bottom: 3px; white-space: normal; }
+  /* Bode window: floating, dragged by its title bar, resized from its corner. */
+  .bode { position: fixed; z-index: 10; top: 110px; right: 20px; width: 560px; height: min(720px, calc(100vh - 126px));
+          min-width: 340px; min-height: 400px; max-width: calc(100vw - 32px); max-height: calc(100vh - 16px);
+          display: flex; flex-direction: column; padding: 0; overflow: hidden; resize: both;
+          box-shadow: 0 12px 32px var(--shadow); }
+  .bode[hidden] { display: none; }
+  .bode-head { display: flex; align-items: center; gap: 10px; padding: 6px 8px 6px 12px; cursor: move;
+               border-bottom: 1px solid var(--line); user-select: none; touch-action: none; }
+  .bode-head h2 { font-size: 14px; margin: 0; font-weight: 600; white-space: nowrap; }
+  .bode-head .op { flex: 1; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .bode-head button { min-width: 0; min-height: 26px; padding: 0 8px; }
+  .bode-plot { position: relative; flex: 3 1 300px; min-height: 200px; }
+  .bode-plot canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: crosshair; }
+  .bode-body { flex: 0 1 auto; min-height: 0; overflow: auto; display: flex; flex-direction: column; gap: 9px;
+               padding: 6px 12px 12px; font-size: 12px; font-variant-numeric: tabular-nums; }
+  .bode-body > * { flex-shrink: 0; }
+  .bode-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; color: var(--muted); }
+  .bode-legend i { display: inline-block; width: 16px; height: 0; border-top: 2px solid; vertical-align: middle; margin-right: 4px; }
+  .grid-table { display: grid; grid-template-columns: auto repeat(3, 1fr); gap: 2px 12px; }
+  .grid-table span:nth-child(-n+4) { color: var(--muted); }
+  .grid-table .bad { color: var(--bad); font-weight: 600; }
+  .sliders { display: grid; grid-template-columns: auto 1fr 64px; gap: 3px 10px; align-items: center; }
+  .sliders input { width: 100%; margin: 0; accent-color: var(--accent); }
+  .sliders output { text-align: right; }
+  .bode details summary { cursor: pointer; color: var(--muted); }
+  .pid { display: grid; grid-template-columns: repeat(4, auto); justify-content: start; gap: 2px 16px; margin-top: 6px; }
+  .pid .name { color: var(--muted); }
+  .pid .title { grid-column: 1 / -1; color: var(--muted); margin-top: 4px; }
+  .form-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+  .form-row > span { color: var(--muted); }
+  .formula { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 11.5px; white-space: pre-wrap; margin-top: 6px; }
+  .bode-actions { display: flex; gap: 6px; }
+  /* Narrow screens: the oscilloscope first, everything in the page's flow. */
+  @media (max-width: 800px) {
+    html, body { height: auto; }
+    body { display: block; }
+    main { display: flex; flex-direction: column; padding: 6px 16px 16px; }
+    .scope { order: -1; }
+    .controls { overflow: visible; }
+    .chart { flex: none; height: 150px; }
+    .chart.tall { height: 180px; }
+    .chart.digital { height: 100px; }
+    .measure { max-height: none; }
+    .toolbar { flex-wrap: wrap; white-space: normal; }
+    .bode { left: 16px; right: 16px; top: auto; bottom: 16px; width: auto; height: 78vh; min-width: 0; resize: none; }
+  }
+  #theme { font-size: 12px; padding: 3px 8px; }
+  header .back { color: var(--accent); text-decoration: none; font-size: 13px; }
+  header .back:hover { text-decoration: underline; }
+  header .spacer { margin-left: auto; }
+  .scenario { color: var(--muted); }
+  /* Scenarios: one list of controllers, one of events; a pair without a simulation is disabled. */
+  .choices { display: flex; flex-direction: column; gap: 4px; }
+  .choices button { text-align: left; width: 100%; }
+  .group .note { margin-top: 6px; }
+  .loading { color: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <a class="back" href="./">← All converters</a>
+  <h1 id="title">…</h1>
+  <span class="scenario" id="scenario-name"></span>
+  <span class="spacer"></span>
+  <button id="theme" title="Light, dark, or follow the system"></button>
+</header>
+<main>
+  <section class="panel controls" aria-label="Scenario">
+    <div class="group"><h2>Controller</h2><div class="choices" id="controllers" role="group" aria-label="Controller"></div>
+      <p class="note" id="controller-about"></p></div>
+    <div class="group"><h2>Event</h2><div class="choices" id="events" role="group" aria-label="Event"></div>
+      <p class="note" id="event-about"></p></div>
+    <div class="group"><h2>View</h2><div class="buttons">
+      <button id="zoom-in" title="Zoom in (or drag across a chart to zoom into that span, or the mouse wheel; Shift+drag pans, Shift+wheel zooms the Y axis)" aria-label="Zoom in">+</button>
+      <button id="zoom-out" title="Zoom out" aria-label="Zoom out">−</button>
+      <button id="zoom-fit" title="Whole frame (or double-click)">Fit</button>
+      <button id="bode-toggle" title="Show or hide the loop gain">Bode plot</button></div></div>
+    <p class="note">Simulated with QSPICE (Qorvo freeware) under Wine; this site is not affiliated with Qorvo.</p>
+  </section>
+  <section class="scope" id="scope" aria-label="Oscilloscope">
+    <div class="toolbar">
+      <span class="tools">
+        <button id="measure-toggle" title="Min, max, peak-to-peak, mean and RMS of each trace, over the view or between cursors A and B">Measure</button>
+        <button id="cursors-toggle" title="Two time cursors, A and B: drag them; the table shows each trace at A and B">Cursors A/B</button>
+        <label title="Round the measured span to whole PWM periods, so means are not biased by the ripple"><input type="checkbox" id="whole-periods" checked>whole periods</label>
+      </span>
+      <span id="view-info"></span>
+      <span id="frame-info" class="loading">loading…</span>
+    </div>
+    <div class="panel measure" id="measure" hidden></div>
+  </section>
+</main>
+<section class="panel bode" id="bode" hidden role="dialog" aria-label="Loop gain">
+  <div class="bode-head" id="bode-head">
+    <h2>Loop gain</h2><span class="op" id="bode-op"></span>
+    <button id="bode-close" title="Hide (the Bode plot button brings it back)" aria-label="Close">×</button>
+  </div>
+  <div class="bode-plot" id="bode-plot"><canvas role="img" aria-label="Bode plot of the loop gain"></canvas></div>
+  <div class="bode-body">
+    <div class="bode-legend" id="bode-legend"></div>
+    <div class="grid-table" id="bode-margins"></div>
+    <div class="form-row"><span>Firmware form</span><div class="segmented" id="bode-form" role="group" aria-label="Firmware form"></div></div>
+    <div class="sliders" id="bode-sliders"></div>
+    <details id="bode-details"><summary>Formula, PID gains and 2p2z coefficients</summary>
+      <div class="formula" id="bode-formula"></div>
+      <div class="pid" id="bode-pid"></div>
+    </details>
+    <div class="form-row"><span>Simulated</span><div class="bode-actions" id="bode-simulated"></div></div>
+    <p class="note" id="bode-note"></p>
+  </div>
+</section>
+<script type="module" src="scope.js"></script>
+</body>
+</html>
