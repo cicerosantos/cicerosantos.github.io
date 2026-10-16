@@ -1,0 +1,70 @@
+/* The site's shared look: colour tokens, the side menu, and the page column. Pages that are tools
+   in their own right (the oscilloscope) keep their own stylesheet. */
+:root {
+  --bg: #f6f7f9; --panel: #ffffff; --text: #1d2330; --muted: #5d6779; --line: #e3e6eb; --field-border: #98a2b3;
+  --accent: #2563eb; --selected-bg: #e8effd; --selected-text: #1d4ed8; --shadow: rgba(16, 24, 40, .12);
+  --vout: #2563eb; --il: #0f766e; --hg: #2563eb; --lg: #15803d; color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11141a; --panel: #191d25; --text: #e6e9ef; --muted: #a3acbb; --line: #2a303b; --field-border: #4b5563;
+    --accent: #3b82f6; --selected-bg: #1e2a44; --selected-text: #93c5fd; --shadow: rgba(0, 0, 0, .4);
+    --vout: #60a5fa; --il: #2dd4bf; --hg: #60a5fa; --lg: #4ade80; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11141a; --panel: #191d25; --text: #e6e9ef; --muted: #a3acbb; --line: #2a303b; --field-border: #4b5563;
+  --accent: #3b82f6; --selected-bg: #1e2a44; --selected-text: #93c5fd; --shadow: rgba(0, 0, 0, .4);
+  --vout: #60a5fa; --il: #2dd4bf; --hg: #60a5fa; --lg: #4ade80; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+a { color: var(--accent); }
+button { font: inherit; font-size: 12px; border: 1px solid var(--field-border); background: var(--bg); color: var(--text);
+         border-radius: 7px; padding: 3px 8px; cursor: pointer; min-height: 30px; }
+button:hover { border-color: var(--accent); }
+
+/* ---- layout: the side menu and the page ---- */
+/* The menu is expanded (icons and labels) or collapsed (icons only); site.js keeps the choice in
+   data-side on <html>. */
+.layout { display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: 100vh; transition: grid-template-columns .18s; }
+:root[data-side="collapsed"] .layout { grid-template-columns: 64px minmax(0, 1fr); }
+.side { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; gap: 18px; overflow: hidden;
+        padding: 24px 12px; border-right: 1px solid var(--line); background: var(--panel); }
+.side .who { display: flex; align-items: center; gap: 10px; padding: 0 2px; color: inherit; text-decoration: none; }
+.side .who img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; flex: none; }
+.side .who b { font-size: 14.5px; font-weight: 650; line-height: 1.25; white-space: nowrap; }
+.side ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.side .item { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 38px; padding: 8px 10px;
+              border: 0; border-radius: 8px; background: none; color: var(--text); font: inherit; font-size: 14px;
+              text-align: left; text-decoration: none; white-space: nowrap; cursor: pointer; }
+.side .item svg { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8;
+                  stroke-linecap: round; stroke-linejoin: round; }
+.side .item:hover { background: var(--bg); }
+.side .item[aria-current="page"] { background: var(--selected-bg); color: var(--selected-text); font-weight: 600; }
+.side .end { margin-top: auto; display: flex; flex-direction: column; gap: 2px; }
+.side .end .item { color: var(--muted); font-size: 13px; }
+.side .end .item:hover { color: var(--text); }
+:root[data-side="collapsed"] .side .label, :root[data-side="collapsed"] .side .who b { display: none; }
+:root[data-side="collapsed"] .side .item { justify-content: center; padding: 8px 0; }
+:root[data-side="collapsed"] .side .who { justify-content: center; padding: 0; }
+:root[data-side="collapsed"] .side #fold svg { transform: rotate(180deg); }
+.side .menu { display: none; }
+.page { width: 100%; max-width: 1040px; margin: 0 auto; padding: 32px 32px 48px; }
+.page > footer { margin-top: 36px; color: var(--muted); font-size: 13px; }
+
+/* Narrow screens: the menu folds into a bar at the top, always with its labels. */
+@media (max-width: 760px) {
+  .layout, :root[data-side="collapsed"] .layout { grid-template-columns: 1fr; }
+  .side { position: sticky; z-index: 5; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center;
+          gap: 8px; padding: 10px 16px; border-right: 0; border-bottom: 1px solid var(--line); }
+  :root[data-side="collapsed"] .side .label, :root[data-side="collapsed"] .side .who b { display: inline; }
+  :root[data-side="collapsed"] .side .item { justify-content: flex-start; padding: 8px 10px; }
+  .side .menu { display: inline-block; margin-left: auto; }
+  .side nav, .side .end { display: none; width: 100%; }
+  .side.open nav, .side.open .end { display: block; }
+  .side .end { margin-top: 0; padding-bottom: 6px; }
+  .side #fold { display: none; }
+  .page { padding: 22px 16px 36px; }
+}

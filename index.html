@@ -3,111 +3,43 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Power converters lab</title>
-<meta name="description" content="Simulated power converters: open one to see its waveforms in a browser oscilloscope, with prepared steps and controller designs.">
+<title>Cicero A. dos Santos</title>
+<meta name="description" content="Cicero A. dos Santos, Professor with the Federal Institute of Paraíba: power electronics, multilevel converters and renewable energy integration.">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js"></script>
 <style>
-  :root {
-    --bg: #f6f7f9; --panel: #ffffff; --text: #1d2330; --muted: #5d6779; --line: #e3e6eb; --field-border: #98a2b3;
-    --accent: #2563eb; --selected-bg: #e8effd; --selected-text: #1d4ed8; 
-    --vout: #2563eb; --il: #0f766e; --hg: #2563eb; --lg: #15803d; --shadow: rgba(16, 24, 40, .12); color-scheme: light;
+  .intro { display: flex; flex-direction: column; align-items: center; text-align: center; margin: 16px auto 24px; max-width: 640px; }
+  .intro img { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; margin-bottom: 20px;
+               border: 1px solid var(--line); box-shadow: 0 10px 30px var(--shadow); }
+  .intro h1 { font-size: 32px; margin: 0 0 4px; font-weight: 650; }
+  .intro .role { margin: 0 0 16px; color: var(--muted); font-size: 16px; }
+  .intro p { margin: 0 0 12px; line-height: 1.65; }
+  @media (max-width: 600px) {
+    .intro img { width: 140px; height: 140px; }
+    .intro h1 { font-size: 26px; }
   }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #11141a; --panel: #191d25; --text: #e6e9ef; --muted: #a3acbb; --line: #2a303b; --field-border: #4b5563;
-      --accent: #2563eb; --selected-bg: #1e2a44; --selected-text: #93c5fd; 
-      --vout: #60a5fa; --il: #2dd4bf; --hg: #60a5fa; --lg: #4ade80; --shadow: rgba(0, 0, 0, .4); color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"] {
-      --bg: #11141a; --panel: #191d25; --text: #e6e9ef; --muted: #a3acbb; --line: #2a303b; --field-border: #4b5563;
-      --accent: #2563eb; --selected-bg: #1e2a44; --selected-text: #93c5fd; 
-      --vout: #60a5fa; --il: #2dd4bf; --hg: #60a5fa; --lg: #4ade80; --shadow: rgba(0, 0, 0, .4); color-scheme: dark;
-  }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .page { max-width: 1120px; margin: 0 auto; padding: 28px 20px 40px; }
-  header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
-  header div { flex: 1; }
-  h1 { font-size: 26px; margin: 0 0 6px; font-weight: 650; }
-  header p { margin: 0; color: var(--muted); max-width: 70ch; }
-  button { font: inherit; font-size: 12px; border: 1px solid var(--field-border); background: var(--bg); color: var(--text);
-           border-radius: 7px; padding: 3px 8px; cursor: pointer; min-height: 30px; }
-  button:hover { border-color: var(--accent); }
-  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
-  .card { display: flex; flex-direction: column; background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
-          overflow: hidden; color: inherit; text-decoration: none; transition: box-shadow .15s, border-color .15s; }
-  .card:hover { border-color: var(--accent); box-shadow: 0 8px 24px var(--shadow); }
-  .card .topology { padding: 14px 16px 10px; border-bottom: 1px solid var(--line); }
-  .card .topology svg { display: block; width: 100%; height: auto; }
-  .card .body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
-  .card h2 { font-size: 18px; margin: 0; font-weight: 600; }
-  .card p { margin: 0; color: var(--muted); font-size: 14px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .chips span { font-size: 12px; padding: 1px 8px; border-radius: 999px; background: var(--selected-bg); color: var(--selected-text);
-                font-variant-numeric: tabular-nums; }
-  .card .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
-                font-size: 13px; color: var(--muted); padding-top: 4px; }
-  .card .open { color: var(--accent); font-weight: 600; white-space: nowrap; }
-  footer { margin-top: 32px; color: var(--muted); font-size: 13px; }
-  @media (max-width: 600px) { .page { padding: 20px 16px 32px; } header { flex-direction: column; } }
 </style>
 </head>
 <body>
-<div class="page">
-  <header>
-    <div>
-      <h1>Power converters lab</h1>
-      <p>Simulated power converters with digital control. Open one to see its waveforms in a browser oscilloscope:
-        reference, input and load steps under several controller designs, with zoom, cursors, measurements and the loop gain.</p>
-    </div>
-    <button id="theme" title="Light, dark, or follow the system"></button>
-  </header>
-  <main class="cards" id="cards" aria-label="Converters"></main>
-  <footer>Simulated with QSPICE, Qorvo's freeware circuit simulator, under Wine. This site is not affiliated with or endorsed by Qorvo.</footer>
+<div class="layout">
+  <aside class="side"></aside>
+  <main class="page">
+    <section class="intro">
+      <img src="/assets/profile-640.webp" srcset="/assets/profile-320.webp 320w, /assets/profile-640.webp 640w" sizes="180px"
+           width="180" height="180" alt="Illustrated portrait of Cicero A. dos Santos">
+      <div>
+        <h1>Cicero A. dos Santos</h1>
+        <p class="role">Professor · Federal Institute of Paraíba</p>
+        <p>Cicero A. dos Santos was born in Juazeiro do Norte, Brazil, in 1987. He received the B.S. degree in
+          industrial automation from the Federal Institute of Ceará, Juazeiro do Norte, Brazil, in 2008, and the M.Sc.
+          and Ph.D. degrees in electrical engineering from the Federal University of Ceará, Fortaleza, Brazil, in 2011
+          and 2021, respectively.</p>
+        <p>Since 2011, he has been a Professor with the Federal Institute of Paraíba, João Pessoa, Brazil. His research
+          interests include power electronics, multilevel converters and integration of renewable energy sources into
+          the power grid.</p>
+      </div>
+    </section>
+  </main>
 </div>
-<script type="module">
-const $ = id => document.getElementById(id);
-const escape = text => String(text).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-
-// The card's picture: the converter's topology, an SVG drawn with the page's colour tokens, put
-// inline so it follows the theme.
-async function topology(base) {
-  try {
-    const response = await fetch(base + "topology.svg");
-    return response.ok ? await response.text() : "";
-  } catch (error) { return ""; }
-}
-
-const list = await (await fetch("converters/index.json")).json();
-for (const c of list.converters) {
-  const base = `converters/${c.id}/`;
-  const [spec, picture] = await Promise.all([fetch(base + "scenarios.json").then(r => r.json()), topology(base)]);
-  const card = document.createElement("a");
-  card.className = "card";
-  card.href = `scope.html?c=${encodeURIComponent(c.id)}` + (c.open ? `&s=${encodeURIComponent(c.open)}` : "");
-  card.innerHTML = `<div class="topology">${picture}</div>` +
-    `<div class="body"><h2>${escape(c.title)}</h2><p>${escape(c.summary)}</p>` +
-    `<div class="chips">${c.specs.map(s => `<span>${escape(s)}</span>`).join("")}</div>` +
-    `<div class="foot"><span>${spec.scenarios.length} scenarios · ${escape(c.controls)}</span><span class="open">Open →</span></div></div>`;
-  $("cards").append(card);
-}
-
-const THEMES = { auto: "Theme: auto", light: "Theme: light", dark: "Theme: dark" };
-let theme = "auto";
-try { theme = localStorage.getItem("pcl-theme") || "auto"; } catch (error) { /* storage blocked */ }
-function applyTheme() {
-  if (theme === "auto") delete document.documentElement.dataset.theme;
-  else document.documentElement.dataset.theme = theme;
-  $("theme").textContent = THEMES[theme];
-}
-$("theme").onclick = () => {
-  const order = Object.keys(THEMES);
-  theme = order[(order.indexOf(theme) + 1) % order.length];
-  try { localStorage.setItem("pcl-theme", theme); } catch (error) { /* storage blocked */ }
-  applyTheme();
-};
-applyTheme();
-</script>
 </body>
 </html>
