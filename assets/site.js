@@ -9,6 +9,9 @@ const PAGES = [
   // a square wave
   { href: "/power-labs/", label: { en: "Power labs", pt: "Power labs" },
     icon: '<path d="M2.5 17h4V7h5v10h5V7h5"/>' },
+  // the s-plane: its axes, a pole (×) and a zero (○)
+  { href: "/{lang}/control-basics/", section: "control-basics", label: { en: "Control basics", pt: "Fundamentos" },
+    icon: '<path d="M3 12h18M15.5 3.5v17"/><path d="M5.5 4.5l5 5M10.5 4.5l-5 5"/><circle cx="8" cy="17" r="2.6"/>' },
   // an open book
   { href: "/{lang}/converters/", section: "converters", label: { en: "Power converters", pt: "Conversores" },
     icon: '<path d="M12 6.8C10.2 5.3 7.4 4.6 3.5 4.9v12.9c3.9-.3 6.7.4 8.5 1.9 1.8-1.5 4.6-2.2 8.5-1.9V4.9c-3.9-.3-6.7.4-8.5 1.9z"/><path d="M12 6.8v12.9"/>' },

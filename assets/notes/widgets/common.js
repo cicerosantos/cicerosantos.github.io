@@ -67,6 +67,25 @@ export function eng(v, unit, lang, digits = 3) {
 export const decade = (f, lang) => (f >= 1e6 ? num(f / 1e6, undefined, lang) + " MHz" : f >= 1e3 ? num(f / 1e3, undefined, lang) + " kHz" : num(f, undefined, lang) + " Hz");
 export const deg = (v, lang, digits = 1) => num(v, digits, lang) + "°";
 
+// *text* in italics: the English terms of the Portuguese strings (*buck*, *preload*), as the notes write
+// them. rich() gives DOM nodes (never HTML); plainText() drops the asterisks, for aria labels.
+export const rich = str => String(str).split(/\*([^*\n]+)\*/).map((part, i) => (i % 2 ? el("em", { text: part }) : part)).filter(p => p !== "");
+export const plainText = str => String(str).replace(/\*([^*\n]+)\*/g, "$1");
+// The same on a canvas, with the current font: the *spans* in its italic. Draws left-aligned at (x, y)
+// unless measure is set, and returns the width.
+export function richText(g, text, x, y, measure = false) {
+  const base = g.font, italic = "italic " + base.replace(/^italic\s+/, "");
+  let w = 0;
+  String(text).split(/\*([^*\n]+)\*/).forEach((part, i) => {
+    if (!part) return;
+    g.font = i % 2 ? italic : base;
+    if (!measure) g.fillText(part, x + w, y);
+    w += g.measureText(part).width;
+  });
+  g.font = base;
+  return w;
+}
+
 // ---- theme ----
 export { css, FONT };
 const themeWatchers = new Set();
@@ -239,10 +258,11 @@ export function tag(g, text, x, y, color = "--text", align = "left") {
   g.restore();
 }
 
-// Legend under a plot: items [color, text, style ("solid" | "dashed" | "dot" | "cross" | "ring")].
+// Legend under a plot: items [color, text, style ("solid" | "dashed" | "dotted" | "dot" | "cross" | "ring")].
 export function legend(items) {
   return el("div", { class: "w-legend" }, ...items.map(([color, text, style = "solid"]) =>
-    el("span", {}, el("i", { class: "w-key " + style, style: `--c: var(${color})` }), text)));
+    el("span", {}, el("i", { class: "w-key " + style, style: `--c: var(${color})` }),
+      /\*[^*\n]+\*/.test(text) ? el("span", { class: "w-rich" }, ...rich(text)) : text)));  // one run of text in the flex row
 }
 
 // ---- oscilloscope charts ----
@@ -381,7 +401,7 @@ export function slider(parent, { label, min, max, value, log = false, step, form
 export function choice(parent, { label, options, value, onchange }) {
   const name = uid("w-choice");
   const row = el("div", { class: "w-segmented" });
-  const group = el("fieldset", { class: "w-switch" }, el("legend", { text: label }), row);
+  const group = el("fieldset", { class: "w-switch" }, el("legend", {}, ...rich(label)), row);
   const inputs = options.map(([v, text]) => {
     const input = el("input", { type: "radio", name, value: v, id: `${name}-${v}` });
     input.checked = v === value;

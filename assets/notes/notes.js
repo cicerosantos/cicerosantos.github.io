@@ -4,6 +4,8 @@
 // figure comes near the screen.
 const LANG = document.documentElement.lang.startsWith("pt") ? "pt" : "en";
 const escapeHtml = text => String(text).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+// titles and summaries keep the notes' *italics* (the English terms of the Portuguese notes), as the build does
+const withItalics = html => html.replace(/(?<![*\w\\])\*(?![\s*])([^*\n]+?)(?<![\s*\\])\*(?![*\w])/g, "<em>$1</em>");
 
 function whenLoaded(test) {
   return new Promise(resolve => {
@@ -55,8 +57,8 @@ function showTip(link) {
   if (!text || matchMedia("(hover: none)").matches) return;
   if (tipFor && tipFor !== link) tipFor.removeAttribute("aria-describedby");
   tipFor = link;
-  const name = link.dataset.title ? escapeHtml(link.dataset.title) : link.innerHTML;
-  tip.innerHTML = `<b>${name}</b><span>${escapeHtml(text)}</span>`;
+  const name = link.dataset.title ? withItalics(escapeHtml(link.dataset.title)) : link.innerHTML;
+  tip.innerHTML = `<b>${name}</b><span>${withItalics(escapeHtml(text))}</span>`;
   tip.hidden = false;
   link.setAttribute("aria-describedby", tip.id);
   placeTip(link);
@@ -91,7 +93,7 @@ async function notesIndex() {
   if (!index) index = fetch(`/${LANG}/notes.json`, { cache: "no-cache" }).then(r => r.json());
   return index;
 }
-const noteLink = n => `<a class="note-link" href="${n.url}" data-title="${escapeHtml(n.title)}" data-summary="${escapeHtml(n.summary)}">${escapeHtml(n.title)}</a>`;
+const noteLink = n => `<a class="note-link" href="${n.url}" data-title="${escapeHtml(n.title)}" data-summary="${escapeHtml(n.summary)}">${withItalics(escapeHtml(n.title))}</a>`;
 const fold = text => text.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 const FOUND = {
   pt: n => n ? `${n} ${n === 1 ? "nota encontrada" : "notas encontradas"}` : "Nenhuma nota encontrada.",

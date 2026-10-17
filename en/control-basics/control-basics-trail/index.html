@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="tools/build_notes.py">
+<title>Control basics · Control basics</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<meta name="description" content="Seven notes, in order, from what a transfer function is to the buck&#x27;s compensator: poles, zeros, Q, margins, the right-half-plane zero and compensators.">
+<link rel="alternate" hreflang="pt-BR" href="https://cicerosantos.github.io/pt/control-basics/control-basics-trail/">
+<link rel="alternate" hreflang="en" href="https://cicerosantos.github.io/en/control-basics/control-basics-trail/">
+<link rel="alternate" hreflang="x-default" href="https://cicerosantos.github.io/en/control-basics/control-basics-trail/">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/vendor/katex-0.16.11/katex.min.css">
+<link rel="stylesheet" href="/assets/notes/notes.css">
+<script src="/assets/site.js"></script>
+<script src="/assets/lang.js"></script>
+<script defer src="/assets/vendor/highlight-11.9.0/highlight.min.js"></script>
+<script defer src="/assets/vendor/highlight-11.9.0/languages/c.min.js"></script>
+<script defer src="/assets/vendor/highlight-11.9.0/languages/python.min.js"></script>
+<script type="module" src="/assets/notes/notes.js"></script>
+</head>
+<body>
+<div class="layout">
+  <aside class="side"></aside>
+  <main class="page note" data-lang="en" data-slug="control-basics-trail">
+<nav class="crumbs" aria-label="breadcrumb"><a href="/en/control-basics/">Control basics</a> · Trail</nav>
+<h1>Control basics</h1>
+<p class="summary">Seven notes, in order, from what a transfer function is to the buck&#x27;s compensator: poles, zeros, Q, margins, the right-half-plane zero and compensators.</p>
+<article class="note-body"><p>This trail is the course's control refresher, to take in one go instead of note by note. Each step uses the numbers of the lab's converters. If you do not know where to begin, first answer the questions in <a class="note-link" href="/en/control-basics/start-here/" data-title="Start here" data-summary="What the control basics section is for, and eight questions to find out, in a few minutes, which of its notes you need to read.">Start here</a>.</p>
+<ol>
+<li><a class="note-link" href="/en/control-basics/transfer-function/" data-title="Transfer function, poles and zeros" data-summary="A transfer function is a ratio of two polynomials in s; the DC gain, the poles and the zeros, written in standard form, tell almost everything about the Bode plot and the step.">Transfer function, poles and zeros</a>: the buck's plant as a ratio of polynomials, with the DC gain, the poles and the zeros in standard form.</li>
+<li><a class="note-link" href="/en/control-basics/first-order-pole-zero/" data-title="First-order pole and zero" data-summary="A real pole brings the magnitude down at −20 dB per decade and lags the phase to −90°; a zero does the opposite. In time, the pole is an exponential with time constant 1/ωₚ.">First-order pole and zero</a>: the simplest block, a real pole or zero, in the Bode plot and in the step.</li>
+<li><a class="note-link" href="/en/control-basics/second-order-q/" data-title="Second-order pair and quality factor Q" data-summary="A pole pair is described by f₀ and Q; in the Bode plot, Q is the height of the resonant peak, and in the s-plane and the step it is the balance between oscillation and decay.">Second-order pair and quality factor Q</a>: two poles together can oscillate, and the factor <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi></mrow><annotation encoding="application/x-tex">Q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">Q</span></span></span></span></span> says how much; this is the buck's LC.</li>
+<li><a class="note-link" href="/en/control-basics/feedback-and-margins/" data-title="Feedback and margins" data-summary="Why close the loop, what the sensitivity 1/(1 + T_L) says and what the phase and gain margins measure.">Feedback and margins</a>: with the plant understood, we close the loop and measure the distance to oscillation.</li>
+<li><a class="note-link" href="/en/control-basics/margin-and-damping/" data-title="From margin to damping: the ζ ≈ PM/100 rule and where it fails" data-summary="How the phase margin turns into damping and overshoot, over what range the ζ ≈ PM/100 rule holds, and why it misses in the buck with the 2p2z.">From margin to damping: the ζ ≈ PM/100 rule and where it fails</a>: the margin turns into damping and overshoot, and the buck shows where the rule of thumb fails.</li>
+<li><a class="note-link" href="/en/control-basics/rhp-zero-intro/" data-title="Right-half-plane zero" data-summary="A zero right of the jω axis has an ordinary zero&#x27;s magnitude and a pole&#x27;s phase; it destabilises nothing, but makes the step start the wrong way and limits the crossover.">Right-half-plane zero</a>: the zero on the wrong side of the plane, which the boost has and the buck does not, and why it limits the crossover.</li>
+<li><a class="note-link" href="/en/control-basics/pi-lead-type3/" data-title="PI, phase lead and the type III" data-summary="The integrator brings the steady-state error to zero and costs 90° of phase; phase lead gives phase back at the crossover; the type III is an integrator with two leads, and the 2p2z is its digital relative.">PI, phase lead and the type III</a>: the blocks the compensator puts together for zero error and phase margin.</li>
+</ol>
+<h2 id="end-of-the-trail">End of the trail</h2>
+<p>From here, go back to the converters: the <a class="note-link" href="/en/digital-control/buck-digital-loop/" data-title="From the analog buck to the digital loop" data-summary="From the power stage to the firmware: the design path of a microcontroller-controlled buck, note by note.">From the analog buck to the digital loop</a> trail takes the buck from the power stage to the firmware, and the <a class="note-link" href="/en/digital-control/boost-digital-loop/" data-title="From the boost to the digital loop" data-summary="What changes in the digital loop when the plant has a right-half-plane zero: from the boost&#x27;s averaged model to the four-switch buck-boost, and from there to a design that works across the whole range.">From the boost to the digital loop</a> shows what changes when the plant has the right-half-plane zero.</p>
+</article>
+<p class="trail-start"><a class="button" href="/en/control-basics/transfer-function/">Start the trail →</a></p>
+<footer class="note-foot"><section class="backlinks"><h2>Used in</h2><ul><li><a class="note-link" href="/en/control-basics/start-here/" data-title="Start here" data-summary="What the control basics section is for, and eight questions to find out, in a few minutes, which of its notes you need to read.">Start here</a></li></ul></section><p class="tags"><span>#basics</span> <span>#trail</span></p></footer>
+  </main>
+</div>
+</body>
+</html>

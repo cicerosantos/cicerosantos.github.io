@@ -9,7 +9,7 @@
 // Options: converter (buck), adc (bits, 8 to 16; default 12), dpwm (bits, 6 to 16; default 10).
 import { retune, designController } from "../../pcl/loop.js";
 import { simulateSwitched, circuitOf } from "./switched.js";
-import { loadConverter, num, eng, el, css, slider, toggle, frame, niceRange, scopeCharts, stairs, valueAt, niceStep } from "./common.js";
+import { loadConverter, num, eng, el, css, slider, toggle, frame, niceRange, scopeCharts, stairs, valueAt, niceStep, rich } from "./common.js";
 
 const TEXT = {
   en: { adc: "ADC", dpwm: "DPWM", bits: "bits", integ: "Integrator in the controller", vout: "V(out) − V(ref), sampled", duty: "duty, DPWM counts",
@@ -29,7 +29,7 @@ const TEXT = {
         still: v => `Sem ciclo-limite: a razão cíclica para num nível do DPWM; o erro da saída é de ${v}.`,
         aria: (txt) => `Os últimos 200 períodos do buck em regime. ${txt}`, adcBins: "níveis do ADC", period: "períodos",
         div: n => `${n} períodos/div`, window: n => `os últimos ${n} períodos, em regime; uma amostra por período`,
-        model: "Circuito chaveado (ondulação, tempo morto) sob o 2p2z do firmware, amostrado uma vez por período; a referência é arredondada para um código do ADC, como faria um firmware que trabalha em contagens." },
+        model: "Circuito chaveado (ondulação, tempo morto) sob o 2p2z do *firmware*, amostrado uma vez por período; a referência é arredondada para um código do ADC, como faria um *firmware* que trabalha em contagens." },
 };
 
 export default async function mount(body, options, { lang }) {
@@ -74,7 +74,7 @@ export default async function mount(body, options, { lang }) {
         range: () => niceRange(Math.min(...data.counts) - 1, Math.max(...data.counts) + 1, 3) }] });
   const f = charts.fmt;
   const lsbText = el("p"), cond = el("p"), seen = el("p");
-  ui.readout.append(lsbText, cond, seen, el("p", { class: "w-note", text: s.model }));
+  ui.readout.append(lsbText, cond, seen, el("p", { class: "w-note" }, ...rich(s.model)));
   slider(ui.controls, { label: `${s.adc} (${s.bits})`, min: 8, max: 16, step: 1, value: adc, format: v => `${v} ${s.bits}`, oninput: v => { adc = v; update(); } });
   slider(ui.controls, { label: `${s.dpwm} (${s.bits})`, min: 6, max: 16, step: 1, value: dpwm, format: v => `${v} ${s.bits}`, oninput: v => { dpwm = v; update(); } });
   toggle(ui.controls, { label: s.integ, checked: integrator, onchange: v => { integrator = v; update(); } });

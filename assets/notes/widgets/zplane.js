@@ -10,7 +10,7 @@
 // converter.js's plant(). Its pole at z = 0 is the period of computation latency.
 import { DEFAULT_BODE, designController, retune } from "../../pcl/loop.js";
 import { sampledPlant, controllerZ, closedLoopPoles } from "./discrete.js";
-import { loadConverter, pickDesign, num, hz, css, el, canvasPlot, legend, slider, choice, frame, CONVERTER_NAMES } from "./common.js";
+import { loadConverter, pickDesign, num, hz, css, el, canvasPlot, legend, slider, choice, frame, CONVERTER_NAMES, rich } from "./common.js";
 
 const TEXT = {
   en: { fc: "Crossover", fz1: "Zero 1", fz2: "Zero 2", fp: "Pole", view: "View", whole: "whole circle", near: "near z = 1",
@@ -23,7 +23,7 @@ const TEXT = {
         ctlP: "polos do controlador", ctlZ: "zeros do controlador", plantP: "polos da planta", plantZ: "zeros da planta", closed: "polos de malha fechada",
         stable: "Estável: todos os polos de malha fechada estão dentro do círculo unitário.", unstable: "Instável: há um polo de malha fechada fora do círculo unitário.",
         head: ["polo", "|z|", "f", "ζ"], outside: v => `zero da planta em z = ${v}, fora da vista (zero no semiplano direito)`,
-        model: (n, d) => `Planta: estágio médio do ${n}, amostrado de forma exata; uma mudança da razão cíclica age na borda de descida do PWM, (1 + ${d})·Tₛ depois da amostra que a gerou (um período de atraso de cálculo, depois a borda). O polo em z = 0 é esse período.`,
+        model: (n, d) => `Planta: estágio médio do *${n}*, amostrado de forma exata; uma mudança da razão cíclica age na borda de descida do PWM, (1 + ${d})·Tₛ depois da amostra que a gerou (um período de atraso de cálculo, depois a borda). O polo em z = 0 é esse período.`,
         aria: (n, r, st) => `Plano z da malha do ${n}: maior raio de polo de malha fechada ${r}, ${st}.`, st: ["estável", "instável"] },
 };
 
@@ -74,7 +74,7 @@ export default async function mount(body, options, { lang }) {
     });
     table.innerHTML = `<table class="w-table"><thead><tr>${s.head.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.join("")}</tbody></table>`;
     const far = zp.zeros.filter(z => Math.abs(z.re) > 1.5);
-    note.textContent = s.model(cname, num(Number(zp.delta.toFixed(3)), undefined, lang)) + (far.length ? " " + far.map(z => s.outside(num(z.re, 2, lang))).join("; ") + "." : "");
+    note.replaceChildren(...rich(s.model(cname, num(Number(zp.delta.toFixed(3)), undefined, lang)) + (far.length ? " " + far.map(z => s.outside(num(z.re, 2, lang))).join("; ") + "." : "")));
     for (const [key, sl] of Object.entries(sliders)) sl.set(design[key]);
     plot.label(s.aria(cname, num(radius, 3, lang), s.st[unstable ? 1 : 0]));
     plot.render();

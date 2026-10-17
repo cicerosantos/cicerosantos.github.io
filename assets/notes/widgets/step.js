@@ -11,7 +11,7 @@
 // custom, with fc, fz1, fz2, fp, form), event (vref | load | vin | vref-step).
 import { designController, retune } from "../../pcl/loop.js";
 import { simulateSwitched, circuitOf } from "./switched.js";
-import { loadConverter, pickDesign, tr, css, eng, el, frame, scopeLink, scopeCharts, bucketsOf, stairs, valueAt, timeLabel, reading, niceStep, CONVERTER_NAMES } from "./common.js";
+import { loadConverter, pickDesign, tr, css, eng, el, frame, scopeLink, scopeCharts, bucketsOf, stairs, valueAt, timeLabel, reading, niceStep, CONVERTER_NAMES, rich } from "./common.js";
 
 const TEXT = {
   en: { vout: "V(out)", vref: "V(ref)", il: "I(L)", duty: "duty", time: "ms", open: "compare with the QSPICE simulation",
@@ -31,7 +31,7 @@ const TEXT = {
         never: "não se acomoda nesta janela", clamp: "A razão cíclica chega ao limite.",
         unstable: "A malha não se acomoda: ela oscila.", event: { vref: "referência", load: "carga", vin: "entrada", "vref-step": "referência" },
         aria: (n, ev, peak, settle) => `Resposta ao degrau de ${ev} do ${n}: tensão de saída, corrente no indutor e razão cíclica no tempo; maior desvio ${peak}, acomodação ${settle}.`,
-        model: "Circuito chaveado simulado no navegador: as chaves do netlist e sua resistência, os diodos de corpo no tempo morto, o indutor e o capacitor com suas resistências; o ADC, o controlador, o limite da razão cíclica e um período de atraso de cálculo do firmware, com PWM de borda de descida." },
+        model: "Circuito chaveado simulado no navegador: as chaves do *netlist* e sua resistência, os diodos de corpo no tempo morto, o indutor e o capacitor com suas resistências; o ADC, o controlador, o limite da razão cíclica e um período de atraso de cálculo do firmware, com PWM de borda de descida." },
 };
 
 export default async function mount(body, options, { lang }) {
@@ -114,7 +114,7 @@ export default async function mount(body, options, { lang }) {
   ui.readout.append(p);
   if (!oscillates) ui.readout.append(el("p", { text: s.ripple(eng(rippleOf(out.vout), "V", lang), eng(rippleOf(out.il), "A", lang)) }));
   if (clamps) ui.readout.append(el("p", { class: "w-note", text: s.clamp }));
-  ui.readout.append(el("p", { class: "w-note", text: s.model }));
+  ui.readout.append(el("p", { class: "w-note" }, ...rich(s.model)));
   ui.controls.remove();
   ui.foot.append(scopeLink(lang, name, scenario.id || `2p2z-${event}`, s.open));
   const aria = s.aria(cname, s.event[event], peakText, settleText);

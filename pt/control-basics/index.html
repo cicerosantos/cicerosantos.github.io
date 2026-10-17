@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="tools/build_notes.py">
+<title>Fundamentos de controle</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<meta name="description" content="Uma revisão de controle para quem precisa: polos e zeros, resposta em frequência e resposta ao degrau, sempre com exemplos tirados dos conversores. Entre quando uma nota das outras seções pedir, e cada nota termina com o caminho de volta ao conversor.">
+<link rel="alternate" hreflang="pt-BR" href="https://cicerosantos.github.io/pt/control-basics/">
+<link rel="alternate" hreflang="en" href="https://cicerosantos.github.io/en/control-basics/">
+<link rel="alternate" hreflang="x-default" href="https://cicerosantos.github.io/en/control-basics/">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/vendor/katex-0.16.11/katex.min.css">
+<link rel="stylesheet" href="/assets/notes/notes.css">
+<script src="/assets/site.js"></script>
+<script src="/assets/lang.js"></script>
+<script defer src="/assets/vendor/highlight-11.9.0/highlight.min.js"></script>
+<script defer src="/assets/vendor/highlight-11.9.0/languages/c.min.js"></script>
+<script defer src="/assets/vendor/highlight-11.9.0/languages/python.min.js"></script>
+<script type="module" src="/assets/notes/notes.js"></script>
+</head>
+<body>
+<div class="layout">
+  <aside class="side"></aside>
+  <main class="page note" data-lang="pt" data-slug="control-basics">
+<h1>Fundamentos de controle</h1>
+<p class="summary">Uma revisão de controle para quem precisa: polos e zeros, resposta em frequência e resposta ao degrau, sempre com exemplos tirados dos conversores. Entre quando uma nota das outras seções pedir, e cada nota termina com o caminho de volta ao conversor.</p>
+<nav class="section-links" aria-label="Seções"><a href="/pt/converters/">Conversores de potência</a> · <a href="/pt/digital-control/">Controle digital de conversores</a> · <a href="/pt/equations/">Equações</a> · <a href="/power-labs/?lang=pt">Power labs</a> <span>(os conversores simulados, no osciloscópio)</span></nav>
+<div class="note-search" data-lang="pt"><input type="search" name="q" placeholder="Buscar nas notas" aria-label="Buscar nas notas"><ul class="results"></ul></div>
+<h2>Comece aqui</h2><ul class="note-list start-list"><li><a class="note-link" href="/pt/control-basics/start-here/" data-title="Comece aqui" data-summary="Para que serve a seção de fundamentos de controle e oito perguntas para descobrir, em poucos minutos, quais notas dela você precisa ler.">Comece aqui</a><span>Para que serve a seção de fundamentos de controle e oito perguntas para descobrir, em poucos minutos, quais notas dela você precisa ler.</span></li></ul>
+<h2>Trilhas</h2><ul class="trail-list"><li><a href="/pt/control-basics/control-basics-trail/"><b>Fundamentos de controle</b></a><span>Sete notas, na ordem, do que é uma função de transferência até o compensador do <em>buck</em>: polos, zeros, Q, margens, o zero no semiplano direito e compensadores.</span></li></ul>
+<h2>Conceitos</h2><ul class="note-list"><li><a class="note-link" href="/pt/control-basics/margin-and-damping/" data-title="Da margem ao amortecimento: a regra ζ ≈ MF/100 e onde ela falha" data-summary="Como a margem de fase vira amortecimento e sobressinal, em que faixa vale a regra ζ ≈ MF/100 e por que ela erra no *buck* com o 2p2z.">Da margem ao amortecimento: a regra ζ ≈ MF/100 e onde ela falha</a><span>Como a margem de fase vira amortecimento e sobressinal, em que faixa vale a regra ζ ≈ MF/100 e por que ela erra no <em>buck</em> com o 2p2z.</span></li><li><a class="note-link" href="/pt/control-basics/transfer-function/" data-title="Função de transferência, polos e zeros" data-summary="Uma função de transferência é uma razão de dois polinômios em s; o ganho DC, os polos e os zeros, escritos na forma padrão, dizem quase tudo sobre o Bode e o degrau.">Função de transferência, polos e zeros</a><span>Uma função de transferência é uma razão de dois polinômios em s; o ganho DC, os polos e os zeros, escritos na forma padrão, dizem quase tudo sobre o Bode e o degrau.</span></li><li><a class="note-link" href="/pt/control-basics/second-order-q/" data-title="Par de segunda ordem e fator Q" data-summary="Um par de polos se descreve por f₀ e Q; no Bode, Q é a altura do pico de ressonância, e no plano s e no degrau é a relação entre oscilação e decaimento.">Par de segunda ordem e fator Q</a><span>Um par de polos se descreve por f₀ e Q; no Bode, Q é a altura do pico de ressonância, e no plano s e no degrau é a relação entre oscilação e decaimento.</span></li><li><a class="note-link" href="/pt/control-basics/pi-lead-type3/" data-title="PI, avanço de fase e o tipo III" data-summary="O integrador zera o erro em regime e custa 90° de fase; o avanço de fase devolve fase no cruzamento; o tipo III é um integrador com dois avanços, e o 2p2z é o seu parente digital.">PI, avanço de fase e o tipo III</a><span>O integrador zera o erro em regime e custa 90° de fase; o avanço de fase devolve fase no cruzamento; o tipo III é um integrador com dois avanços, e o 2p2z é o seu parente digital.</span></li><li><a class="note-link" href="/pt/control-basics/first-order-pole-zero/" data-title="Polo e zero de primeira ordem" data-summary="O polo real derruba o módulo a −20 dB por década e atrasa a fase até −90°; o zero faz o contrário. No tempo, o polo é uma exponencial com constante de tempo 1/ωₚ.">Polo e zero de primeira ordem</a><span>O polo real derruba o módulo a −20 dB por década e atrasa a fase até −90°; o zero faz o contrário. No tempo, o polo é uma exponencial com constante de tempo 1/ωₚ.</span></li><li><a class="note-link" href="/pt/control-basics/feedback-and-margins/" data-title="Realimentação e margens" data-summary="Por que fechar o laço, o que a sensibilidade 1/(1 + T_L) diz e o que as margens de fase e de ganho medem.">Realimentação e margens</a><span>Por que fechar o laço, o que a sensibilidade 1/(1 + T_L) diz e o que as margens de fase e de ganho medem.</span></li><li><a class="note-link" href="/pt/control-basics/rhp-zero-intro/" data-title="Zero no semiplano direito" data-summary="Um zero à direita do eixo jω tem o módulo de um zero comum e a fase de um polo; não instabiliza nada, mas faz o degrau começar no sentido errado e limita o cruzamento.">Zero no semiplano direito</a><span>Um zero à direita do eixo jω tem o módulo de um zero comum e a fase de um polo; não instabiliza nada, mas faz o degrau começar no sentido errado e limita o cruzamento.</span></li></ul>
+<h2>Referência</h2><ul class="note-list"><li><a class="note-link" href="/pt/control-basics/notation-bridge/" data-title="Notação: do curso de referência a este curso" data-summary="Uma tabela de tradução entre a notação do curso de referência e a deste curso, com os símbolos que mudam de sentido, como L, T e β.">Notação: do curso de referência a este curso</a><span>Uma tabela de tradução entre a notação do curso de referência e a deste curso, com os símbolos que mudam de sentido, como L, T e β.</span></li></ul>
+  </main>
+</div>
+</body>
+</html>

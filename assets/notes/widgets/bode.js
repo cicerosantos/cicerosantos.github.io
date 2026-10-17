@@ -22,7 +22,7 @@ const TEXT = {
         fc: "Cruzamento", fz1: "Zero 1", fz2: "Zero 2", fp: "Polo", form: "Forma", pid: "PID", "2p2z": "2p2z",
         crossover: "cruzamento", pm: "margem de fase", gm: "margem de ganho", none: "sem cruzamento", at: "em", rowDesign: "Projeto", rowSim: "Como simulado",
         PM: "MF", GM: "MG", open: "abrir a simulação", unstable: "Instável: a malha fechada oscila.",
-        coeffs: "Coeficientes", title: "Ganho de malha", titlePlant: "Planta", formRow: "Forma no firmware", details: "Fórmula, ganhos do PID e coeficientes 2p2z",
+        coeffs: "Coeficientes", title: "Ganho de malha", titlePlant: "Planta", formRow: "Forma no *firmware*", details: "Fórmula, ganhos do PID e coeficientes 2p2z",
         form2p2z: "2p2z, forma de velocidade", formPid: "PID, integrador limitado", gains: "Ganhos do PID", equivalent: "PID equivalente (tempo contínuo)",
         as2p2z: "os mesmos, como coeficientes 2p2z, (b0 + b1·z⁻¹ + b2·z⁻²) / (1 + a1·z⁻¹ + a2·z⁻²)", coefficients: "Coeficientes 2p2z, (b0 + b1·z⁻¹ + b2·z⁻²) / (1 + a1·z⁻¹ + a2·z⁻²)",
         aria: (n, m) => `Diagrama de Bode do ganho de malha do ${n}: ${m}.`, ariaPlant: n => `Diagrama de Bode da planta do ${n}, da razão cíclica à tensão de saída.`,

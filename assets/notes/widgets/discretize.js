@@ -7,7 +7,7 @@
 // fixed as fs changes: only the discretization moves.
 import { retune, pidEquivalent } from "../../pcl/loop.js";
 import { cx, cadd, cmul, cdiv, cexpj } from "/power-labs/complex.js";
-import { loadConverter, num, sig, hz, decade, el, canvasPlot, panel, line, hline, vline, legend, slider, frame } from "./common.js";
+import { loadConverter, num, sig, hz, decade, el, canvasPlot, panel, line, hline, vline, legend, slider, frame, rich } from "./common.js";
 
 const TEXT = {
   en: { fs: "Sampling rate", mag: "magnitude error", phase: "phase error", method: "method", atFc: "error at fc",
@@ -17,7 +17,7 @@ const TEXT = {
   pt: { fs: "Taxa de amostragem", mag: "erro de módulo", phase: "erro de fase", method: "método", atFc: "erro em fc",
         names: { euler: "Euler para trás", tustin: "Tustin", prewarp: "Tustin com pré-distorção em fc", matched: "Casamento de polos e zeros (2p2z)" },
         aria: (fs, list) => `Erros de quatro discretizações de C(s) até fs/2, com fs = ${fs}. No cruzamento: ${list}.`,
-        K: k => `K = ${k} 1/(V·s), o ganho do projeto do buck.` },
+        K: k => `K = ${k} 1/(V·s), o ganho do projeto do *buck*.` },
 };
 const COLORS = { euler: "--alt2", tustin: "--alt1", prewarp: "--loop", matched: "--alt3" };
 const RULES = {
@@ -107,7 +107,7 @@ export default async function mount(body, options, { lang, typeset }) {
         `<td>${c(m.a[1])}</td><td>${c(m.a[2])}</td><td>${num(errors[key].fc[0], 2, lang)} dB, ${num(errors[key].fc[1], 1, lang)}°</td></tr>`).join("") +
       "</tbody></table>";
     typeset(table);
-    note.textContent = s.K(sig(K, 4, lang)) + ` fc = ${hz(ctl.fc, lang)}, fz1 = ${hz(ctl.fz1, lang)}, fz2 = ${hz(ctl.fz2, lang)}, fp = ${hz(ctl.fp, lang)}, Tₛ = ${num(T * 1e6, 2, lang)} µs.`;
+    note.replaceChildren(...rich(s.K(sig(K, 4, lang)) + ` fc = ${hz(ctl.fc, lang)}, fz1 = ${hz(ctl.fz1, lang)}, fz2 = ${hz(ctl.fz2, lang)}, fp = ${hz(ctl.fp, lang)}, Tₛ = ${num(T * 1e6, 2, lang)} µs.`));
     plot.label(s.aria(hz(fs, lang), Object.keys(methods).map(k => `${s.names[k]} ${num(errors[k].fc[0], 2, lang)} dB, ${num(errors[k].fc[1], 1, lang)}°`).join("; ")));
     plot.render();
   }

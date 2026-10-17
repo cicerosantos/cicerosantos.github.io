@@ -52,6 +52,7 @@
 .w-legend span { display: inline-flex; align-items: center; gap: 4px; }
 .w-legend i, .w-key { display: inline-block; width: 16px; height: 0; border-top: 2px solid var(--c, currentColor); }
 .w-key.dashed { border-top-style: dashed; }
+.w-key.dotted { border-top-style: dotted; }
 .w-key.dot { width: 9px; height: 9px; border: 0; border-radius: 50%; background: var(--c); }
 .w-key.ring { width: 9px; height: 9px; border: 1.6px solid var(--c); border-radius: 50%; }
 .w-key.cross { width: 10px; height: 10px; border: 0; background:
@@ -127,3 +128,32 @@
   .w-sliders { grid-template-columns: minmax(0, 1fr) 72px; gap: 0 8px; }
   .w-sliders label { grid-column: 1 / -1; margin-top: 4px; }
 }
+
+/* pzmap: the s-plane beside its Bode plot and step response; side by side when the figure is wide. */
+.w-pz-wrap { container-type: inline-size; min-width: 0; }
+.w-pz { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+@container (min-width: 620px) { .w-pz { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); } }
+.w-pz-side { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.w-pz-tools { align-items: center; gap: 6px; }
+.w-pz-tools .w-pz-title { margin-right: auto; }
+.w-pz-tools button { min-width: 30px; }
+.w-pz-markers { position: absolute; inset: 0; pointer-events: none; }
+.w-pz-marker { position: absolute; width: 28px; height: 28px; margin: -14px 0 0 -14px; padding: 0; min-height: 0; border: 0;
+               border-radius: 50%; background: transparent; cursor: grab; touch-action: none; pointer-events: auto; }
+.w-pz-marker:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.w-pz-marker:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; }
+.w-pz-marker.dragging { cursor: grabbing; }
+@media (pointer: coarse) { .w-pz-marker { width: 40px; height: 40px; margin: -20px 0 0 -20px; } }
+.w-pz-lines { display: flex; flex-direction: column; gap: 4px; }
+.w-pz-lines:empty { display: none; }
+.w-pz-zeta, .w-pz-muted { color: var(--muted); }
+.w-pz-flag, .w-pz-warn { color: var(--margin); font-weight: 600; }
+.w-pz .w-legend { padding: 0 2px; }
+.w-sr { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; padding: 0; }
+
+/* pwmtiming: the legend's event marks (ADC ▲, ISR bar, CCR ◆). */
+.w-pwmt { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.w-legend span.w-pwmt-rich, .w-pwmt-rich, .w-legend span.w-rich { display: inline; }   /* a label with an English term in italics: one run of text */
+.w-key.tri { width: 0; height: 0; border: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 9px solid var(--c); }
+.w-key.bar { width: 14px; height: 7px; border: 0; background: var(--c); }
+.w-key.diamond { width: 8px; height: 8px; border: 0; background: var(--c); transform: rotate(45deg); margin: 0 2px; }
