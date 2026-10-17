@@ -5,7 +5,7 @@
 import { DEFAULT_BODE, FORMULAS, frequencies, pidTo2p2z, sameController, designController as loopDesignController,
          pidEquivalent as loopPidEquivalent, retune as loopRetune, response as loopResponse,
          margins as loopMargins } from "/assets/pcl/loop.js";
-import { t, tr, num, LANG, LOCALE } from "/assets/pcl/i18n.js";
+import { t, tr, num, LANG } from "/assets/pcl/i18n.js";
 import { FONT, css, niceStep, timeLabel as timeText, hzText, engineering as engineeringText, reading as readingText,
          detailRange, autoRange, sizeCanvas, timeGrid, valueAxis, triggerMarker, trace as drawTrace,
          cursorLine, cursorDot, cursorTime, legendItem, drawBode as drawBodePlot, bodeLegend, marginsGrid, cellsGrid } from "/assets/pcl/plot.js";
@@ -633,7 +633,7 @@ function describeFrame() {
     : name === "vinSlew" ? t("event.vinSlew", rate(value))
     : name === "load" ? t("event.load", ohms(value))
     : t(name === "vref" ? "event.vref" : "event.vin", minus(value) + " V"));
-  $("frame-info").textContent = $("frame-info").title = `${timeLabel(length, length)} · ${t("frame.points", m.rows.toLocaleString(LOCALE))} · ` +
+  $("frame-info").textContent = $("frame-info").title = `${timeLabel(length, length)} · ${t("frame.points", m.rows.toLocaleString("en"))} · ` +
     t(m.trigger === "gate" ? "frame.trigger.gate" : "frame.trigger.event") + (events.length ? " · " + events.join(", ") : "");
   $("frame-info").classList.remove("loading");
 }

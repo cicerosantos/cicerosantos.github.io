@@ -10,7 +10,7 @@ const PAGES = [
   { href: "/power-labs/", label: { en: "Power labs", pt: "Power labs" },
     icon: '<path d="M2.5 17h4V7h5v10h5V7h5"/>' },
   // the s-plane: its axes, a pole (×) and a zero (○)
-  { href: "/{lang}/control-basics/", section: "control-basics", label: { en: "Control basics", pt: "Fundamentos" },
+  { href: "/{lang}/control-basics/", section: "control-basics", label: { en: "Classical control", pt: "Controle clássico" },
     icon: '<path d="M3 12h18M15.5 3.5v17"/><path d="M5.5 4.5l5 5M10.5 4.5l-5 5"/><circle cx="8" cy="17" r="2.6"/>' },
   // an open book
   { href: "/{lang}/converters/", section: "converters", label: { en: "Power converters", pt: "Conversores" },

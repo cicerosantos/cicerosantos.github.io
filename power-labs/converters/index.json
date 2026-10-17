@@ -34,7 +34,7 @@
       },
       "summary": {
         "en": "12 V → 48 V at 100 kHz, with the same digital voltage-mode firmware: the right-half-plane zero of the boost keeps the crossover near 1.5 kHz.",
-        "pt": "12 V → 48 V em 100 kHz, com o mesmo firmware de controle digital por modo de tensão: o zero no semiplano direito do boost mantém o cruzamento perto de 1,5 kHz."
+        "pt": "12 V → 48 V em 100 kHz, com o mesmo firmware de controle digital por modo de tensão: o zero no semiplano direito do boost mantém o cruzamento perto de 1.5 kHz."
       },
       "specs": [
         "12 V → 48 V",

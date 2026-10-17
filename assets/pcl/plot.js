@@ -12,7 +12,7 @@ export const css = name => getComputedStyle(document.documentElement).getPropert
 // i18n.js's num for a given language.
 export const localNumber = lang => text => {
   const s = String(text).replace(/-(?=[0-9.])/g, "−");
-  return lang === "pt" ? s.replace(/(\d)\.(\d)/g, "$1,$2") : s;
+  return s;
 };
 
 // ---- numbers ----
@@ -283,7 +283,7 @@ export function drawBode(g, w, h, { freqs, range, curves, marks = null, margin: 
 export function bodeLegend(items, i, freqs, fmt, lang) {
   let legend = items.map(([color, label, style]) => [color, label, style]);
   if (i !== null) {
-    const value = c => `${fmt(c.db[i].toFixed(1))} dB${lang === "pt" ? ";" : ","} ${fmt(c.phase[i].toFixed(0))}°`;
+    const value = c => `${fmt(c.db[i].toFixed(1))} dB${","} ${fmt(c.phase[i].toFixed(0))}°`;
     legend = items.map(([color, label, style, c]) => [color, `${label}: ${value(c)}`, style]);
     legend.unshift([null, hzText(freqs[i], fmt)]);
   }

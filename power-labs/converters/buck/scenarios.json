@@ -9,24 +9,24 @@
     { "id": "pid", "label": { "en": "Original PID", "pt": "PID original" },
       "about": {
         "en": "The PID of buck-pid.cir: KP 0.0565, KI 1309, KD 1.5 µs/V, no derivative filter. Phase margin 25° at 8.9 kHz.",
-        "pt": "O PID de buck-pid.cir: KP 0,0565; KI 1309; KD 1,5 µs/V; sem filtro no derivativo. Margem de fase de 25° em 8,9 kHz." },
+        "pt": "O PID de buck-pid.cir: KP 0.0565; KI 1309; KD 1.5 µs/V; sem filtro no derivativo. Margem de fase de 25° em 8.9 kHz." },
       "controller": { "form": "pid", "values": [0.0565, 1309, 1.5e-6, 0] } },
     { "id": "2p2z", "label": { "en": "2p2z", "pt": "2p2z" },
       "about": {
         "en": "The Bode window's default design: crossover 8 kHz, two zeros at 2 kHz, pole at 60 kHz, matched to z. Phase margin 41°, gain margin 13.9 dB.",
-        "pt": "O projeto inicial da janela de Bode: cruzamento em 8 kHz, dois zeros em 2 kHz, polo em 60 kHz, discretizados por casamento de polos e zeros. Margem de fase de 41°, margem de ganho de 13,9 dB." },
+        "pt": "O projeto inicial da janela de Bode: cruzamento em 8 kHz, dois zeros em 2 kHz, polo em 60 kHz, discretizados por casamento de polos e zeros. Margem de fase de 41°, margem de ganho de 13.9 dB." },
       "design": { "form": "2p2z", "fc": 8000, "fz1": 2000, "fz2": 2000, "fp": 60000 },
       "controller": { "form": "2p2z", "values": [0.23114164305307777, -0.43413086611968615, 0.20384644500704488, 0.15183580198064886] } },
     { "id": "aggressive", "label": { "en": "Aggressive", "pt": "Agressivo" },
       "about": {
         "en": "The same zeros and pole with the crossover pushed to 18 kHz: phase margin 16°, gain margin 2.7 dB. Stable, but every step rings.",
-        "pt": "Os mesmos zeros e polo, com o cruzamento levado a 18 kHz: margem de fase de 16°, margem de ganho de 2,7 dB. Estável, mas cada degrau provoca oscilação amortecida." },
+        "pt": "Os mesmos zeros e polo, com o cruzamento levado a 18 kHz: margem de fase de 16°, margem de ganho de 2.7 dB. Estável, mas cada degrau provoca oscilação amortecida." },
       "design": { "form": "2p2z", "fc": 18000, "fz1": 2000, "fz2": 2000, "fp": 60000 },
       "controller": { "form": "2p2z", "values": [0.8411989478410925, -1.5799421643868923, 0.7418629235135136, 0.15183580198064886] } },
     { "id": "unstable", "label": { "en": "Unstable", "pt": "Instável" },
       "about": {
         "en": "Crossover 25 kHz, zeros at 3 kHz, pole at 40 kHz: phase margin −18°, gain margin −3.2 dB. The loop oscillates at 20 to 24 kHz before any step, limited only by the duty's clamp, and the output's average drifts to about 11 V.",
-        "pt": "Cruzamento em 25 kHz, zeros em 3 kHz, polo em 40 kHz: margem de fase de −18°, margem de ganho de −3,2 dB. A malha oscila entre 20 e 24 kHz antes de qualquer degrau, contida apenas pelo limite da razão cíclica, e a média da saída deriva para cerca de 11 V." },
+        "pt": "Cruzamento em 25 kHz, zeros em 3 kHz, polo em 40 kHz: margem de fase de −18°, margem de ganho de −3.2 dB. A malha oscila entre 20 e 24 kHz antes de qualquer degrau, contida apenas pelo limite da razão cíclica, e a média da saída deriva para cerca de 11 V." },
       "design": { "form": "2p2z", "fc": 25000, "fz1": 3000, "fz2": 3000, "fp": 40000 },
       "controller": { "form": "2p2z", "values": [1.189988535650059, -2.165915366379592, 0.9855534809326064, 0.2846095433360292] } }
   ],
@@ -39,7 +39,7 @@
         "pt": "9 V na saída, 9 Ω, rampa da entrada de 20 V/ms, como uma fonte de bancada." } },
     { "id": "load", "label": { "en": "Load 1 → 2 A", "pt": "Carga 1 → 2 A" }, "about": {
         "en": "24 V → 9 V, load 9 → 4.5 Ω.",
-        "pt": "Degrau de carga: 24 V → 9 V, carga de 9 → 4,5 Ω." } },
+        "pt": "Degrau de carga: 24 V → 9 V, carga de 9 → 4.5 Ω." } },
     { "id": "vref-step", "label": { "en": "Reference 9 → 5 V, no slew", "pt": "Referência 9 → 5 V, sem rampa" }, "about": {
         "en": "The reference steps at once: the PID's derivative kick drops the duty to zero for one period, and it then climbs back over about ten periods, well below its old value. The inductor current goes negative, down to about −5 A, and the high-side switch returns energy to the input.",
         "pt": "A referência muda de uma vez: o chute derivativo do PID leva a razão cíclica a zero por um período, e ela então volta a subir ao longo de uns dez períodos, bem abaixo do valor anterior. A corrente no indutor fica negativa, até cerca de −5 A, e a chave superior devolve energia à entrada." } }

@@ -50,7 +50,7 @@ export const tr = (value, lang) => (value && typeof value === "object" ? value[l
 export function num(v, digits, lang) {
   let text = typeof digits === "number" ? v.toFixed(digits) : String(v);
   if (/^-0(\.0*)?$/.test(text)) text = text.slice(1);  // −0,00 from a tiny negative value reads as 0,00
-  return (lang === "pt" ? text.replace(".", ",") : text).replace(/^-/, "−");
+  return text.replace(/^-/, "−");
 }
 export function sig(v, digits, lang) { return num(Number(v.toPrecision(digits)), undefined, lang); }
 export function hz(f, lang) {

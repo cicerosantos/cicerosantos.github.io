@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 284" role="img" aria-label="Signal-flow diagram of the 2p2z compensator in direct form I. The input e[k] passes through two unit delays, each tap is weighted by b0, b1 or b2, and the three products are summed. The sum gives the output u[k], which passes through two more unit delays, is weighted by minus a1 and minus a2, and is fed back into the same sum.">
+  <defs>
+    <marker id="net-e" viewBox="0 0 9 9" refX="9" refY="4.5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M0 0 L9 4.5 L0 9 z" style="fill:var(--text)"/>
+    </marker>
+    <marker id="net-u" viewBox="0 0 9 9" refX="9" refY="4.5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M0 0 L9 4.5 L0 9 z" style="fill:var(--vout)"/>
+    </marker>
+  </defs>
+  <!-- input e[k] (bottom row), its two delays, the taps down to b0, b1, b2, and the bus into the sum -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" style="stroke:var(--text)">
+    <path d="M12 240 H56" marker-end="url(#net-e)"/>
+    <path d="M56 240 H80" marker-end="url(#net-e)"/>
+    <path d="M120 240 H144" marker-end="url(#net-e)"/>
+    <path d="M144 240 H168" marker-end="url(#net-e)"/>
+    <path d="M208 240 H232" marker-end="url(#net-e)"/>
+    <path d="M56 240 V212" marker-end="url(#net-e)"/>
+    <path d="M144 240 V212" marker-end="url(#net-e)"/>
+    <path d="M232 240 V212" marker-end="url(#net-e)"/>
+    <path d="M56 188 V170 H327" marker-end="url(#net-e)"/>
+    <path d="M144 188 V170"/>
+    <path d="M232 188 V170"/>
+    <rect x="80" y="228" width="40" height="24" rx="3"/>
+    <rect x="168" y="228" width="40" height="24" rx="3"/>
+    <rect x="36" y="188" width="40" height="24" rx="3"/>
+    <rect x="124" y="188" width="40" height="24" rx="3"/>
+    <rect x="212" y="188" width="40" height="24" rx="3"/>
+    <!-- the sum Σ, the sum's output -->
+    <circle cx="340" cy="170" r="13"/>
+  </g>
+  <!-- output u[k] (top row and right), its two delays, the taps to -a1 and -a2, and the feedback bus into the sum -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" style="stroke:var(--vout)">
+    <path d="M353 170 H420" marker-end="url(#net-u)"/>
+    <path d="M396 170 V40 H377" marker-end="url(#net-u)"/>
+    <path d="M337 40 H318" marker-end="url(#net-u)"/>
+    <path d="M318 40 H299" marker-end="url(#net-u)"/>
+    <path d="M259 40 H240" marker-end="url(#net-u)"/>
+    <path d="M318 40 V68" marker-end="url(#net-u)"/>
+    <path d="M240 40 V68" marker-end="url(#net-u)"/>
+    <path d="M318 92 V110"/>
+    <path d="M240 92 V110 H340 V157" marker-end="url(#net-u)"/>
+    <rect x="337" y="28" width="40" height="24" rx="3" style="stroke:var(--text)"/>
+    <rect x="259" y="28" width="40" height="24" rx="3" style="stroke:var(--text)"/>
+    <rect x="298" y="68" width="40" height="24" rx="3" style="stroke:var(--text)"/>
+    <rect x="220" y="68" width="40" height="24" rx="3" style="stroke:var(--text)"/>
+  </g>
+  <!-- junctions -->
+  <g style="fill:var(--text)">
+    <circle cx="56" cy="240" r="2.6"/><circle cx="144" cy="240" r="2.6"/><circle cx="232" cy="240" r="2.6"/>
+    <circle cx="144" cy="170" r="2.6"/><circle cx="232" cy="170" r="2.6"/>
+  </g>
+  <g style="fill:var(--vout)">
+    <circle cx="396" cy="170" r="2.6"/><circle cx="318" cy="40" r="2.6"/><circle cx="240" cy="40" r="2.6"/><circle cx="318" cy="110" r="2.6"/>
+  </g>
+  <!-- labels -->
+  <g font-family="'STIX Two Math', 'Cambria Math', 'Times New Roman', serif" font-size="15" text-anchor="middle" style="fill:var(--text)">
+    <text x="100" y="245" font-size="14">z<tspan baseline-shift="super" font-size="10">−1</tspan></text>
+    <text x="188" y="245" font-size="14">z<tspan baseline-shift="super" font-size="10">−1</tspan></text>
+    <text x="357" y="45" font-size="14">z<tspan baseline-shift="super" font-size="10">−1</tspan></text>
+    <text x="279" y="45" font-size="14">z<tspan baseline-shift="super" font-size="10">−1</tspan></text>
+    <text x="56" y="205"><tspan font-style="italic">b</tspan><tspan baseline-shift="sub" font-size="11">0</tspan></text>
+    <text x="144" y="205"><tspan font-style="italic">b</tspan><tspan baseline-shift="sub" font-size="11">1</tspan></text>
+    <text x="232" y="205"><tspan font-style="italic">b</tspan><tspan baseline-shift="sub" font-size="11">2</tspan></text>
+    <text x="318" y="85" style="fill:var(--vout)">−<tspan font-style="italic">a</tspan><tspan baseline-shift="sub" font-size="11">1</tspan></text>
+    <text x="240" y="85" style="fill:var(--vout)">−<tspan font-style="italic">a</tspan><tspan baseline-shift="sub" font-size="11">2</tspan></text>
+    <text x="56" y="268"><tspan font-style="italic">e</tspan>[<tspan font-style="italic">k</tspan>]</text>
+    <text x="144" y="268"><tspan font-style="italic">e</tspan>[<tspan font-style="italic">k</tspan>−1]</text>
+    <text x="232" y="268"><tspan font-style="italic">e</tspan>[<tspan font-style="italic">k</tspan>−2]</text>
+    <text x="318" y="20" style="fill:var(--vout)"><tspan font-style="italic">u</tspan>[<tspan font-style="italic">k</tspan>−1]</text>
+    <text x="240" y="20" style="fill:var(--vout)"><tspan font-style="italic">u</tspan>[<tspan font-style="italic">k</tspan>−2]</text>
+    <text x="340" y="175" font-size="16">Σ</text>
+    <text x="424" y="175" text-anchor="start" style="fill:var(--vout)"><tspan font-style="italic">u</tspan>[<tspan font-style="italic">k</tspan>]</text>
+  </g>
+</svg>

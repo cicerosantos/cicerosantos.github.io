@@ -146,11 +146,11 @@ const CONV = {
         aria2: D => `Phase margin against D for the four conventions; the marker is at D = ${D}.`,
         unstable: "Unstable: no phase margin left." },
   pt: { D: "D (borda de descida)", pick: "Destacar", phase: "fase do ganho de malha", pmAxis: "margem de fase", exact: "exato, amostrado",
-        names: { te: "(1 + D)·Tₛ", next: "Tₛ + Tₛ/2", same: "Tₛ/2", twice: "(1,5 + D)·Tₛ" },
+        names: { te: "(1 + D)·Tₛ", next: "Tₛ + Tₛ/2", same: "Tₛ/2", twice: "(1.5 + D)·Tₛ" },
         long: { te: "borda de descida, período seguinte", next: "simétrico, pico/vale seguinte (ZOH + z⁻¹)", same: "simétrico, mesmo ciclo (ZOH)", twice: "ZOH somado a (1 + D)·Tₛ (errado)" },
         why: {
           te: (pm, ex) => `PWM de borda de descida, razão cíclica carregada no período seguinte: um período de cálculo e depois D·Tₛ até a borda de descida, a única que se move. Margem de ${pm} (modelo amostrado exato: ${ex}).`,
-          next: pm => `PWM simétrico, razão cíclica carregada no pico ou no vale seguinte: um período de cálculo e depois Tₛ/2 até o ponto médio das duas bordas que se movem, para qualquer D. É a conta "ZOH + z⁻¹"; no PWM de borda de descida, só acerta com D = 0,5. Margem de ${pm}.`,
+          next: pm => `PWM simétrico, razão cíclica carregada no pico ou no vale seguinte: um período de cálculo e depois Tₛ/2 até o ponto médio das duas bordas que se movem, para qualquer D. É a conta "ZOH + z⁻¹"; no PWM de borda de descida, só acerta com D = 0.5. Margem de ${pm}.`,
           same: pm => `PWM simétrico, razão cíclica escrita no mesmo ciclo, antes das bordas que ela move: só o Tₛ/2 do modulador, o "ZOH". Exige que o cálculo termine antes da primeira borda. Margem de ${pm}.`,
           twice: pm => `O erro: o Tₛ/2 do ZOH somado a (1 + D)·Tₛ, em que D·Tₛ já é o modulador. Margem de ${pm}, menor do que o laço de fato tem.` },
         aria1: (pm, D) => `Fase do ganho de malha do buck perto do cruzamento para quatro formas de contar o atraso, com D = ${D}; margem da convenção destacada: ${pm}.`,

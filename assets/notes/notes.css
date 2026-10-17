@@ -90,7 +90,7 @@ details.callout[open] > summary { margin-bottom: 6px; }
 /* ---- figures: interactive (widgets/), topologies, links to the oscilloscope ---- */
 .note figure { margin: 20px 0; }
 .note figure.widget { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 12px; }
-.note figure.topology svg { display: block; width: 100%; max-width: 460px; height: auto; margin: 0 auto; }
+.note figure.topology svg, .note figure.network svg { display: block; width: 100%; max-width: 460px; height: auto; margin: 0 auto; }
 .note figcaption { font-size: 14px; color: var(--muted); margin-top: 8px; }
 .widget-loading, .widget-error { color: var(--muted); font-size: 14px; margin: 0; }
 .scenario-link a { display: inline-flex; align-items: center; gap: 10px; padding: 8px 12px; border: 1px solid var(--line);
@@ -106,6 +106,13 @@ details.callout[open] > summary { margin-bottom: 6px; }
 .note-search .search-status:empty { display: none; }
 .note-search .results { list-style: none; padding: 0; margin: 8px 0 0; }
 .note-search .results li { padding: 3px 0; }
+.note-search .results li.result { display: flex; flex-direction: column; padding: 7px 0; border-bottom: 1px solid var(--line); }
+.note-search .result-heading { font-size: 14px; color: var(--muted); }
+.note-search .result-note { font-weight: 600; overflow-wrap: anywhere; }
+.note-search .result-meta { font-size: 13px; color: var(--muted); }
+.note-search .result-meta a { color: inherit; }
+.note-search .result-text { margin: 4px 0 0; min-width: 0; overflow-wrap: anywhere; }
+.note-search .result-text .katex-display { margin: 4px 0; overflow-x: auto; overflow-y: hidden; }
 .note-list, .trail-list { list-style: none; padding: 0; margin: 0; }
 .note-list li, .trail-list li { display: flex; flex-direction: column; padding: 8px 0; border-bottom: 1px solid var(--line); }
 .note-list li span, .trail-list li span { color: var(--muted); font-size: 14px; }

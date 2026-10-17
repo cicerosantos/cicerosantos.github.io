@@ -24,7 +24,7 @@ const TEXT = {
   pt: { adc: "ADC", dpwm: "DPWM", bits: "bits", integ: "Integrador no controlador", vout: "V(out) − V(ref), amostrada", duty: "razão cíclica, contagens do DPWM",
         lsb: (a, d) => `LSB do ADC: ${a}; passo do DPWM em volts na saída, Vin·ΔD = ${d}.`,
         holds: "Vin·ΔD < LSB do ADC: a condição para não haver ciclo-limite é satisfeita.", fails: "Vin·ΔD ≥ LSB do ADC: a condição não é satisfeita, e com o integrador a razão cíclica não consegue parar.",
-        noInt: "Sem o integrador (seu polo passa de z = 1 para uma fuga que deixa ganho de malha de 0,5 em CC), a condição acima deixa de valer, e fica um erro estático.",
+        noInt: "Sem o integrador (seu polo passa de z = 1 para uma fuga que deixa ganho de malha de 0.5 em CC), a condição acima deixa de valer, e fica um erro estático.",
         cycle: (pp, dd, n) => `Ciclo-limite: a saída oscila ${pp} de pico a pico, e a razão cíclica percorre ${dd} ${dd === 1 ? "contagem" : "contagens"} do DPWM${n ? `, repetindo-se a cada ${n} períodos` : ""}.`,
         still: v => `Sem ciclo-limite: a razão cíclica para num nível do DPWM; o erro da saída é de ${v}.`,
         aria: (txt) => `Os últimos 200 períodos do buck em regime. ${txt}`, adcBins: "níveis do ADC", period: "períodos",

@@ -1,7 +1,8 @@
 // The notes' pages, built by tools/build_notes.py from the Obsidian vaults in notes/: the math of
 // text drawn at runtime (the build renders the pages' own), code by highlight.js, previews of linked
-// notes on hover, search, and the interactive figures, each a module in widgets/ loaded when its
-// figure comes near the screen.
+// notes on hover, search (busca.js), and the interactive figures, each a module in widgets/ loaded when
+// its figure comes near the screen.
+import { buscar, indexar, termosDaConsulta, trecho, MAX_QUERY_CHARS } from "./busca.js";
 const LANG = document.documentElement.lang.startsWith("pt") ? "pt" : "en";
 const escapeHtml = text => String(text).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 // titles and summaries keep the notes' *italics* (the English terms of the Portuguese notes), as the build does
@@ -88,35 +89,83 @@ document.addEventListener("focusout", hideTip);
 document.addEventListener("keydown", e => { if (e.key === "Escape" && tipFor) hideTip(); });
 
 // ---- search ----
-let index = null;
-async function notesIndex() {
-  if (!index) index = fetch(`/${LANG}/notes.json`, { cache: "no-cache" }).then(r => r.json());
-  return index;
+// The index (search.json) is read once; a failed read is forgotten, so the next query tries again.
+// The analysis and BM25 are in busca.js. Results are built with text nodes, never with the query as HTML.
+const SEARCH_LABELS = LANG === "pt"
+  ? { first: "Antes, veja:", trail: "Trilha:", none: "Nenhum resultado.", count: n => `${n} ${n === 1 ? "resultado" : "resultados"}`,
+      error: "Não foi possível carregar a busca. Tente de novo." }
+  : { first: "First, see:", trail: "Trail:", none: "No results.", count: n => `${n} ${n === 1 ? "result" : "results"}`,
+      error: "Search could not be loaded. Try again." };
+let searchIndex = null;
+function loadSearch() {
+  searchIndex ??= fetch(`/${LANG}/search.json`, { cache: "no-cache" })
+    .then(r => { if (!r.ok) throw new Error(`search.json: HTTP ${r.status}`); return r.json(); })
+    .then(passages => indexar(passages, LANG))
+    .catch(error => { searchIndex = null; throw error; });
+  return searchIndex;
 }
-const noteLink = n => `<a class="note-link" href="${n.url}" data-title="${escapeHtml(n.title)}" data-summary="${escapeHtml(n.summary)}">${withItalics(escapeHtml(n.title))}</a>`;
-const fold = text => text.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
-const FOUND = {
-  pt: n => n ? `${n} ${n === 1 ? "nota encontrada" : "notas encontradas"}` : "Nenhuma nota encontrada.",
-  en: n => n ? `${n} ${n === 1 ? "note found" : "notes found"}` : "No notes found.",
-}[LANG];
+function element(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
+function safeHref(url) { return typeof url === "string" && url.startsWith("/") ? url : null; }
+function renderHit({ passagem: p }, termos) {
+  const item = element("li", "result");
+  if (p.heading && p.heading !== p.title) item.append(element("span", "result-heading", p.heading));
+  const note = element("a", "result-note", p.title);
+  if (safeHref(p.url)) note.href = p.url;
+  item.append(note);
+  const excerpt = trecho(p.text, termos, LANG);  // LaTeX as written; KaTeX renders it after the list is built
+  if (excerpt) item.append(element("p", "result-text", excerpt));
+  const meta = [];
+  for (const [label, links] of [[SEARCH_LABELS.first, p.prereqs ?? []], [SEARCH_LABELS.trail, p.trails ?? []]]) {
+    if (!links.length) continue;
+    const span = element("span", "result-meta", `${label} `);
+    links.forEach(([name, url], i) => {
+      if (i) span.append(", ");
+      const a = element("a", null, name);
+      if (safeHref(url)) a.href = url;
+      span.append(a);
+    });
+    meta.push(span);
+  }
+  item.append(...meta);
+  return item;
+}
 function search(box) {
   const input = box.querySelector("input"), list = box.querySelector(".results");
-  const status = Object.assign(document.createElement("p"), { className: "search-status" });
+  const status = element("p", "search-status");
   status.setAttribute("role", "status");
+  status.setAttribute("aria-live", "polite");
   list.before(status);
-  input.addEventListener("input", async () => {
-    const words = fold(input.value).split(/\s+/).filter(Boolean);
-    if (!words.length) { list.innerHTML = ""; status.textContent = ""; return; }
-    const notes = await notesIndex().catch(() => []);
-    const scored = notes.map(n => {
-      const title = fold(n.title), body = fold(`${n.summary} ${n.tags.join(" ")} ${n.text}`);
-      let score = 0;
-      for (const w of words) score += title.includes(w) ? 5 : body.includes(w) ? 1 : -100;
-      return [score, n];
-    }).filter(([s]) => s > 0).sort((a, b) => b[0] - a[0]).slice(0, 12);
-    list.innerHTML = scored.map(([, n]) => `<li>${noteLink(n)}</li>`).join("");
-    status.textContent = FOUND(scored.length);
-    typeset(list);
+  let timer = 0, turn = 0;
+  const clear = () => { clearTimeout(timer); turn++; list.replaceChildren(); status.textContent = ""; };
+  const run = async () => {
+    const mine = ++turn;
+    const query = input.value.slice(0, MAX_QUERY_CHARS);
+    let index;
+    try { index = await loadSearch(); } catch (error) {
+      console.error(error);
+      if (mine === turn) { list.replaceChildren(); status.textContent = SEARCH_LABELS.error; }
+      return;
+    }
+    if (mine !== turn) return;  // a newer query has been typed meanwhile
+    const hits = buscar(index, query, 10);
+    const termos = termosDaConsulta(query, LANG);
+    list.replaceChildren(...hits.map(hit => renderHit(hit, termos)));
+    status.textContent = hits.length ? SEARCH_LABELS.count(hits.length) : SEARCH_LABELS.none;
+    typeset(list);  // the excerpts' math; the status above does not wait for it
+  };
+  input.addEventListener("input", () => {
+    if (input.value.length > MAX_QUERY_CHARS) input.value = input.value.slice(0, MAX_QUERY_CHARS);  // a paste, before any processing
+    if (!input.value.trim()) return clear();
+    clearTimeout(timer);
+    timer = setTimeout(run, 250);
+  });
+  input.addEventListener("keydown", e => {
+    if (e.key === "Escape" && (input.value || list.childNodes.length)) { e.preventDefault(); input.value = ""; clear(); }
   });
 }
 document.addEventListener("DOMContentLoaded", () => document.querySelectorAll(".note-search").forEach(search));

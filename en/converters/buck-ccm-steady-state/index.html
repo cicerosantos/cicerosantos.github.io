@@ -27,7 +27,7 @@
   <main class="page note" data-lang="en" data-slug="buck-ccm-steady-state">
 <nav class="crumbs" aria-label="breadcrumb"><a href="/en/converters/">Power converters</a></nav>
 <nav class="trail-bar" aria-label="Trail"><a class="trail-name" href="/en/digital-control/buck-digital-loop/">Trail: From the analog buck to the digital loop</a><span class="trail-step">step 1 of 16</span><span class="trail-nav"><a rel="next" href="/en/converters/lc-filter-sizing/" title="Sizing L and C">next →</a></span></nav>
-<h1>Duty ratio and ripple of the buck in CCM</h1>
+<h1 id="buck-ccm-steady-state">Duty ratio and ripple of the buck in CCM</h1>
 <p class="summary">In steady state, the volt-second balance on the inductor gives the buck&#x27;s duty ratio, and the triangular current gives the current and voltage ripple.</p>
 <article class="note-body"><p>The buck connects the switching node to the input, then to ground, and the LC filter delivers the average of that square wave to the load. This note computes the duty ratio and the ripple in steady state. It is the first step of the <a class="note-link" href="/en/digital-control/buck-digital-loop/" data-title="From the analog buck to the digital loop" data-summary="From the power stage to the firmware: the design path of a microcontroller-controlled buck, note by note.">digital buck trail</a>.</p>
 <figure class="topology"><svg xmlns="http://www.w3.org/2000/svg" viewBox="80 0 424 268" role="img" aria-label="Synchronous buck: input source feeding a half-bridge leg of high-side and low-side switches, inductor from the switch node to the output capacitor and load; the firmware, drawn below it, samples the output with its ADC and drives both gates from its PWM">

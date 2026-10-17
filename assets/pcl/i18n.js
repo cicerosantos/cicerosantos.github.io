@@ -14,7 +14,7 @@ export const tr = value =>
 
 export const num = text => {
   const s = String(text).replace(/-(?=[0-9.])/g, "−");
-  return LANG === "pt" ? s.replace(/(\d)\.(\d)/g, "$1,$2") : s;
+  return s;
 };
 
 const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;

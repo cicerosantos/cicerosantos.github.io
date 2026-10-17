@@ -25,8 +25,8 @@ export const FORMULAS = {
     pt: "C(z) = K·(1 − z1·z⁻¹)(1 − z2·z⁻¹) / [(1 − z⁻¹)(1 − p·z⁻¹)],  zi = e^(−ωzi·Tₛ), p = e^(−ωp·Tₛ)",
   },
   pid: {
-    en: "C(s) = K·(1 + s/ωz1)(1 + s/ωz2) / [s·(1 + s/ωp)] = KP + KI/s + KD·s/(1 + s·TF), run with Euler's rules",
-    pt: "C(s) = K·(1 + s/ωz1)(1 + s/ωz2) / [s·(1 + s/ωp)] = KP + KI/s + KD·s/(1 + s·TF), discretizado por Euler",
+    en: "C(s) = K_I·(1 + s/ωz1)(1 + s/ωz2) / [s·(1 + s/ωp)] = K_P + K_I/s + K_D·s/(1 + s·T_F), run with Euler's rules",
+    pt: "C(s) = K_I·(1 + s/ωz1)(1 + s/ωz2) / [s·(1 + s/ωp)] = K_P + K_I/s + K_D·s/(1 + s·T_F), discretizado por Euler",
   },
 };
 

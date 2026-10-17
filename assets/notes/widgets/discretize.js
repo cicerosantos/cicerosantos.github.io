@@ -1,4 +1,4 @@
-// {{widget discretize}}: the continuous compensator C(s) = K(1 + s/ωz1)(1 + s/ωz2) / [s(1 + s/ωp)]
+// {{widget discretize}}: the continuous compensator C(s) = K_I(1 + s/ωz1)(1 + s/ωz2) / [s(1 + s/ωp)]
 // against four discretizations: backward Euler, Tustin, Tustin prewarped at fc, and matched pole-zero
 // (the site's 2p2z). It plots each one's magnitude and phase error up to fs/2 and lists the
 // coefficients of (b0 + b1 z⁻¹ + b2 z⁻²) / (1 + a1 z⁻¹ + a2 z⁻²).
@@ -13,11 +13,11 @@ const TEXT = {
   en: { fs: "Sampling rate", mag: "magnitude error", phase: "phase error", method: "method", atFc: "error at fc",
         names: { euler: "Backward Euler", tustin: "Tustin", prewarp: "Tustin, prewarped at fc", matched: "Matched pole-zero (2p2z)" },
         aria: (fs, list) => `Errors of four discretizations of C(s) up to fs/2, with fs = ${fs}. At the crossover: ${list}.`,
-        K: k => `K = ${k} 1/(V·s), the buck's design gain.` },
+        K: k => `K_I = ${k} 1/(V·s), the buck's design integral gain.` },
   pt: { fs: "Taxa de amostragem", mag: "erro de módulo", phase: "erro de fase", method: "método", atFc: "erro em fc",
         names: { euler: "Euler para trás", tustin: "Tustin", prewarp: "Tustin com pré-distorção em fc", matched: "Casamento de polos e zeros (2p2z)" },
         aria: (fs, list) => `Erros de quatro discretizações de C(s) até fs/2, com fs = ${fs}. No cruzamento: ${list}.`,
-        K: k => `K = ${k} 1/(V·s), o ganho do projeto do *buck*.` },
+        K: k => `K_I = ${k} 1/(V·s), o ganho integral do projeto do *buck*.` },
 };
 const COLORS = { euler: "--alt2", tustin: "--alt1", prewarp: "--loop", matched: "--alt3" };
 const RULES = {

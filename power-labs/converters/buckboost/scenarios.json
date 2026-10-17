@@ -38,7 +38,7 @@
       },
       "about": {
         "en": "PID with a derivative filter: KP 0.0163, KI 41.5, KD 1.37 µs/V, TF 5.31 µs (zeros at 600 Hz and 1.2 kHz, below the LC resonance, pole at 30 kHz). Crossover 2.5 kHz, phase margin 44–50° over the operating range, gain margin 14 dB.",
-        "pt": "PID com filtro no derivativo: KP 0,0163; KI 41,5; KD 1,37 µs/V; TF 5,31 µs (zeros em 600 Hz e 1,2 kHz, abaixo da ressonância LC, polo em 30 kHz). Cruzamento em 2,5 kHz, margem de fase de 44–50° em toda a faixa de operação, margem de ganho de 14 dB."
+        "pt": "PID com filtro no derivativo: KP 0.0163; KI 41.5; KD 1.37 µs/V; TF 5.31 µs (zeros em 600 Hz e 1.2 kHz, abaixo da ressonância LC, polo em 30 kHz). Cruzamento em 2.5 kHz, margem de fase de 44–50° em toda a faixa de operação, margem de ganho de 14 dB."
       },
       "design": {
         "form": "pid",
@@ -65,7 +65,7 @@
       },
       "about": {
         "en": "The Bode window's default design: crossover 3 kHz, two zeros at 1 kHz, below the LC resonance (1.4–1.9 kHz, from the inductor seen through D'), pole at 40 kHz, matched to z. Phase margin 38–43° over the operating range, gain margin 11 dB. The right-half-plane zero (20 kHz at 2 A, 13 kHz at 3 A) keeps the crossover low.",
-        "pt": "O projeto inicial da janela de Bode: cruzamento em 3 kHz, dois zeros em 1 kHz, abaixo da ressonância LC (1,4–1,9 kHz, do indutor visto através de D'), polo em 40 kHz, discretizados por casamento de polos e zeros. Margem de fase de 38–43° em toda a faixa de operação, margem de ganho de 11 dB. O zero no semiplano direito (20 kHz com 2 A, 13 kHz com 3 A) mantém o cruzamento baixo."
+        "pt": "O projeto inicial da janela de Bode: cruzamento em 3 kHz, dois zeros em 1 kHz, abaixo da ressonância LC (1.4–1.9 kHz, do indutor visto através de D'), polo em 40 kHz, discretizados por casamento de polos e zeros. Margem de fase de 38–43° em toda a faixa de operação, margem de ganho de 11 dB. O zero no semiplano direito (20 kHz com 2 A, 13 kHz com 3 A) mantém o cruzamento baixo."
       },
       "design": {
         "form": "2p2z",
@@ -92,7 +92,7 @@
       },
       "about": {
         "en": "Crossover 6 kHz, zeros at 1.5 kHz, pole at 25 kHz: phase margin 12° at 2 A and 5° at 3 A, gain margin 1 dB. Fast on the reference and input steps; the load step rings.",
-        "pt": "Cruzamento em 6 kHz, zeros em 1,5 kHz, polo em 25 kHz: margem de fase de 12° com 2 A e 5° com 3 A, margem de ganho de 1 dB. Rápido nos degraus de referência e de entrada; o degrau de carga oscila."
+        "pt": "Cruzamento em 6 kHz, zeros em 1.5 kHz, polo em 25 kHz: margem de fase de 12° com 2 A e 5° com 3 A, margem de ganho de 1 dB. Rápido nos degraus de referência e de entrada; o degrau de carga oscila."
       },
       "design": {
         "form": "2p2z",
@@ -119,7 +119,7 @@
       },
       "about": {
         "en": "Crossover 10 kHz, zeros at 1.5 kHz, pole at 20 kHz: beyond the frequency where the right-half-plane zero and the delay use up the phase. Phase margin −17° at 12 V and 2 A, down to −38° at 9 V and 3 A. The loop oscillates before any step, and the output's average sits below the reference.",
-        "pt": "Cruzamento em 10 kHz, zeros em 1,5 kHz, polo em 20 kHz: além da frequência em que o zero no semiplano direito e o atraso consomem a fase. Margem de fase de −17° com 12 V e 2 A, caindo a −38° com 9 V e 3 A. A malha oscila antes de qualquer degrau, e a média da saída fica abaixo da referência."
+        "pt": "Cruzamento em 10 kHz, zeros em 1.5 kHz, polo em 20 kHz: além da frequência em que o zero no semiplano direito e o atraso consomem a fase. Margem de fase de −17° com 12 V e 2 A, caindo a −38° com 9 V e 3 A. A malha oscila antes de qualquer degrau, e a média da saída fica abaixo da referência."
       },
       "design": {
         "form": "2p2z",
@@ -159,7 +159,7 @@
       },
       "about": {
         "en": "12 V out, 6 Ω, input slew 10 V/ms: the input crosses the output, from boosting to bucking, and the duty goes from about 0.58 to 0.45.",
-        "pt": "12 V na saída, 6 Ω, rampa da entrada de 10 V/ms: a entrada cruza a saída, de elevadora a abaixadora, e a razão cíclica vai de cerca de 0,58 a 0,45."
+        "pt": "12 V na saída, 6 Ω, rampa da entrada de 10 V/ms: a entrada cruza a saída, de elevadora a abaixadora, e a razão cíclica vai de cerca de 0.58 a 0.45."
       }
     },
     {
@@ -181,7 +181,7 @@
       },
       "about": {
         "en": "The reference steps at once: the PID's derivative kick drops the duty to 0.08 for one period, and within five periods it is back near its old value. The inductor current reverses anyway, down to −4 A, and for about 0.1 ms Q1 carries it back to the input.",
-        "pt": "A referência muda de uma vez: o chute derivativo do PID leva a razão cíclica a 0,08 por um período, e em cinco períodos ela está de volta perto do valor anterior. Mesmo assim a corrente no indutor se inverte, até −4 A, e por cerca de 0,1 ms Q1 a devolve à entrada."
+        "pt": "A referência muda de uma vez: o chute derivativo do PID leva a razão cíclica a 0.08 por um período, e em cinco períodos ela está de volta perto do valor anterior. Mesmo assim a corrente no indutor se inverte, até −4 A, e por cerca de 0.1 ms Q1 a devolve à entrada."
       }
     }
   ],

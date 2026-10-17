@@ -115,7 +115,7 @@ export default async function mount(body, options, { lang }) {
       formula.textContent = curves.design ? tr(FORMULAS[design.form], lang) : "";
       formula.hidden = !curves.design;
       pid.innerHTML = (values ? `<span class="title">${isPid ? s.gains : s.equivalent}</span>` +
-          cellsGrid(["KP (1/V)", "KI (1/(V·s))", "KD (µs/V)", "TF (µs)"], [values[0], values[1], values[2] * 1e6, values[3] * 1e6].map(v => fmt(Number(v.toPrecision(3))))) : "") +
+          cellsGrid(["K_P (1/V)", "K_I (1/(V·s))", "K_D (µs/V)", "T_F (µs)"], [values[0], values[1], values[2] * 1e6, values[3] * 1e6].map(v => fmt(Number(v.toPrecision(3))))) : "") +
         `<span class="title">${isPid ? s.as2p2z : s.coefficients}</span>` +
         cellsGrid(["b0", "b1", "b2", "a1", "a2"], [b0, b1, b2, -(1 + p), p].map(v => fmt(v.toPrecision(5))));
     }
