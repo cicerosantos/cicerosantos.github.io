@@ -18,8 +18,10 @@ const CURRENT = { width: 1, alpha: 0.85 };
 // 10 mΩ. The ADC sample is not the average output: it comes just before G1 turns on, when the
 // capacitor carries the whole inductor current, so it reads ESR·(D·i + I) more (see plant()).
 // The delay, (1 + 0.6·D)·T, is fitted: the duty computed from a sample takes effect in the next
-// period. Checked against QSPICE with tools/qspice_loop_check.py, adding a small sine to the duty, at
-// loads of 12 and 48 Ω and across the LC resonance: within 0.6 dB and 3° from 300 Hz to 6 kHz.
+// period. Checked against QSPICE with tools/qspice_loop_check.py, adding to the duty a sine that
+// moves the ADC sample by about 10 codes and gives the same loop gain at half its amplitude, at
+// 12 V in and 1 and 2 A (48 and 24 Ω), across the LC resonance: within 0.2 dB and 1.4° from 300 Hz
+// to 7 kHz.
 // Exported for the notes' figures (discrete-time models); DELAY is the D's factor in the delay.
 export const PLANT = { L: 33e-6, RL: 0.025, C: 100e-6, ESR: 0.010, DELAY: 0.6 };
 

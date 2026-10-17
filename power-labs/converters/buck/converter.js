@@ -10,8 +10,11 @@ const CURRENT = { width: 1, alpha: 0.85 };
 // Averaged power stage in continuous conduction (switch Ron plus the inductor's resistance,
 // capacitor ESR, load) and a delay of (1 + D)·T: the duty computed from a sample takes effect one
 // period later, and the PWM's falling edge comes D·T into it. Checked against QSPICE with
-// tools/qspice_loop_check.py, adding a small sine to the duty: within 0.3 dB and 1.5° from 500 Hz to
-// 15 kHz, across the LC resonance; 1.4 dB and 4° at 30 kHz.
+// tools/qspice_loop_check.py, adding to the duty a sine that moves the ADC sample by about 10 codes
+// and gives the same loop gain at half its amplitude: at 24 V → 9 V, 1 A, within 0.3 dB and 0.7°
+// from 500 Hz to 15 kHz, across the LC resonance. At 30 kHz the sine large enough for the ADC makes
+// the inductor current change sign at the high side's turn-on, where the dead time then adds to the
+// duty: 0.1 dB and 3.9° off, and not linear; half that sine, 0.3 dB and 0.7°.
 // R is the switch's Ron plus the inductor's resistance; DELAY is the D in the (1 + DELAY·D)·T delay.
 export const PLANT = { L: 22e-6, R: 0.040, C: 47e-6, ESR: 0.005, DELAY: 1 };
 
