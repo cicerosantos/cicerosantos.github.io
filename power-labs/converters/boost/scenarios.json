@@ -118,8 +118,8 @@
         "pt": "Agressivo"
       },
       "about": {
-        "en": "Zeros at 700 Hz, on the LC resonance, with the crossover pushed to 4 kHz and the pole down to 10 kHz: phase margin 19° at 1 A, but 1° at 2 A, where the right-half-plane zero comes down to 7 kHz (gain margin 0.1 dB). Fast on the reference and input steps; the load step rings for milliseconds.",
-        "pt": "Zeros em 700 Hz, sobre a ressonância LC, com o cruzamento levado a 4 kHz e o polo baixado a 10 kHz: margem de fase de 19° com 1 A, mas 1° com 2 A, quando o zero no semiplano direito desce a 7 kHz (margem de ganho de 0.1 dB). Rápido nos degraus de referência e de entrada; o degrau de carga oscila por milissegundos."
+        "en": "Zeros at 700 Hz, on the LC resonance, with the crossover pushed to 4 kHz and the pole down to 10 kHz: phase margin 19° at 1 A, but 0.5° at 2 A, where the right-half-plane zero comes down to 7 kHz (gain margin 0.1 dB). Fast on the reference and input steps; the load step rings for milliseconds.",
+        "pt": "Zeros em 700 Hz, sobre a ressonância LC, com o cruzamento levado a 4 kHz e o polo baixado a 10 kHz: margem de fase de 19° com 1 A, mas 0.5° com 2 A, quando o zero no semiplano direito desce a 7 kHz (margem de ganho de 0.1 dB). Rápido nos degraus de referência e de entrada; o degrau de carga oscila por milissegundos."
       },
       "design": {
         "form": "2p2z",

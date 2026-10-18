@@ -90,7 +90,11 @@ details.callout[open] > summary { margin-bottom: 6px; }
 /* ---- figures: interactive (widgets/), topologies, links to the oscilloscope ---- */
 .note figure { margin: 20px 0; }
 .note figure.widget { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 12px; }
-.note figure.topology svg, .note figure.network svg { display: block; width: 100%; max-width: 460px; height: auto; margin: 0 auto; }
+.note figure.topology svg, .note figure.network svg, .note figure.diagram svg { display: block; width: 100%; max-width: 460px; height: auto; margin: 0 auto; }
+/* a static diagram carries both languages' labels: the page's language shows its own */
+.note figure.diagram .l-en { display: none; }
+.note figure.diagram:lang(en) .l-en { display: inline; }
+.note figure.diagram:lang(en) .l-pt { display: none; }
 .note figcaption { font-size: 14px; color: var(--muted); margin-top: 8px; }
 .widget-loading, .widget-error { color: var(--muted); font-size: 14px; margin: 0; }
 .scenario-link a { display: inline-flex; align-items: center; gap: 10px; padding: 8px 12px; border: 1px solid var(--line);

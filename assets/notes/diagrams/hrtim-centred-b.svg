@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 462" role="img" aria-label="Illustrative timing diagram of the centered PWM, case B, over two periods k and k+1, with an up-counter and the ADC triggered by the period event. The up-counter restarts at each period. The ADC samples at the reset of period k. The CPU computes and writes CMP1 and CMP2 into their preload registers. The update event at the reset of period k+1 copies them, so the output pulse of period k+1 is centered 1.5 Ts after the sample. The inductor current equals its average at the reset and at the pulse center, and the reset falls on the midpoint of its falling edge.">
+  <!-- lines and shapes that carry no text -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 1. up-counter: sawtooth between 0 and PER, with its resets; the PER line and the CMP1 and CMP2 levels -->
+    <path d="M24 76 L204 22 V76 L384 22 V76" stroke-width="1.6" style="stroke:var(--text)"/>
+    <path d="M24 22 H384" stroke-width="1" stroke-dasharray="2 3" style="stroke:var(--muted)"/>
+    <path d="M24 58.125 H384 M24 38.875 H384" stroke-width="1" stroke-dasharray="4 3" style="stroke:var(--muted)"/>
+    <!-- 2. PWM output of the high-side switch: pulses of period k and of period k+1, both centered -->
+    <path d="M24 128 H80.25 V108 H147.75 V128 H260.25 V108 H327.75 V128 H384" stroke-width="2" style="stroke:var(--hg)"/>
+    <!-- 4. inductor current, with its average -->
+    <path d="M24 350 H384" stroke-width="1.2" stroke-dasharray="5 4" style="stroke:var(--muted)"/>
+    <path d="M24 350 L80.25 366 L147.75 334 L260.25 366 L327.75 334 L384 350" stroke-width="2" style="stroke:var(--il)"/>
+    <!-- time axis, with the period boundaries -->
+    <path d="M24 392 H384 M24 392 V397 M204 392 V397 M384 392 V397" stroke-width="1" style="stroke:var(--muted)"/>
+    <!-- 3. events: ADC conversion window (hollow bar), CPU budget bracket, update event -->
+    <rect x="31.2" y="179" width="28.8" height="10" rx="2" stroke-width="1.3" style="stroke:var(--text)"/>
+    <path d="M60 236 V240 H204 V236" stroke-width="1.3" style="stroke:var(--text)"/>
+    <path d="M204 22 V372" stroke-width="1.3" stroke-dasharray="4 3" style="stroke:var(--text)"/>
+    <!-- 5. the 1.5·Ts bracket from the sample to the pulse center, and its guide -->
+    <path d="M24 430 V436 H294 V430" stroke-width="1.3" style="stroke:var(--text)"/>
+    <path d="M294 132 V430" stroke-width="1" stroke-dasharray="2 3" style="stroke:var(--muted)"/>
+  </g>
+  <!-- filled marks -->
+  <g style="fill:var(--text)">
+    <polygon points="19,172 29,172 24,160"/>
+    <rect x="60" y="197" width="86.4" height="10" rx="2"/>
+  </g>
+  <polygon points="146.4,214 152.4,220 146.4,226 140.4,220" style="fill:var(--vout)"/>
+  <g style="fill:var(--hg)">
+    <circle cx="80.25" cy="58.125" r="2.6"/><circle cx="147.75" cy="38.875" r="2.6"/>
+    <circle cx="260.25" cy="58.125" r="2.6"/><circle cx="327.75" cy="38.875" r="2.6"/>
+    <circle cx="260.25" cy="276" r="3.4"/><circle cx="327.75" cy="276" r="3.4"/>
+  </g>
+  <g style="fill:var(--il)">
+    <circle cx="24" cy="350" r="3.6"/><circle cx="114" cy="350" r="3.6"/><circle cx="204" cy="350" r="3.6"/>
+    <circle cx="294" cy="350" r="3.6"/><circle cx="384" cy="350" r="3.6"/>
+  </g>
+  <!-- labels, Portuguese (l-pt) and English (l-en); the notes show one set by the page's language -->
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" style="fill:var(--text)">
+    <g style="fill:var(--muted)" font-size="12" font-weight="600">
+      <text x="0" y="12" class="l-pt">contador</text>
+      <text x="0" y="12" class="l-en">counter</text>
+      <text x="0" y="96" class="l-pt">saída PWM</text>
+      <text x="0" y="96" class="l-en">PWM output</text>
+      <text x="0" y="150" class="l-pt">eventos</text>
+      <text x="0" y="150" class="l-en">events</text>
+      <text x="0" y="318" class="l-pt">corrente do indutor</text>
+      <text x="0" y="318" class="l-en">inductor current</text>
+    </g>
+    <text x="390" y="26">PER</text>
+    <text x="390" y="43">CMP2</text>
+    <text x="390" y="62">CMP1</text>
+    <text x="390" y="354" class="l-pt">média</text>
+    <text x="390" y="354" class="l-en">average</text>
+    <text x="294" y="102" text-anchor="middle"><tspan font-style="italic">D</tspan>·T<tspan baseline-shift="sub" font-size="9">s</tspan></text>
+    <text x="36" y="170" class="l-pt">amostra</text>
+    <text x="36" y="170" class="l-en">sample</text>
+    <text x="68" y="188" class="l-pt">conversão</text>
+    <text x="68" y="188" class="l-en">conversion</text>
+    <text x="152" y="206">CPU</text>
+    <text x="136" y="224" text-anchor="end" font-style="italic">preload</text>
+    <text x="132" y="256" text-anchor="middle" class="l-pt">cálculo</text>
+    <text x="132" y="256" text-anchor="middle" class="l-en">computation</text>
+    <text x="254" y="280" text-anchor="end">CMP1</text>
+    <text x="334" y="280">CMP2</text>
+    <text x="198" y="298" text-anchor="end" font-style="italic">update event</text>
+    <text x="24" y="412" text-anchor="middle"><tspan font-style="italic">k</tspan>T<tspan baseline-shift="sub" font-size="9">s</tspan></text>
+    <text x="204" y="412" text-anchor="middle">(<tspan font-style="italic">k</tspan>+1)T<tspan baseline-shift="sub" font-size="9">s</tspan></text>
+    <text x="384" y="412" text-anchor="middle">(<tspan font-style="italic">k</tspan>+2)T<tspan baseline-shift="sub" font-size="9">s</tspan></text>
+    <text x="159" y="452" text-anchor="middle">1.5·T<tspan baseline-shift="sub" font-size="9">s</tspan></text>
+  </g>
+</svg>
