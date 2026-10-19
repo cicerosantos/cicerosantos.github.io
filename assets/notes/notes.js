@@ -190,3 +190,23 @@ async function mount(figure) {
 document.addEventListener("DOMContentLoaded", () => {
   for (const figure of document.querySelectorAll("figure.widget")) observer ? observer.observe(figure) : mount(figure);
 });
+
+
+// ---- progress in the trails ----
+// The last step read, per language, in localStorage "pcl-progress": the course's home page (site.js) offers it
+// as "Continue where you left off". Only the step of the trail in force counts: the ?trail= or the stored trail
+// site.js confirmed this page has a bar for (<html data-trail>, set in its own earlier DOMContentLoaded handler).
+document.addEventListener("DOMContentLoaded", () => {
+  const trail = document.documentElement.dataset.trail;
+  const bar = trail && [...document.querySelectorAll(".trail-bar[data-step]")].find(b => b.dataset.trail === trail);
+  if (!bar) return;
+  // the page's <title> is "<note's title as text> · <section>"
+  const title = document.title.slice(0, document.title.lastIndexOf(" · ")).trim();
+  if (!title) return;
+  try {
+    const progress = JSON.parse(localStorage.getItem("pcl-progress") || "{}");
+    progress[LANG] = { url: `${location.pathname.replace(/index\.html$/, "")}?trail=${trail}`, title,
+                       trailTitle: bar.dataset.trailTitle, step: bar.dataset.step, time: Date.now() };
+    localStorage.setItem("pcl-progress", JSON.stringify(progress));
+  } catch (error) { /* storage blocked, or a value that is not JSON */ }
+});

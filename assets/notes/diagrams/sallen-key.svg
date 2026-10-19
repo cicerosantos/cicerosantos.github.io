@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 384" aria-hidden="true">
+  <!-- Unity-gain Sallen-Key filters: low-pass (top), R1 and R2 in series to the + input, C1 from the middle node to the output, C2 from the + input to ground; high-pass (bottom), the same with C1, C2 in series, R1 from the middle node to the output, R2 to ground; the op-amp as a follower -->
+  <g fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--text)">
+    <path d="M22 64 L58 64"/>
+    <path d="M92 64 L128 64"/>
+    <path d="M58 64 L60.8333 70 L66.5 58 L72.1667 70 L77.8333 58 L83.5 70 L89.1667 58 L92 64"/>
+    <path d="M128 64 L154 64"/>
+    <path d="M188 64 L214 64"/>
+    <path d="M154 64 L156.833 70 L162.5 58 L168.167 70 L173.833 58 L179.5 70 L185.167 58 L188 64"/>
+    <path d="M214 64 L214 92"/>
+    <path d="M214 98 L214 126"/>
+    <path d="M224 92 L204 92"/>
+    <path d="M224 98 L204 98"/>
+    <path d="M214 126 L214 132"/>
+    <path d="M205 132 H223 M208.5 136 H219.5 M212 140 H216"/>
+    <path d="M256 52 L308 76 L256 100 Z"/>
+    <path d="M261 64 H269 M265 60 V68 M261 88 H269"/>
+    <path d="M214 64 L256 64"/>
+    <path d="M256 88 L246 88 L246 114 L330 114 L330 76"/>
+    <path d="M308 76 L432 76"/>
+    <path d="M128 64 L128 84"/>
+    <path d="M128 84 L128 121"/>
+    <path d="M128 127 L128 164"/>
+    <path d="M138 121 L118 121"/>
+    <path d="M138 127 L118 127"/>
+    <path d="M128 164 L356 164 L356 76"/>
+    <path d="M22 256 L72 256"/>
+    <path d="M78 256 L128 256"/>
+    <path d="M72 246 L72 266"/>
+    <path d="M78 246 L78 266"/>
+    <path d="M128 256 L168 256"/>
+    <path d="M174 256 L214 256"/>
+    <path d="M168 246 L168 266"/>
+    <path d="M174 246 L174 266"/>
+    <path d="M214 256 L214 270"/>
+    <path d="M214 304 L214 318"/>
+    <path d="M214 270 L208 272.833 L220 278.5 L208 284.167 L220 289.833 L208 295.5 L220 301.167 L214 304"/>
+    <path d="M214 318 L214 324"/>
+    <path d="M205 324 H223 M208.5 328 H219.5 M212 332 H216"/>
+    <path d="M256 244 L308 268 L256 292 Z"/>
+    <path d="M261 256 H269 M265 252 V260 M261 280 H269"/>
+    <path d="M214 256 L256 256"/>
+    <path d="M256 280 L246 280 L246 306 L330 306 L330 268"/>
+    <path d="M308 268 L432 268"/>
+    <path d="M128 256 L128 276"/>
+    <path d="M128 276 L128 299"/>
+    <path d="M128 333 L128 356"/>
+    <path d="M128 299 L122 301.833 L134 307.5 L122 313.167 L134 318.833 L122 324.5 L134 330.167 L128 333"/>
+    <path d="M128 356 L356 356 L356 268"/>
+  </g>
+  <g stroke-width="1.6" style="stroke:var(--text);fill:var(--bg)">
+    <circle cx="18" cy="64" r="3.4"/>
+    <circle cx="432" cy="76" r="3.4"/>
+    <circle cx="18" cy="256" r="3.4"/>
+    <circle cx="432" cy="268" r="3.4"/>
+  </g>
+  <g style="fill:var(--text)">
+    <circle cx="128" cy="64" r="2.6"/>
+    <circle cx="214" cy="64" r="2.6"/>
+    <circle cx="330" cy="76" r="2.6"/>
+    <circle cx="356" cy="76" r="2.6"/>
+    <circle cx="128" cy="256" r="2.6"/>
+    <circle cx="214" cy="256" r="2.6"/>
+    <circle cx="330" cy="268" r="2.6"/>
+    <circle cx="356" cy="268" r="2.6"/>
+  </g>
+  <!-- labels; Portuguese (l-pt) and English (l-en) where they differ: the notes show one set by the page's language -->
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="14" style="fill:var(--text)">
+    <text x="6" y="18" text-anchor="start" font-size="13" font-weight="600" class="l-pt" style="fill:var(--muted)">(a) passa-baixas</text>
+    <text x="6" y="18" text-anchor="start" font-size="13" font-weight="600" class="l-en" style="fill:var(--muted)">(a) low-pass</text>
+    <text x="18" y="54" text-anchor="middle"><tspan font-style="italic">u</tspan></text>
+    <text x="73" y="49" text-anchor="middle"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="171" y="49" text-anchor="middle"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">2</tspan></text>
+    <text x="201" y="100" text-anchor="end"><tspan font-style="italic">C</tspan><tspan font-size="10" dy="4">2</tspan></text>
+    <text x="201" y="116" text-anchor="end" font-size="11.5" class="l-pt" style="fill:var(--muted)">ao terra</text>
+    <text x="201" y="116" text-anchor="end" font-size="11.5" class="l-en" style="fill:var(--muted)">to ground</text>
+    <text x="115" y="122" text-anchor="end"><tspan font-style="italic">C</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="115" y="138" text-anchor="end" font-size="11.5" class="l-pt" style="fill:var(--muted)">à saída</text>
+    <text x="115" y="138" text-anchor="end" font-size="11.5" class="l-en" style="fill:var(--muted)">to output</text>
+    <text x="432" y="66" text-anchor="middle"><tspan font-style="italic">y</tspan></text>
+    <text x="6" y="210" text-anchor="start" font-size="13" font-weight="600" class="l-pt" style="fill:var(--muted)">(b) passa-altas</text>
+    <text x="6" y="210" text-anchor="start" font-size="13" font-weight="600" class="l-en" style="fill:var(--muted)">(b) high-pass</text>
+    <text x="18" y="246" text-anchor="middle"><tspan font-style="italic">u</tspan></text>
+    <text x="73" y="241" text-anchor="middle"><tspan font-style="italic">C</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="171" y="241" text-anchor="middle"><tspan font-style="italic">C</tspan><tspan font-size="10" dy="4">2</tspan></text>
+    <text x="201" y="292" text-anchor="end"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">2</tspan></text>
+    <text x="201" y="308" text-anchor="end" font-size="11.5" class="l-pt" style="fill:var(--muted)">ao terra</text>
+    <text x="201" y="308" text-anchor="end" font-size="11.5" class="l-en" style="fill:var(--muted)">to ground</text>
+    <text x="115" y="314" text-anchor="end"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="115" y="330" text-anchor="end" font-size="11.5" class="l-pt" style="fill:var(--muted)">à saída</text>
+    <text x="115" y="330" text-anchor="end" font-size="11.5" class="l-en" style="fill:var(--muted)">to output</text>
+    <text x="432" y="258" text-anchor="middle"><tspan font-style="italic">y</tspan></text>
+  </g>
+</svg>

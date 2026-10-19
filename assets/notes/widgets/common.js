@@ -377,27 +377,56 @@ export { timeLabel, reading, niceStep, localNumber };
 
 // ---- controls ----
 // A labelled range input in a grid of sliders, as the Bode window's: label, track, value. log: the
-// slider moves the value geometrically between min and max. Returns { input, output, set(value), get() }.
+// slider moves the value geometrically between min and max. The value is also a text box: typing
+// "1k", "1 kHz", "0,707" or "2.2e-3" and pressing Enter (or leaving the box) sets it exactly, clamped
+// to [min, max]. Returns { input, output, set(value), get() }; output is the text box.
 export function slider(parent, { label, min, max, value, log = false, step, format, oninput }) {
   const id = uid("w-slider");
   const steps = 1000;
   const input = el("input", { type: "range", id, min: log ? 0 : min, max: log ? steps : max, step: log ? 1 : step ?? (max - min) / steps });
-  const output = el("output", { for: id });
+  const output = el("input", { type: "text", id: id + "-value", name: id + "-value", class: "w-num", maxlength: 24, spellcheck: "false", autocomplete: "off", "aria-label": label });
   const name = el("label", { for: id, text: label });
   const toValue = () => (log ? min * (max / min) ** (input.value / steps) : +input.value);
   let current = value;
-  const show = v => { output.textContent = format(v); input.setAttribute("aria-valuetext", format(v)); };
+  const show = v => { output.value = format(v); input.setAttribute("aria-valuetext", format(v)); output.removeAttribute("aria-invalid"); };
   const set = v => {
     current = v;
     input.value = log ? Math.round(steps * Math.log(Math.min(Math.max(v, min), max) / min) / Math.log(max / min)) : v;
     show(v);
   };
   input.addEventListener("input", () => { current = toValue(); show(current); oninput(current); });
+  const typed = () => {
+    let v = parseTyped(output.value);
+    if (!Number.isFinite(v)) { output.setAttribute("aria-invalid", "true"); return; }
+    if (!log && step) v = min + Math.round((v - min) / step) * step;
+    v = Math.min(Math.max(v, min), max);
+    if (v !== current) { set(v); oninput(current); } else show(v);
+  };
+  output.addEventListener("keydown", e => {
+    if (e.key === "Enter") { e.preventDefault(); typed(); output.select(); }
+    else if (e.key === "Escape") { show(current); output.blur(); }
+  });
+  output.addEventListener("change", typed);
+  output.addEventListener("focus", () => output.select());
+  // the box follows the slider when a figure disables the slider
+  new MutationObserver(() => { output.disabled = input.disabled; }).observe(input, { attributes: true, attributeFilter: ["disabled"] });
   set(value);
   let grid = parent.lastElementChild;
   if (!grid || !grid.classList.contains("w-sliders")) parent.append(grid = el("div", { class: "w-sliders" }));
   grid.append(name, input, output);
   return { input, output, set, get: () => current };
+}
+
+// A typed number with an optional SI prefix and unit: "1k", "1,5 kHz", "−20", "470 µ", "2e3 Hz".
+const PREFIX = { p: 1e-12, n: 1e-9, u: 1e-6, "µ": 1e-6, "μ": 1e-6, m: 1e-3, k: 1e3, K: 1e3, M: 1e6, G: 1e9 };
+export function parseTyped(text) {
+  const t = text.replace(/[\s\u00a0\u202f]/g, "").replace(/\u2212/g, "-").replace(",", ".");
+  // the number, an optional prefix, then only a unit's letters or symbols: "1k5" or "1..2" is refused
+  const m = /^([-+]?(?:\d+\.?\d*|\.\d+)(?:e[-+]?\d+)?)([pnuµμmkKMG])?([^\d.,+\-]*)$/i.exec(t);
+  if (!m) return NaN;
+  let prefix = m[2];
+  if (prefix && !(prefix in PREFIX)) prefix = prefix.toLowerCase() in PREFIX ? prefix.toLowerCase() : undefined;
+  return +m[1] * (prefix ? PREFIX[prefix] : 1);
 }
 
 // A group of radio buttons drawn as the oscilloscope's segmented switch. options: [[value, text]].

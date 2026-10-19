@@ -8,15 +8,15 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <meta name="description" content="Como levar um controlador de s para z pela regra do trapézio, por que as frequências se distorcem, como corrigir no cruzamento e como Tustin se compara a Euler e ao casamento de polos e zeros.">
-<link rel="alternate" hreflang="pt-BR" href="https://cicerosantos.github.io/pt/digital-control/tustin/">
-<link rel="alternate" hreflang="en" href="https://cicerosantos.github.io/en/digital-control/tustin/">
-<link rel="alternate" hreflang="x-default" href="https://cicerosantos.github.io/en/digital-control/tustin/">
-<link rel="stylesheet" href="/assets/site.css?v=439396ca8f">
+<link rel="alternate" hreflang="pt-BR" href="https://cicerosantos.com/pt/digital-control/tustin/">
+<link rel="alternate" hreflang="en" href="https://cicerosantos.com/en/digital-control/tustin/">
+<link rel="alternate" hreflang="x-default" href="https://cicerosantos.com/en/digital-control/tustin/">
+<link rel="stylesheet" href="/assets/site.css?v=607ae5b90a">
 <link rel="stylesheet" href="/assets/vendor/katex-0.16.11/katex.min.css?v=717bc9ae78">
-<link rel="stylesheet" href="/assets/notes/notes.css?v=beab937384">
+<link rel="stylesheet" href="/assets/notes/notes.css?v=4ad2a9032e">
 <link rel="stylesheet" href="/assets/pcl/traces.css?v=15daac26fe">
-<link rel="stylesheet" href="/assets/notes/widgets/widgets.css?v=8200dd0b44" data-widgets-css>
-<script src="/assets/site.js?v=3e41b5e20a"></script>
+<link rel="stylesheet" href="/assets/notes/widgets/widgets.css?v=136561b6c6" data-widgets-css>
+<script src="/assets/site.js?v=1a73f41d56"></script>
 <script src="/assets/lang.js?v=7142661d7c"></script>
 <script defer src="/assets/vendor/highlight-11.9.0/highlight.min.js?v=837a6fa5b0"></script>
 <script defer src="/assets/vendor/highlight-11.9.0/languages/c.min.js?v=147c335b43"></script>
@@ -24,15 +24,17 @@
 <script type="importmap">
 {"imports": {
   "/assets/notes/busca.js": "/assets/notes/busca.js?v=601c4e62a7",
-  "/assets/notes/notes.js": "/assets/notes/notes.js?v=6abcba7974",
-  "/assets/notes/widgets/asymptote-model.js": "/assets/notes/widgets/asymptote-model.js?v=c453a43954",
-  "/assets/notes/widgets/asymptote.js": "/assets/notes/widgets/asymptote.js?v=cc3c2d7106",
+  "/assets/notes/notes.js": "/assets/notes/notes.js?v=5f268069d4",
+  "/assets/notes/widgets/asymptote-model.js": "/assets/notes/widgets/asymptote-model.js?v=fb99d66540",
+  "/assets/notes/widgets/asymptote.js": "/assets/notes/widgets/asymptote.js?v=603e05f4f2",
   "/assets/notes/widgets/bode.js": "/assets/notes/widgets/bode.js?v=8483a4fe6e",
-  "/assets/notes/widgets/common.js": "/assets/notes/widgets/common.js?v=e5738ac01f",
+  "/assets/notes/widgets/common.js": "/assets/notes/widgets/common.js?v=b2e1f811ab",
   "/assets/notes/widgets/delay.js": "/assets/notes/widgets/delay.js?v=79255eee30",
   "/assets/notes/widgets/discrete.js": "/assets/notes/widgets/discrete.js?v=4391fd2c20",
   "/assets/notes/widgets/discretize.js": "/assets/notes/widgets/discretize.js?v=b6eecc02b4",
   "/assets/notes/widgets/locus.js": "/assets/notes/widgets/locus.js?v=4cf6594d63",
+  "/assets/notes/widgets/probe-model.js": "/assets/notes/widgets/probe-model.js?v=f2385953ac",
+  "/assets/notes/widgets/probe.js": "/assets/notes/widgets/probe.js?v=ca5773687f",
   "/assets/notes/widgets/pwmtiming.js": "/assets/notes/widgets/pwmtiming.js?v=ae57b55966",
   "/assets/notes/widgets/pzmap.js": "/assets/notes/widgets/pzmap.js?v=fd01408274",
   "/assets/notes/widgets/quantization.js": "/assets/notes/widgets/quantization.js?v=3977ed9c78",
@@ -40,7 +42,7 @@
   "/assets/notes/widgets/step.js": "/assets/notes/widgets/step.js?v=3256785486",
   "/assets/notes/widgets/switched.js": "/assets/notes/widgets/switched.js?v=4ef4394fbf",
   "/assets/notes/widgets/zplane.js": "/assets/notes/widgets/zplane.js?v=5640f43cd5",
-  "/assets/pcl/i18n.js": "/assets/pcl/i18n.js?v=07e64cfb3c",
+  "/assets/pcl/i18n.js": "/assets/pcl/i18n.js?v=75b8efd44a",
   "/assets/pcl/loop.js": "/assets/pcl/loop.js?v=fb8dd57c92",
   "/assets/pcl/plot.js": "/assets/pcl/plot.js?v=3f5c41abdd",
   "/assets/pcl/sampled.js": "/assets/pcl/sampled.js?v=f9d6525cce",
@@ -52,14 +54,14 @@
   "/power-labs/scope.js": "/power-labs/scope.js?v=d3b4fb846b"
 }}
 </script>
-<script type="module" src="/assets/notes/notes.js?v=6abcba7974"></script>
+<script type="module" src="/assets/notes/notes.js?v=5f268069d4"></script>
 </head>
 <body>
 <div class="layout">
   <aside class="side"></aside>
   <main class="page note" data-lang="pt" data-slug="tustin">
-<nav class="crumbs" aria-label="breadcrumb"><a href="/pt/digital-control/">Controle digital</a></nav>
-<nav class="trail-bar" aria-label="Trilha"><a class="trail-name" href="/pt/digital-control/buck-digital-loop/">Trilha: Do <em>buck</em> analógico ao laço digital</a><span class="trail-step">passo 10 de 19</span><span class="trail-nav"><a rel="prev" href="/pt/digital-control/sensing-antialias-filter/" title="Filtro de medição e anti-aliasing">← anterior</a><a rel="next" href="/pt/digital-control/2p2z-compensator/" title="Compensador 2p2z">próxima →</a></span></nav>
+<nav class="crumbs" aria-label="Navegação estrutural"><a href="/pt/">Curso</a> › <a href="/pt/digital-control/">Controle digital</a></nav>
+<nav class="trail-bar" aria-label="Trilha: Do buck analógico ao laço digital" data-trail="buck-digital-loop" data-trail-title="Do buck analógico ao laço digital" data-step="passo 11 de 15 · +1 opcional"><span class="trail-title"><a class="trail-name" href="/pt/digital-control/buck-digital-loop/">Do <em>buck</em> analógico ao laço digital</a></span><span class="trail-step">passo 11 de 15 · +1 opcional</span><span class="trail-nav"><a rel="prev" href="/pt/digital-control/sensing-antialias-filter/?trail=buck-digital-loop" title="Filtro de medição e anti-aliasing">← anterior<span class="sr-only">: Filtro de medição e anti-aliasing</span></a><a rel="next" href="/pt/digital-control/2p2z-compensator/?trail=buck-digital-loop" title="Compensador 2p2z">próxima →<span class="sr-only">: Compensador 2p2z</span></a></span></nav>
 <h1 id="tustin">Transformação bilinear (Tustin) e pré-distorção</h1>
 <p class="summary">Como levar um controlador de s para z pela regra do trapézio, por que as frequências se distorcem, como corrigir no cruzamento e como Tustin se compara a Euler e ao casamento de polos e zeros.</p>
 <aside class="prereqs"><b>Antes, veja:</b> <a class="note-link" href="/pt/digital-control/sampling-and-zoh/" data-title="Amostragem e retentor de ordem zero (ZOH)" data-summary="O ADC lê a saída uma vez por período, no mesmo ponto do PWM, e a razão cíclica calculada fica retida até a próxima atualização; isso some com a ondulação, cria um *offset* e atrasa a resposta: meio período no modelo do ZOH, \(DT_s\) no PWM de borda de descida deste *site*.">Amostragem e retentor de ordem zero (ZOH)</a></aside>
@@ -153,8 +155,8 @@
 <p><em>Modelagem de Conversores Chaveados: do modelo à bancada virtual</em>: a transformação de Tustin e a sua pré-distorção.</p>
 </aside>
 </article>
-<nav class="trail-bar trail-bar-end" aria-label="Trilha (fim da nota)"><a class="trail-name" href="/pt/digital-control/buck-digital-loop/">Trilha: Do <em>buck</em> analógico ao laço digital</a><span class="trail-step">passo 10 de 19</span><span class="trail-nav"><a href="/pt/digital-control/sensing-antialias-filter/" title="Filtro de medição e anti-aliasing">← anterior</a><a href="/pt/digital-control/2p2z-compensator/">próxima: Compensador 2p2z →</a></span></nav>
-<footer class="note-foot"><section class="see-also"><h2>Veja também</h2><p><a class="note-link" href="/pt/digital-control/discretization-table/" data-title="Tabela de discretizações" data-summary="Os seis mapeamentos de s para z mais usados (Euler para a frente e para trás, Tustin, Tustin com pré-distorção, equivalente ZOH e casamento de polos e zeros), com estabilidade, ganho DC, comportamento em alta frequência e quando usar cada um.">Tabela de discretizações</a> · <a class="note-link" href="/pt/digital-control/2p2z-compensator/" data-title="Compensador 2p2z" data-summary="O compensador de dois polos e dois zeros, parente digital do tipo III, projetado pelos seus polos e zeros, e sua relação com o PID; com o projeto padrão do *buck*.">Compensador 2p2z</a></p></section><section class="backlinks"><h2>Usado em</h2><ul><li><a class="note-link" href="/pt/control-basics/notation-bridge/" data-title="Notação deste curso" data-summary="A convenção de símbolos de todas as notas, com o sentido de cada um, a forma de escrever os termos e as unidades que cada símbolo usa.">Notação deste curso</a></li><li><a class="note-link" href="/pt/control-basics/pi-lead-type3/" data-title="PI, avanço de fase e o tipo III" data-summary="O integrador zera o erro em regime e custa 90° de fase; o avanço de fase devolve fase no cruzamento; o tipo III é um integrador com dois avanços, e o 2p2z é o seu parente digital.">PI, avanço de fase e o tipo III</a></li><li><a class="note-link" href="/pt/converters/boost/" data-title="*Boost* síncrono 12 V → 48 V: exemplo resolvido" data-summary="O *boost* do laboratório, das especificações ao *firmware*, com os números de cada passo, o zero no semiplano direito que segura o cruzamento em 1.5 kHz e os quinze cenários simulados no QSPICE."><em>Boost</em> síncrono 12 V → 48 V: exemplo resolvido</a></li><li><a class="note-link" href="/pt/converters/buck/" data-title="*Buck* síncrono 24 V → 9 V: exemplo resolvido" data-summary="O *buck* do laboratório, das especificações ao *firmware*, com os números de cada passo da trilha e os quatro controladores simulados no QSPICE."><em>Buck</em> síncrono 24 V → 9 V: exemplo resolvido</a></li><li><a class="note-link" href="/pt/converters/buckboost/" data-title="*Buck-boost* de quatro chaves 8–16 V → 12 V: exemplo resolvido" data-summary="O *buck-boost* do laboratório, das especificações ao *firmware*, com um 2p2z que serve de 9 a 15 V e de 1 a 3 A, e os treze cenários simulados no QSPICE."><em>Buck-boost</em> de quatro chaves 8–16 V → 12 V: exemplo resolvido</a></li><li><a class="note-link" href="/pt/digital-control/2p2z-compensator/" data-title="Compensador 2p2z" data-summary="O compensador de dois polos e dois zeros, parente digital do tipo III, projetado pelos seus polos e zeros, e sua relação com o PID; com o projeto padrão do *buck*.">Compensador 2p2z</a></li><li><a class="note-link" href="/pt/digital-control/discretization-table/" data-title="Tabela de discretizações" data-summary="Os seis mapeamentos de s para z mais usados (Euler para a frente e para trás, Tustin, Tustin com pré-distorção, equivalente ZOH e casamento de polos e zeros), com estabilidade, ganho DC, comportamento em alta frequência e quando usar cada um.">Tabela de discretizações</a></li></ul></section><section class="backlinks"><h2>Nas trilhas</h2><p><a class="note-link" href="/pt/digital-control/boost-digital-loop/" data-title="Do *boost* ao laço digital" data-summary="O que muda no laço digital quando a planta tem um zero no semiplano direito: do modelo médio do *boost* ao *buck-boost* de quatro chaves, e daí ao projeto que serve em toda a faixa.">Do <em>boost</em> ao laço digital</a> · <a class="note-link" href="/pt/digital-control/buck-digital-loop/" data-title="Do *buck* analógico ao laço digital" data-summary="Do estágio de potência ao *firmware*: o caminho do projeto de um *buck* controlado por microcontrolador, nota por nota.">Do <em>buck</em> analógico ao laço digital</a></p></section><p class="tags"><span>#discretização</span> <span>#tustin</span></p></footer>
+<nav class="trail-bar trail-bar-end" aria-label="Trilha: Do buck analógico ao laço digital (fim da nota)" data-trail="buck-digital-loop"><span class="trail-title"><a class="trail-name" href="/pt/digital-control/buck-digital-loop/">Do <em>buck</em> analógico ao laço digital</a></span><span class="trail-step">passo 11 de 15 · +1 opcional</span><span class="trail-nav"><a href="/pt/digital-control/sensing-antialias-filter/?trail=buck-digital-loop" title="Filtro de medição e anti-aliasing">← anterior<span class="sr-only">: Filtro de medição e anti-aliasing</span></a><a href="/pt/digital-control/2p2z-compensator/?trail=buck-digital-loop" title="Compensador 2p2z">próxima: Compensador 2p2z →</a></span></nav>
+<footer class="note-foot"><section class="see-also"><h2>Veja também</h2><p><a class="note-link" href="/pt/digital-control/discretization-table/" data-title="Tabela de discretizações" data-summary="Os seis mapeamentos de s para z mais usados (Euler para a frente e para trás, Tustin, Tustin com pré-distorção, equivalente ZOH e casamento de polos e zeros), com estabilidade, ganho DC, comportamento em alta frequência e quando usar cada um.">Tabela de discretizações</a> · <a class="note-link" href="/pt/digital-control/2p2z-compensator/" data-title="Compensador 2p2z" data-summary="O compensador de dois polos e dois zeros, parente digital do tipo III, projetado pelos seus polos e zeros, e sua relação com o PID; com o projeto padrão do *buck*.">Compensador 2p2z</a></p></section><section class="backlinks"><h2>Usado em</h2><ul><li><a class="note-link" href="/pt/control-basics/notation-bridge/" data-title="Notação deste curso" data-summary="A convenção de símbolos de todas as notas, com o sentido de cada um, a forma de escrever os termos e as unidades que cada símbolo usa.">Notação deste curso</a></li><li><a class="note-link" href="/pt/control-basics/pi-lead-type3/" data-title="PI, avanço de fase e o tipo III" data-summary="O integrador zera o erro em regime e custa 90° de fase; o avanço de fase devolve fase no cruzamento; o tipo III é um integrador com dois avanços, e o 2p2z é o seu parente digital.">PI, avanço de fase e o tipo III</a></li><li><a class="note-link" href="/pt/converters/boost/" data-title="*Boost* síncrono 12 V → 48 V: exemplo resolvido" data-summary="O *boost* do laboratório, das especificações ao *firmware*, com os números de cada passo, o zero no semiplano direito que segura o cruzamento em 1.5 kHz e os quinze cenários simulados no QSPICE."><em>Boost</em> síncrono 12 V → 48 V: exemplo resolvido</a></li><li><a class="note-link" href="/pt/converters/buck/" data-title="*Buck* síncrono 24 V → 9 V: exemplo resolvido" data-summary="O *buck* do laboratório, das especificações ao *firmware*, com os números de cada passo da trilha e os quatro controladores simulados no QSPICE."><em>Buck</em> síncrono 24 V → 9 V: exemplo resolvido</a></li><li><a class="note-link" href="/pt/converters/buckboost/" data-title="*Buck-boost* de quatro chaves 8–16 V → 12 V: exemplo resolvido" data-summary="O *buck-boost* do laboratório, das especificações ao *firmware*, com um 2p2z que serve de 9 a 15 V e de 1 a 3 A, e os treze cenários simulados no QSPICE."><em>Buck-boost</em> de quatro chaves 8–16 V → 12 V: exemplo resolvido</a></li><li><a class="note-link" href="/pt/digital-control/2p2z-compensator/" data-title="Compensador 2p2z" data-summary="O compensador de dois polos e dois zeros, parente digital do tipo III, projetado pelos seus polos e zeros, e sua relação com o PID; com o projeto padrão do *buck*.">Compensador 2p2z</a></li><li><a class="note-link" href="/pt/digital-control/discretization-table/" data-title="Tabela de discretizações" data-summary="Os seis mapeamentos de s para z mais usados (Euler para a frente e para trás, Tustin, Tustin com pré-distorção, equivalente ZOH e casamento de polos e zeros), com estabilidade, ganho DC, comportamento em alta frequência e quando usar cada um.">Tabela de discretizações</a></li></ul></section><section class="backlinks"><h2>Nas trilhas</h2><p><a class="note-link" href="/pt/digital-control/boost-digital-loop/" data-title="Do *boost* ao laço digital" data-summary="O que muda no laço digital com um zero no semiplano direito: do modelo médio do *boost* ao *buck-boost* de quatro chaves e ao projeto para toda a faixa.">Do <em>boost</em> ao laço digital</a> · <a class="note-link" href="/pt/digital-control/buck-digital-loop/" data-title="Do *buck* analógico ao laço digital" data-summary="Do estágio de potência ao laço digital projetado e medido de um *buck* controlado por microcontrolador.">Do <em>buck</em> analógico ao laço digital</a></p></section><p class="tags"><span>#discretização</span> <span>#tustin</span></p></footer>
   </main>
 </div>
 </body>

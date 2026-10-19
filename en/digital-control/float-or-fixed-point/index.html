@@ -8,13 +8,13 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <meta name="description" content="Between `float` and fixed point, the core decides first: without an FPU, fixed point is the output; with an FPU, the choice is a design one, and only a cycle measurement justifies it.">
-<link rel="alternate" hreflang="pt-BR" href="https://cicerosantos.github.io/pt/digital-control/float-or-fixed-point/">
-<link rel="alternate" hreflang="en" href="https://cicerosantos.github.io/en/digital-control/float-or-fixed-point/">
-<link rel="alternate" hreflang="x-default" href="https://cicerosantos.github.io/en/digital-control/float-or-fixed-point/">
-<link rel="stylesheet" href="/assets/site.css?v=439396ca8f">
+<link rel="alternate" hreflang="pt-BR" href="https://cicerosantos.com/pt/digital-control/float-or-fixed-point/">
+<link rel="alternate" hreflang="en" href="https://cicerosantos.com/en/digital-control/float-or-fixed-point/">
+<link rel="alternate" hreflang="x-default" href="https://cicerosantos.com/en/digital-control/float-or-fixed-point/">
+<link rel="stylesheet" href="/assets/site.css?v=607ae5b90a">
 <link rel="stylesheet" href="/assets/vendor/katex-0.16.11/katex.min.css?v=717bc9ae78">
-<link rel="stylesheet" href="/assets/notes/notes.css?v=beab937384">
-<script src="/assets/site.js?v=3e41b5e20a"></script>
+<link rel="stylesheet" href="/assets/notes/notes.css?v=4ad2a9032e">
+<script src="/assets/site.js?v=1a73f41d56"></script>
 <script src="/assets/lang.js?v=7142661d7c"></script>
 <script defer src="/assets/vendor/highlight-11.9.0/highlight.min.js?v=837a6fa5b0"></script>
 <script defer src="/assets/vendor/highlight-11.9.0/languages/c.min.js?v=147c335b43"></script>
@@ -22,15 +22,17 @@
 <script type="importmap">
 {"imports": {
   "/assets/notes/busca.js": "/assets/notes/busca.js?v=601c4e62a7",
-  "/assets/notes/notes.js": "/assets/notes/notes.js?v=6abcba7974",
-  "/assets/notes/widgets/asymptote-model.js": "/assets/notes/widgets/asymptote-model.js?v=c453a43954",
-  "/assets/notes/widgets/asymptote.js": "/assets/notes/widgets/asymptote.js?v=cc3c2d7106",
+  "/assets/notes/notes.js": "/assets/notes/notes.js?v=5f268069d4",
+  "/assets/notes/widgets/asymptote-model.js": "/assets/notes/widgets/asymptote-model.js?v=fb99d66540",
+  "/assets/notes/widgets/asymptote.js": "/assets/notes/widgets/asymptote.js?v=603e05f4f2",
   "/assets/notes/widgets/bode.js": "/assets/notes/widgets/bode.js?v=8483a4fe6e",
-  "/assets/notes/widgets/common.js": "/assets/notes/widgets/common.js?v=e5738ac01f",
+  "/assets/notes/widgets/common.js": "/assets/notes/widgets/common.js?v=b2e1f811ab",
   "/assets/notes/widgets/delay.js": "/assets/notes/widgets/delay.js?v=79255eee30",
   "/assets/notes/widgets/discrete.js": "/assets/notes/widgets/discrete.js?v=4391fd2c20",
   "/assets/notes/widgets/discretize.js": "/assets/notes/widgets/discretize.js?v=b6eecc02b4",
   "/assets/notes/widgets/locus.js": "/assets/notes/widgets/locus.js?v=4cf6594d63",
+  "/assets/notes/widgets/probe-model.js": "/assets/notes/widgets/probe-model.js?v=f2385953ac",
+  "/assets/notes/widgets/probe.js": "/assets/notes/widgets/probe.js?v=ca5773687f",
   "/assets/notes/widgets/pwmtiming.js": "/assets/notes/widgets/pwmtiming.js?v=ae57b55966",
   "/assets/notes/widgets/pzmap.js": "/assets/notes/widgets/pzmap.js?v=fd01408274",
   "/assets/notes/widgets/quantization.js": "/assets/notes/widgets/quantization.js?v=3977ed9c78",
@@ -38,7 +40,7 @@
   "/assets/notes/widgets/step.js": "/assets/notes/widgets/step.js?v=3256785486",
   "/assets/notes/widgets/switched.js": "/assets/notes/widgets/switched.js?v=4ef4394fbf",
   "/assets/notes/widgets/zplane.js": "/assets/notes/widgets/zplane.js?v=5640f43cd5",
-  "/assets/pcl/i18n.js": "/assets/pcl/i18n.js?v=07e64cfb3c",
+  "/assets/pcl/i18n.js": "/assets/pcl/i18n.js?v=75b8efd44a",
   "/assets/pcl/loop.js": "/assets/pcl/loop.js?v=fb8dd57c92",
   "/assets/pcl/plot.js": "/assets/pcl/plot.js?v=3f5c41abdd",
   "/assets/pcl/sampled.js": "/assets/pcl/sampled.js?v=f9d6525cce",
@@ -50,14 +52,14 @@
   "/power-labs/scope.js": "/power-labs/scope.js?v=d3b4fb846b"
 }}
 </script>
-<script type="module" src="/assets/notes/notes.js?v=6abcba7974"></script>
+<script type="module" src="/assets/notes/notes.js?v=5f268069d4"></script>
 </head>
 <body>
 <div class="layout">
   <aside class="side"></aside>
   <main class="page note" data-lang="en" data-slug="float-or-fixed-point">
-<nav class="crumbs" aria-label="breadcrumb"><a href="/en/digital-control/">Digital control</a></nav>
-<nav class="trail-bar" aria-label="Trail"><a class="trail-name" href="/en/digital-control/buck-digital-loop/">Trail: From the analog buck to the digital loop</a><span class="trail-step">step 15 of 19</span><span class="trail-nav"><a rel="prev" href="/en/digital-control/dpwm-resolution-limit-cycles/" title="DPWM resolution and limit cycles">← previous</a><a rel="next" href="/en/digital-control/fixed-point-q15/" title="Q15 fixed point">next →</a></span></nav>
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/en/">Course</a> › <a href="/en/digital-control/">Digital control</a></nav>
+<nav class="trail-bar" aria-label="Trail: From compensator to firmware" data-trail="compensator-to-firmware" data-trail-title="From compensator to firmware" data-step="step 4 of 10 · +1 optional"><span class="trail-title"><a class="trail-name" href="/en/digital-control/compensator-to-firmware/">From compensator to firmware</a></span><span class="trail-step">step 4 of 10 · +1 optional</span><span class="trail-nav"><a rel="prev" href="/en/digital-control/isr-deadline-budget/?trail=compensator-to-firmware" title="Interrupt deadline and budget">← previous<span class="sr-only">: Interrupt deadline and budget</span></a><a rel="next" href="/en/digital-control/fixed-point-q15/?trail=compensator-to-firmware" title="Q15 fixed point">next →<span class="sr-only">: Q15 fixed point</span></a></span></nav>
 <h1 id="float-or-fixed-point">Floating point or fixed point</h1>
 <p class="summary">Between `float` and fixed point, the core decides first: without an FPU, fixed point is the output; with an FPU, the choice is a design one, and only a cycle measurement justifies it.</p>
 <aside class="prereqs"><b>First, see:</b> <a class="note-link" href="/en/digital-control/2p2z-compensator/" data-title="The 2p2z compensator" data-summary="The two-pole, two-zero compensator, a digital relative of the type III, designed by its poles and zeros, and its relation with the PID; with the buck&#x27;s default design.">The 2p2z compensator</a></aside>
@@ -120,8 +122,8 @@ void ADC_IRQHandler(void)
 <p>The literal <code>0.5</code> without <code>f</code> is a <code>double</code>, and <code>y * 0.5</code> promotes the operation to <code>double</code>, computed in <em>software</em> on the M4F. Writing <code>0.5f</code> keeps <code>float</code>, and <code>-Wdouble-promotion</code> points to the promoting line.</p>
 </details>
 </article>
-<nav class="trail-bar trail-bar-end" aria-label="Trail (end of the note)"><a class="trail-name" href="/en/digital-control/buck-digital-loop/">Trail: From the analog buck to the digital loop</a><span class="trail-step">step 15 of 19</span><span class="trail-nav"><a href="/en/digital-control/dpwm-resolution-limit-cycles/" title="DPWM resolution and limit cycles">← previous</a><a href="/en/digital-control/fixed-point-q15/">next: Q15 fixed point →</a></span></nav>
-<footer class="note-foot"><section class="see-also"><h2>See also</h2><p><a class="note-link" href="/en/digital-control/fixed-point-q15/" data-title="Q15 fixed point" data-summary="The scale of the buck&#x27;s 2p2z coefficients in fixed point: Q\(m\).\(n\) formats, Q15 multiplication with rounding and saturation, and the coefficients in counts per code in Q3.12.">Q15 fixed point</a> · <a class="note-link" href="/en/digital-control/2p2z-c-implementation/" data-title="The 2p2z in C, in the interrupt" data-summary="The buck&#x27;s interrupt in C: read the ADC, compute the error, run the 2p2z difference equation, saturate and write the CCR, with protection against NaN, fault, double-buffered coefficients and ADC overrun.">The 2p2z in C, in the interrupt</a> · <a class="note-link" href="/en/digital-control/isr-deadline-budget/" data-title="Interrupt deadline and budget" data-summary="The control routine must write the CCR before the *update event* that copies it; the budget is the period minus the trigger, conversion, entry and computation, and only a measurement with a pin or the DWT, on production code, says whether it fits.">Interrupt deadline and budget</a></p></section><section class="backlinks"><h2>Used in</h2><ul><li><a class="note-link" href="/en/digital-control/2p2z-c-implementation/" data-title="The 2p2z in C, in the interrupt" data-summary="The buck&#x27;s interrupt in C: read the ADC, compute the error, run the 2p2z difference equation, saturate and write the CCR, with protection against NaN, fault, double-buffered coefficients and ADC overrun.">The 2p2z in C, in the interrupt</a></li><li><a class="note-link" href="/en/digital-control/fixed-point-q15/" data-title="Q15 fixed point" data-summary="The scale of the buck&#x27;s 2p2z coefficients in fixed point: Q\(m\).\(n\) formats, Q15 multiplication with rounding and saturation, and the coefficients in counts per code in Q3.12.">Q15 fixed point</a></li></ul></section><section class="backlinks"><h2>In the trails</h2><p><a class="note-link" href="/en/digital-control/buck-digital-loop/" data-title="From the analog buck to the digital loop" data-summary="From the power stage to the firmware: the design path of a microcontroller-controlled buck, note by note.">From the analog buck to the digital loop</a></p></section><p class="tags"><span>#firmware</span> <span>#fixed-point</span> <span>#float</span></p></footer>
+<nav class="trail-bar trail-bar-end" aria-label="Trail: From compensator to firmware (end of the note)" data-trail="compensator-to-firmware"><span class="trail-title"><a class="trail-name" href="/en/digital-control/compensator-to-firmware/">From compensator to firmware</a></span><span class="trail-step">step 4 of 10 · +1 optional</span><span class="trail-nav"><a href="/en/digital-control/isr-deadline-budget/?trail=compensator-to-firmware" title="Interrupt deadline and budget">← previous<span class="sr-only">: Interrupt deadline and budget</span></a><a href="/en/digital-control/fixed-point-q15/?trail=compensator-to-firmware" title="Q15 fixed point">next: Q15 fixed point →</a></span></nav>
+<footer class="note-foot"><section class="see-also"><h2>See also</h2><p><a class="note-link" href="/en/digital-control/fixed-point-q15/" data-title="Q15 fixed point" data-summary="The scale of the buck&#x27;s 2p2z coefficients in fixed point: Q\(m\).\(n\) formats, Q15 multiplication with rounding and saturation, and the coefficients in counts per code in Q3.12.">Q15 fixed point</a> · <a class="note-link" href="/en/digital-control/2p2z-c-implementation/" data-title="The 2p2z in C, in the interrupt" data-summary="The buck&#x27;s interrupt in C: read the ADC, compute the error, run the 2p2z difference equation, saturate and write the CCR, with protection against NaN, fault, double-buffered coefficients and ADC overrun.">The 2p2z in C, in the interrupt</a> · <a class="note-link" href="/en/digital-control/isr-deadline-budget/" data-title="Interrupt deadline and budget" data-summary="The control routine must write the CCR before the *update event* that copies it; the budget is the period minus the trigger, conversion, entry and computation, and only a measurement with a pin or the DWT, on production code, says whether it fits.">Interrupt deadline and budget</a></p></section><section class="backlinks"><h2>Used in</h2><ul><li><a class="note-link" href="/en/digital-control/2p2z-c-implementation/" data-title="The 2p2z in C, in the interrupt" data-summary="The buck&#x27;s interrupt in C: read the ADC, compute the error, run the 2p2z difference equation, saturate and write the CCR, with protection against NaN, fault, double-buffered coefficients and ADC overrun.">The 2p2z in C, in the interrupt</a></li><li><a class="note-link" href="/en/digital-control/fixed-point-q15/" data-title="Q15 fixed point" data-summary="The scale of the buck&#x27;s 2p2z coefficients in fixed point: Q\(m\).\(n\) formats, Q15 multiplication with rounding and saturation, and the coefficients in counts per code in Q3.12.">Q15 fixed point</a></li></ul></section><section class="backlinks"><h2>In the trails</h2><p><a class="note-link" href="/en/digital-control/compensator-to-firmware/" data-title="From compensator to firmware" data-summary="From the designed 2p2z to the board&#x27;s code: the PWM timer, the ADC trigger, the interrupt deadline, the arithmetic, saturation, soft-start and the mini-project.">From compensator to firmware</a></p></section><p class="tags"><span>#firmware</span> <span>#fixed-point</span> <span>#float</span></p></footer>
   </main>
 </div>
 </body>

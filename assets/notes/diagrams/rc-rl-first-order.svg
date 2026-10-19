@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 456" aria-hidden="true">
+  <!-- Six first-order circuits: (a) RC, (b) series L with shunt R, (c) series R with shunt L, (d) input impedance of a series RC, (e) output impedance of R∥C, (f) R1∥C1 over R2 -->
+  <g fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--text)">
+    <path d="M26 66 L26 86"/>
+    <path d="M26 110 L26 130"/>
+    <path d="M14 98 a12 12 0 1 0 24 0 a12 12 0 1 0 -24 0"/>
+    <path d="M22.5 93 H29.5 M26 89.5 V96.5 M22.5 103.5 H29.5"/>
+    <path d="M26 66 L42 66"/>
+    <path d="M42 66 L69 66"/>
+    <path d="M103 66 L130 66"/>
+    <path d="M69 66 L71.8333 72 L77.5 60 L83.1667 72 L88.8333 60 L94.5 72 L100.167 60 L103 66"/>
+    <path d="M130 66 L196 66"/>
+    <path d="M150 66 L150 95"/>
+    <path d="M150 101 L150 130"/>
+    <path d="M160 95 L140 95"/>
+    <path d="M160 101 L140 101"/>
+    <path d="M26 130 L196 130"/>
+    <path d="M26 130 L26 136"/>
+    <path d="M17 136 H35 M20.5 140 H31.5 M24 144 H28"/>
+    <path d="M256 66 L256 86"/>
+    <path d="M256 110 L256 130"/>
+    <path d="M244 98 a12 12 0 1 0 24 0 a12 12 0 1 0 -24 0"/>
+    <path d="M252.5 93 H259.5 M256 89.5 V96.5 M252.5 103.5 H259.5"/>
+    <path d="M256 66 L272 66"/>
+    <path d="M272 66 L298 66"/>
+    <path d="M334 66 L360 66"/>
+    <path d="M298 66 A4.5 4.5 0 0 1 307.0 66.0 A4.5 4.5 0 0 1 316.0 66.0 A4.5 4.5 0 0 1 325.0 66.0 A4.5 4.5 0 0 1 334.0 66.0"/>
+    <path d="M360 66 L426 66"/>
+    <path d="M380 66 L380 81"/>
+    <path d="M380 115 L380 130"/>
+    <path d="M380 81 L374 83.8333 L386 89.5 L374 95.1667 L386 100.833 L374 106.5 L386 112.167 L380 115"/>
+    <path d="M256 130 L426 130"/>
+    <path d="M256 130 L256 136"/>
+    <path d="M247 136 H265 M250.5 140 H261.5 M254 144 H258"/>
+    <path d="M26 218 L26 238"/>
+    <path d="M26 262 L26 282"/>
+    <path d="M14 250 a12 12 0 1 0 24 0 a12 12 0 1 0 -24 0"/>
+    <path d="M22.5 245 H29.5 M26 241.5 V248.5 M22.5 255.5 H29.5"/>
+    <path d="M26 218 L42 218"/>
+    <path d="M42 218 L69 218"/>
+    <path d="M103 218 L130 218"/>
+    <path d="M69 218 L71.8333 224 L77.5 212 L83.1667 224 L88.8333 212 L94.5 224 L100.167 212 L103 218"/>
+    <path d="M130 218 L196 218"/>
+    <path d="M150 218 L150 232"/>
+    <path d="M150 268 L150 282"/>
+    <path d="M150 232 A4.5 4.5 0 0 1 150.0 241.0 A4.5 4.5 0 0 1 150.0 250.0 A4.5 4.5 0 0 1 150.0 259.0 A4.5 4.5 0 0 1 150.0 268.0"/>
+    <path d="M26 282 L196 282"/>
+    <path d="M26 282 L26 288"/>
+    <path d="M17 288 H35 M20.5 292 H31.5 M24 296 H28"/>
+    <path d="M256 218 L282 218"/>
+    <path d="M282 218 L309 218"/>
+    <path d="M343 218 L370 218"/>
+    <path d="M309 218 L311.833 224 L317.5 212 L323.167 224 L328.833 212 L334.5 224 L340.167 212 L343 218"/>
+    <path d="M370 218 L380 218"/>
+    <path d="M380 218 L380 247"/>
+    <path d="M380 253 L380 282"/>
+    <path d="M390 247 L370 247"/>
+    <path d="M390 253 L370 253"/>
+    <path d="M380 282 L256 282"/>
+    <path d="M266 250 L282 250"/>
+    <path d="M26 370 L26 434"/>
+    <path d="M26 434 L26 440"/>
+    <path d="M17 440 H35 M20.5 444 H31.5 M24 448 H28"/>
+    <path d="M26 370 L46 370"/>
+    <path d="M46 370 L64 370"/>
+    <path d="M98 370 L116 370"/>
+    <path d="M64 370 L66.8333 376 L72.5 364 L78.1667 376 L83.8333 364 L89.5 376 L95.1667 364 L98 370"/>
+    <path d="M116 370 L196 370"/>
+    <path d="M130 370 L130 399"/>
+    <path d="M130 405 L130 434"/>
+    <path d="M140 399 L120 399"/>
+    <path d="M140 405 L120 405"/>
+    <path d="M26 434 L196 434"/>
+    <path d="M190 402 L172 402"/>
+    <path d="M256 378 L256 394"/>
+    <path d="M256 418 L256 434"/>
+    <path d="M244 406 a12 12 0 1 0 24 0 a12 12 0 1 0 -24 0"/>
+    <path d="M252.5 401 H259.5 M256 397.5 V404.5 M252.5 411.5 H259.5"/>
+    <path d="M256 378 L278 378"/>
+    <path d="M278 378 L313 378"/>
+    <path d="M319 378 L354 378"/>
+    <path d="M313 368 L313 388"/>
+    <path d="M319 368 L319 388"/>
+    <path d="M278 378 L278 356"/>
+    <path d="M278 356 L299 356"/>
+    <path d="M333 356 L354 356"/>
+    <path d="M299 356 L301.833 362 L307.5 350 L313.167 362 L318.833 350 L324.5 362 L330.167 350 L333 356"/>
+    <path d="M354 356 L354 378"/>
+    <path d="M354 378 L426 378"/>
+    <path d="M380 378 L380 389"/>
+    <path d="M380 423 L380 434"/>
+    <path d="M380 389 L374 391.833 L386 397.5 L374 403.167 L386 408.833 L374 414.5 L386 420.167 L380 423"/>
+    <path d="M256 434 L426 434"/>
+    <path d="M256 434 L256 440"/>
+    <path d="M247 440 H265 M250.5 444 H261.5 M254 448 H258"/>
+  </g>
+  <g stroke-width="1.6" style="stroke:var(--text);fill:var(--bg)">
+    <circle cx="196" cy="66" r="3.4"/>
+    <circle cx="196" cy="130" r="3.4"/>
+    <circle cx="426" cy="66" r="3.4"/>
+    <circle cx="426" cy="130" r="3.4"/>
+    <circle cx="196" cy="218" r="3.4"/>
+    <circle cx="196" cy="282" r="3.4"/>
+    <circle cx="256" cy="218" r="3.4"/>
+    <circle cx="256" cy="282" r="3.4"/>
+    <circle cx="196" cy="370" r="3.4"/>
+    <circle cx="196" cy="434" r="3.4"/>
+    <circle cx="426" cy="378" r="3.4"/>
+    <circle cx="426" cy="434" r="3.4"/>
+  </g>
+  <g style="fill:var(--text)">
+    <circle cx="150" cy="66" r="2.6"/>
+    <circle cx="150" cy="130" r="2.6"/>
+    <circle cx="380" cy="66" r="2.6"/>
+    <circle cx="380" cy="130" r="2.6"/>
+    <circle cx="150" cy="218" r="2.6"/>
+    <circle cx="150" cy="282" r="2.6"/>
+    <polygon points="286,250 279,246.5 279,253.5"/>
+    <circle cx="130" cy="370" r="2.6"/>
+    <circle cx="130" cy="434" r="2.6"/>
+    <polygon points="168,402 175,398.5 175,405.5"/>
+    <circle cx="278" cy="378" r="2.6"/>
+    <circle cx="354" cy="378" r="2.6"/>
+    <circle cx="380" cy="378" r="2.6"/>
+    <circle cx="380" cy="434" r="2.6"/>
+  </g>
+  <!-- labels; Portuguese (l-pt) and English (l-en) where they differ: the notes show one set by the page's language -->
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="14" style="fill:var(--text)">
+    <text x="6" y="18" text-anchor="start" font-size="13" font-weight="600" class="l-pt" style="fill:var(--muted)">(a) C ao terra: polo</text>
+    <text x="6" y="18" text-anchor="start" font-size="13" font-weight="600" class="l-en" style="fill:var(--muted)">(a) C to ground: pole</text>
+    <text x="22" y="58" text-anchor="end"><tspan font-style="italic">u</tspan></text>
+    <text x="86" y="53" text-anchor="middle"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="163" y="103" text-anchor="start"><tspan font-style="italic">C</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="205" y="71" text-anchor="start"><tspan font-style="italic">y</tspan></text>
+    <text x="236" y="18" text-anchor="start" font-size="13" font-weight="600" class="l-pt" style="fill:var(--muted)">(b) L em série: polo</text>
+    <text x="236" y="18" text-anchor="start" font-size="13" font-weight="600" class="l-en" style="fill:var(--muted)">(b) L in series: pole</text>
+    <text x="252" y="58" text-anchor="end"><tspan font-style="italic">u</tspan></text>
+    <text x="316" y="53" text-anchor="middle"><tspan font-style="italic">L</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="393" y="103" text-anchor="start"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="435" y="71" text-anchor="start"><tspan font-style="italic">y</tspan></text>
+    <text x="6" y="170" text-anchor="start" font-size="13" font-weight="600" class="l-pt" style="fill:var(--muted)">(c) L ao terra: polo invertido</text>
+    <text x="6" y="170" text-anchor="start" font-size="13" font-weight="600" class="l-en" style="fill:var(--muted)">(c) L to ground: inverted pole</text>
+    <text x="22" y="210" text-anchor="end"><tspan font-style="italic">u</tspan></text>
+    <text x="86" y="205" text-anchor="middle"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="163" y="255" text-anchor="start"><tspan font-style="italic">L</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="205" y="223" text-anchor="start"><tspan font-style="italic">y</tspan></text>
+    <text x="236" y="170" text-anchor="start" font-size="13" font-weight="600" class="l-pt" style="fill:var(--muted)">(d) Zi do RC: zero invertido</text>
+    <text x="236" y="170" text-anchor="start" font-size="13" font-weight="600" class="l-en" style="fill:var(--muted)">(d) Zi of RC: inverted zero</text>
+    <text x="326" y="205" text-anchor="middle"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="394" y="255" text-anchor="start"><tspan font-style="italic">C</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="264" y="242" text-anchor="start"><tspan font-style="italic">Z</tspan><tspan font-size="10" dy="4">i</tspan></text>
+    <text x="6" y="322" text-anchor="start" font-size="13" font-weight="600" class="l-pt" style="fill:var(--muted)">(e) Zo do R∥C: polo</text>
+    <text x="6" y="322" text-anchor="start" font-size="13" font-weight="600" class="l-en" style="fill:var(--muted)">(e) Zo of R∥C: pole</text>
+    <text x="32" y="406" text-anchor="start" font-size="12" class="l-pt" style="fill:var(--muted)">u = 0</text>
+    <text x="32" y="406" text-anchor="start" font-size="12" class="l-en" style="fill:var(--muted)">u = 0</text>
+    <text x="80" y="357" text-anchor="middle"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="144" y="407" text-anchor="start"><tspan font-style="italic">C</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="182" y="394" text-anchor="middle"><tspan font-style="italic">Z</tspan><tspan font-size="10" dy="4">o</tspan></text>
+    <text x="236" y="322" text-anchor="start" font-size="13" font-weight="600" class="l-pt" style="fill:var(--muted)">(f) R1∥C1 e R2: zero, polo</text>
+    <text x="236" y="322" text-anchor="start" font-size="13" font-weight="600" class="l-en" style="fill:var(--muted)">(f) R1∥C1, R2: zero, pole</text>
+    <text x="252" y="370" text-anchor="end"><tspan font-style="italic">u</tspan></text>
+    <text x="298" y="400" text-anchor="start"><tspan font-style="italic">C</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="316" y="343" text-anchor="middle"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="393" y="411" text-anchor="start"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">2</tspan></text>
+    <text x="435" y="383" text-anchor="start"><tspan font-style="italic">y</tspan></text>
+  </g>
+</svg>

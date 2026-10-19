@@ -8,13 +8,13 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <meta name="description" content="O ganho de malha é o produto do controlador, do modulador, da planta e da realimentação, percorrido uma volta inteira no laço.">
-<link rel="alternate" hreflang="pt-BR" href="https://cicerosantos.github.io/pt/equations/eq-loop-gain/">
-<link rel="alternate" hreflang="en" href="https://cicerosantos.github.io/en/equations/eq-loop-gain/">
-<link rel="alternate" hreflang="x-default" href="https://cicerosantos.github.io/en/equations/eq-loop-gain/">
-<link rel="stylesheet" href="/assets/site.css?v=439396ca8f">
+<link rel="alternate" hreflang="pt-BR" href="https://cicerosantos.com/pt/equations/eq-loop-gain/">
+<link rel="alternate" hreflang="en" href="https://cicerosantos.com/en/equations/eq-loop-gain/">
+<link rel="alternate" hreflang="x-default" href="https://cicerosantos.com/en/equations/eq-loop-gain/">
+<link rel="stylesheet" href="/assets/site.css?v=607ae5b90a">
 <link rel="stylesheet" href="/assets/vendor/katex-0.16.11/katex.min.css?v=717bc9ae78">
-<link rel="stylesheet" href="/assets/notes/notes.css?v=beab937384">
-<script src="/assets/site.js?v=3e41b5e20a"></script>
+<link rel="stylesheet" href="/assets/notes/notes.css?v=4ad2a9032e">
+<script src="/assets/site.js?v=1a73f41d56"></script>
 <script src="/assets/lang.js?v=7142661d7c"></script>
 <script defer src="/assets/vendor/highlight-11.9.0/highlight.min.js?v=837a6fa5b0"></script>
 <script defer src="/assets/vendor/highlight-11.9.0/languages/c.min.js?v=147c335b43"></script>
@@ -22,15 +22,17 @@
 <script type="importmap">
 {"imports": {
   "/assets/notes/busca.js": "/assets/notes/busca.js?v=601c4e62a7",
-  "/assets/notes/notes.js": "/assets/notes/notes.js?v=6abcba7974",
-  "/assets/notes/widgets/asymptote-model.js": "/assets/notes/widgets/asymptote-model.js?v=c453a43954",
-  "/assets/notes/widgets/asymptote.js": "/assets/notes/widgets/asymptote.js?v=cc3c2d7106",
+  "/assets/notes/notes.js": "/assets/notes/notes.js?v=5f268069d4",
+  "/assets/notes/widgets/asymptote-model.js": "/assets/notes/widgets/asymptote-model.js?v=fb99d66540",
+  "/assets/notes/widgets/asymptote.js": "/assets/notes/widgets/asymptote.js?v=603e05f4f2",
   "/assets/notes/widgets/bode.js": "/assets/notes/widgets/bode.js?v=8483a4fe6e",
-  "/assets/notes/widgets/common.js": "/assets/notes/widgets/common.js?v=e5738ac01f",
+  "/assets/notes/widgets/common.js": "/assets/notes/widgets/common.js?v=b2e1f811ab",
   "/assets/notes/widgets/delay.js": "/assets/notes/widgets/delay.js?v=79255eee30",
   "/assets/notes/widgets/discrete.js": "/assets/notes/widgets/discrete.js?v=4391fd2c20",
   "/assets/notes/widgets/discretize.js": "/assets/notes/widgets/discretize.js?v=b6eecc02b4",
   "/assets/notes/widgets/locus.js": "/assets/notes/widgets/locus.js?v=4cf6594d63",
+  "/assets/notes/widgets/probe-model.js": "/assets/notes/widgets/probe-model.js?v=f2385953ac",
+  "/assets/notes/widgets/probe.js": "/assets/notes/widgets/probe.js?v=ca5773687f",
   "/assets/notes/widgets/pwmtiming.js": "/assets/notes/widgets/pwmtiming.js?v=ae57b55966",
   "/assets/notes/widgets/pzmap.js": "/assets/notes/widgets/pzmap.js?v=fd01408274",
   "/assets/notes/widgets/quantization.js": "/assets/notes/widgets/quantization.js?v=3977ed9c78",
@@ -38,7 +40,7 @@
   "/assets/notes/widgets/step.js": "/assets/notes/widgets/step.js?v=3256785486",
   "/assets/notes/widgets/switched.js": "/assets/notes/widgets/switched.js?v=4ef4394fbf",
   "/assets/notes/widgets/zplane.js": "/assets/notes/widgets/zplane.js?v=5640f43cd5",
-  "/assets/pcl/i18n.js": "/assets/pcl/i18n.js?v=07e64cfb3c",
+  "/assets/pcl/i18n.js": "/assets/pcl/i18n.js?v=75b8efd44a",
   "/assets/pcl/loop.js": "/assets/pcl/loop.js?v=fb8dd57c92",
   "/assets/pcl/plot.js": "/assets/pcl/plot.js?v=3f5c41abdd",
   "/assets/pcl/sampled.js": "/assets/pcl/sampled.js?v=f9d6525cce",
@@ -50,13 +52,13 @@
   "/power-labs/scope.js": "/power-labs/scope.js?v=d3b4fb846b"
 }}
 </script>
-<script type="module" src="/assets/notes/notes.js?v=6abcba7974"></script>
+<script type="module" src="/assets/notes/notes.js?v=5f268069d4"></script>
 </head>
 <body>
 <div class="layout">
   <aside class="side"></aside>
   <main class="page note" data-lang="pt" data-slug="eq-loop-gain">
-<nav class="crumbs" aria-label="breadcrumb"><a href="/pt/equations/">Equações</a></nav>
+<nav class="crumbs" aria-label="Navegação estrutural"><a href="/pt/">Curso</a> › <a href="/pt/equations/">Equações</a></nav>
 <h1 id="eq-loop-gain">Ganho de malha</h1>
 <p class="summary">O ganho de malha é o produto do controlador, do modulador, da planta e da realimentação, percorrido uma volta inteira no laço.</p>
 <article class="note-body"><div class="math display"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>T</mi><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mo>=</mo><mi>β</mi><mtext> </mtext><msub><mi>G</mi><mi>c</mi></msub><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo><mtext> </mtext><msub><mi>G</mi><mi>m</mi></msub><mtext> </mtext><msub><mi>G</mi><mrow><mi>v</mi><mi>d</mi></mrow></msub><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">T(s) = \beta\,G_c(s)\,G_m\,G_{vd}(s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05278em;">β</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">G</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">c</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">G</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">G</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span></span></div>

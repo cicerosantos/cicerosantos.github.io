@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 264" aria-hidden="true">
+  <!-- Butterworth cascades of order 3, 4 and 5: one block per section, all at the same f0 (Q_k = 1/(2 cos θ_k)) -->
+  <g fill="none" stroke-width="1.6" style="stroke:var(--text)">
+    <path d="M16 54.0 H30"/>
+    <rect x="36" y="30" width="100" height="48" rx="4"/>
+    <path d="M136 54.0 H156"/>
+    <rect x="162" y="30" width="100" height="48" rx="4"/>
+    <path d="M262 54.0 H282"/>
+    <path d="M16 142.0 H30"/>
+    <rect x="36" y="118" width="100" height="48" rx="4"/>
+    <path d="M136 142.0 H156"/>
+    <rect x="162" y="118" width="100" height="48" rx="4"/>
+    <path d="M262 142.0 H282"/>
+    <path d="M16 230.0 H30"/>
+    <rect x="36" y="206" width="100" height="48" rx="4"/>
+    <path d="M136 230.0 H156"/>
+    <rect x="162" y="206" width="100" height="48" rx="4"/>
+    <path d="M262 230.0 H282"/>
+    <rect x="288" y="206" width="100" height="48" rx="4"/>
+    <path d="M388 230.0 H408"/>
+  </g>
+  <g style="fill:var(--text)">
+    <polygon points="29,50.0 36,54.0 29,58.0"/>
+    <polygon points="155,50.0 162,54.0 155,58.0"/>
+    <polygon points="281,50.0 288,54.0 281,58.0"/>
+    <polygon points="29,138.0 36,142.0 29,146.0"/>
+    <polygon points="155,138.0 162,142.0 155,146.0"/>
+    <polygon points="281,138.0 288,142.0 281,146.0"/>
+    <polygon points="29,226.0 36,230.0 29,234.0"/>
+    <polygon points="155,226.0 162,230.0 155,234.0"/>
+    <polygon points="281,226.0 288,230.0 281,234.0"/>
+    <polygon points="407,226.0 414,230.0 407,234.0"/>
+  </g>
+  <!-- labels, Portuguese (l-pt) and English (l-en); the notes show one set by the page's language -->
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="14" style="fill:var(--text)">
+    <text x="0" y="20" font-weight="600" style="fill:var(--muted)" font-size="13" class="l-pt">ordem 3</text>
+    <text x="0" y="20" font-weight="600" style="fill:var(--muted)" font-size="13" class="l-en">order 3</text>
+    <text x="0" y="59.0" font-style="italic">X</text>
+    <text x="86.0" y="50" text-anchor="middle" class="l-pt">polo real</text>
+    <text x="86.0" y="50" text-anchor="middle" class="l-en">real pole</text>
+    <text x="86.0" y="68" text-anchor="middle" class="l-pt" style="fill:var(--muted)">sem <tspan font-style="italic">Q</tspan></text>
+    <text x="86.0" y="68" text-anchor="middle" class="l-en" style="fill:var(--muted)">no <tspan font-style="italic">Q</tspan></text>
+    <text x="212.0" y="50" text-anchor="middle" class="l-pt">par de polos</text>
+    <text x="212.0" y="50" text-anchor="middle" class="l-en">pole pair</text>
+    <text x="212.0" y="68" text-anchor="middle"><tspan font-style="italic">Q</tspan> = 1.0000</text>
+    <text x="292" y="59.0" font-style="italic">Y</text>
+    <text x="0" y="108" font-weight="600" style="fill:var(--muted)" font-size="13" class="l-pt">ordem 4</text>
+    <text x="0" y="108" font-weight="600" style="fill:var(--muted)" font-size="13" class="l-en">order 4</text>
+    <text x="0" y="147.0" font-style="italic">X</text>
+    <text x="86.0" y="138" text-anchor="middle" class="l-pt">par de polos</text>
+    <text x="86.0" y="138" text-anchor="middle" class="l-en">pole pair</text>
+    <text x="86.0" y="156" text-anchor="middle"><tspan font-style="italic">Q</tspan> = 0.5412</text>
+    <text x="212.0" y="138" text-anchor="middle" class="l-pt">par de polos</text>
+    <text x="212.0" y="138" text-anchor="middle" class="l-en">pole pair</text>
+    <text x="212.0" y="156" text-anchor="middle"><tspan font-style="italic">Q</tspan> = 1.3066</text>
+    <text x="292" y="147.0" font-style="italic">Y</text>
+    <text x="0" y="196" font-weight="600" style="fill:var(--muted)" font-size="13" class="l-pt">ordem 5</text>
+    <text x="0" y="196" font-weight="600" style="fill:var(--muted)" font-size="13" class="l-en">order 5</text>
+    <text x="0" y="235.0" font-style="italic">X</text>
+    <text x="86.0" y="226" text-anchor="middle" class="l-pt">polo real</text>
+    <text x="86.0" y="226" text-anchor="middle" class="l-en">real pole</text>
+    <text x="86.0" y="244" text-anchor="middle" class="l-pt" style="fill:var(--muted)">sem <tspan font-style="italic">Q</tspan></text>
+    <text x="86.0" y="244" text-anchor="middle" class="l-en" style="fill:var(--muted)">no <tspan font-style="italic">Q</tspan></text>
+    <text x="212.0" y="226" text-anchor="middle" class="l-pt">par de polos</text>
+    <text x="212.0" y="226" text-anchor="middle" class="l-en">pole pair</text>
+    <text x="212.0" y="244" text-anchor="middle"><tspan font-style="italic">Q</tspan> = 0.6180</text>
+    <text x="338.0" y="226" text-anchor="middle" class="l-pt">par de polos</text>
+    <text x="338.0" y="226" text-anchor="middle" class="l-en">pole pair</text>
+    <text x="338.0" y="244" text-anchor="middle"><tspan font-style="italic">Q</tspan> = 1.6180</text>
+    <text x="418" y="235.0" font-style="italic">Y</text>
+  </g>
+</svg>

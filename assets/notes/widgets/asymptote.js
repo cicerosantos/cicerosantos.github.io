@@ -1,8 +1,8 @@
 // {{widget asymptote factors="k:10; zero:100; pole:1k"}}: the asymptotic Bode plot of a transfer function
 // in the course's factored form, magnitude in dB and phase in degrees on one log-frequency axis: the
 // asymptotes bold, with the slope of each segment (dB/dec, °/dec) and the level of each flat one, the
-// corners marked, and the exact curve dashed over them; above, G(s) in the course's notation: an
-// integrator's or differentiator's 0 dB frequency as ωᵢ (ωᵢ₁, ωᵢ₂… when they differ), the real corners
+// corners marked, and the exact curve dashed over them; above, G(s) in the course's notation: a
+// pure integrator's or differentiator's 0 dB frequency as ωᵢ (ωᵢ₁, ωᵢ₂… when they differ), the real corners
 // as ω₁ < ω₂ < …. Or, with forms=, an explorer of single factors: a menu of the listed
 // forms, a slider for the corner (and Q for a pair), the form's equation and its asymptotes in words.
 // Options (build_notes.py checks them):
@@ -16,62 +16,114 @@
 //     the figure changes it;
 //   pz=on|off (default off; with forms= only): the form's poles (×) and zeros (○) in the s-plane, in
 //     units of its ω (σ/ω, jω/ω), beside the plot (below it on a narrow page).
+//   forms= also takes the second-order filters of asymptote-model.js (FILTERS): lp hp bp br notch res lpnotch
+//     hpnotch ap. Each shows the filter's own equation, a line with its decomposition into the forms above
+//     (the factors whose asymptotes are drawn), sliders for f0 and Q (with Q = ∞ for lp, hp, lpnotch and
+//     hpnotch) and, for lpnotch and hpnotch, one for ωz/ω0 (1.5 to 10, or 0.1 to 0.67).
 // The math, and the phase convention of the composite, are in asymptote-model.js.
 import { el, css, uid, canvasPlot, panel, toggle, slider, legend, num, eng, decade, FONT } from "./common.js";
-import { KINDS, isPair, parseFactors, model, span, polylines, segments, exactCurve, factorEnds, rootsOf } from "./asymptote-model.js";
+import { KINDS, isPair, parseFactors, model, span, polylines, segments, exactCurve, factorEnds, rootsOf, FILTERS, filterFactors, filterRoots, equationTex, qNumbering } from "./asymptote-model.js";
 
 const TEXT = {
   en: {
     perDec: "dB/dec", degDec: "°/dec", asym: "asymptotes", exact: "exact curve", exactSwitch: "Exact curve (dashed)",
     showAnswer: "Show the answer", hideAnswer: "Hide the answer", showPlot: "Show the plot", hidePlot: "Hide the plot",
     readHint: "Write G(s) from the asymptotic plot, then check.", drawHint: "Sketch the asymptotes of this G(s), then check.",
-    form: "Form", corner: "Corner frequency", zeroDb: "0 dB frequency", Q: "Q",
-    corners: "Corners", with: "with ω = 2πf", originZero: { int: "integrator 0 dB", diff: "differentiator 0 dB" },
+    form: "Form", filter: "Filter", corner: "Corner frequency", zeroDb: "0 dB frequency", Q: "Q",
+    corners: "Corners", with: "with ω = 2πf", originZero: { int: "pure integrator 0 dB", diff: "pure differentiator 0 dB" },
     perDecWords: "dB per decade", degDecWords: "° per decade",
     bad: msg => `This figure's expression is invalid: ${msg}.`, noForms: "None of the listed forms is known.",
     cornerErr: v => `corner error ${v} dB`,
     aria: (mag, ph) => `Asymptotic Bode plot. Magnitude: ${mag}. Phase: ${ph}.`,
     upTo: (v, f) => `${v} up to ${f}`, from: (v, a, b) => `${v} from ${a} to ${b}`, after: (v, f) => `${v} above ${f}`, all: v => `${v} throughout`,
-    names: { pole: "pole", zero: "zero", int: "integrator (pole at the origin)", diff: "differentiator (zero at the origin)",
+    names: { pole: "pole", zero: "zero", int: "pure integrator (pole at the origin)", diff: "pure differentiator (zero at the origin)",
              rpole: "RHP pole", rzero: "RHP zero", ipole: "inverted pole", izero: "inverted zero", irpole: "inverted RHP pole", irzero: "inverted RHP zero",
              pair: "pole pair", zpair: "zero pair", rpair: "RHP pole pair", rzpair: "RHP zero pair", ipair: "inverted pole pair", izpair: "inverted zero pair",
              irpair: "inverted RHP pole pair", irzpair: "inverted RHP zero pair" },
     undamped: "Q = ∞ (undamped)", step: "a step", stepAt: (a, b, f) => `a step from ${a} to ${b} at ${f}`,
     phaseStep: "Phase: {a} below {f}, {b} above: a step, since Q = ∞.",
     errInf: "At the corner the exact magnitude is infinite (Q = ∞): an infinite peak for poles, a notch for zeros.",
-    pzTitle: "s-plane (in units of ω)", pzKeys: ["poles", "zeros"], pzAria: (p, z) => `s-plane in units of ω: poles ${p}; zeros ${z}.`, none: "none", double: "double",
+    pzTitle: w => `s-plane (in units of ${w})`, pzKeys: ["poles", "zeros"], pzAria: (p, z, w) => `s-plane in units of ${w}: poles ${p}; zeros ${z}.`, none: "none", double: "double",
     magCommon: "Magnitude: 0 dB up to {f}, then {s}.", magInv: "Magnitude: {s} up to {f}, then 0 dB.", magOrigin: "Magnitude: {s} throughout, 0 dB at {f}.",
     phase: "Phase: {a} below {lo}, {b} above {hi}, a straight line of {s} between them ({m} at {f}).", phaseConst: "Phase: {a} at every frequency.",
     errBelow: "At the corner the exact curve is 3 dB below the asymptote.", errAbove: "At the corner the exact curve is 3 dB above the asymptote.",
     errPairPole: "At the corner the exact curve is 20 log₁₀ Q dB above the asymptote (below if Q < 1); with a high Q, almost all of the exact phase change happens near the corner.",
     errPairZero: "At the corner the exact curve is 20 log₁₀ Q dB below the asymptote (above if Q < 1); with a high Q, almost all of the exact phase change happens near the corner.",
     errNone: "The asymptote is the exact curve.",
+    f0: "Frequency f₀", dc: "DC level", ratio: "ωz/ω₀", lo: "ω → 0⁺", hi: "ω → ∞", ends: "Asymptotes: {lo}: {a}; {hi}: {b}.",
+    atF0: "At {f} (exact): {m}; phase: {p}.", inf: "∞", stepPh: (a, b) => `a step from ${a} to ${b}`, band: "Δf = f₀/Q",
+    filters: {
+      lp: ["low-pass", "The pole pair itself"],
+      hp: ["high-pass", "double pure differentiator (0 dB at f₀) × pole pair = inverted pole pair"],
+      bp: ["band-pass", "pure differentiator (0 dB at Q f₀) × pole pair"],
+      br: ["band-reject (no notch)", "pure integrator (0 dB at Q f₀) × zero pair: the inverse of the band-pass"],
+      notch: ["notch (at ω₀)", "undamped zero pair at ω₀ × pole pair"],
+      res: ["resonator (inverse notch)", "zero pair × undamped pole pair at ω₀ (poles on the jω axis): the inverse of the notch"],
+      lpnotch: ["low-pass notch (ωz > ω₀)", "gain (ωz/ω₀)² × undamped zero pair at ωz × pole pair"],
+      hpnotch: ["high-pass notch (ωz < ω₀)", "gain (ωz/ω₀)² × undamped zero pair at ωz × pole pair"],
+      ap: ["all-pass", "RHP zero pair × pole pair: zeros and poles mirrored across the jω axis"],
+    },
+    remarks: {
+      lp: "At f₀ the asymptotes meet at 0 dB and the exact curve is Q, 20 log₁₀ Q dB: the pair's error.",
+      hp: "As in the low-pass, at f₀ the asymptotes meet at 0 dB and the exact curve is Q, 20 log₁₀ Q dB.",
+      bp: "The asymptotes meet at f₀ at −20 log₁₀ Q dB; the exact curve is 0 dB there, and its −3 dB points are Δf = f₀/Q apart.",
+      br: "The inverse of the band-pass: 0 dB at f₀ is the minimum. No zero on the jω axis, so no notch.",
+      notch: "The two pairs' asymptotes cancel: 0 dB throughout. The notch is only in the exact curve, with the phase stepping from −90° to +90° at f₀.",
+      res: "The asymptotes cancel here too; the infinite peak at f₀ comes from the undamped poles on the jω axis: marginally stable.",
+      lpnotch: "The low-frequency level is (ωz/ω₀)², 40 log₁₀(ωz/ω₀) dB: positive since ωz > ω₀. The infinite notch sits at fz.",
+      hpnotch: "The low-frequency level is (ωz/ω₀)², 40 log₁₀(ωz/ω₀) dB: negative since ωz < ω₀. The infinite notch sits at fz.",
+      ap: "The magnitude is 1 at every frequency; only the phase moves, from 0° to −360°, through −180° at f₀.",
+    },
   },
   pt: {
     perDec: "dB/déc", degDec: "°/déc", asym: "assíntotas", exact: "curva exata", exactSwitch: "Curva exata (tracejada)",
     showAnswer: "Mostrar a resposta", hideAnswer: "Esconder a resposta", showPlot: "Mostrar o gráfico", hidePlot: "Esconder o gráfico",
     readHint: "Escreva G(s) a partir do gráfico assintótico e depois confira.", drawHint: "Esboce as assíntotas desta G(s) e depois confira.",
-    form: "Forma", corner: "Canto", zeroDb: "Frequência de 0 dB", Q: "Q",
-    corners: "Cantos", with: "com ω = 2πf", originZero: { int: "0 dB do integrador", diff: "0 dB do derivador" },
+    form: "Forma", filter: "Filtro", corner: "Canto", zeroDb: "Frequência de 0 dB", Q: "Q",
+    corners: "Cantos", with: "com ω = 2πf", originZero: { int: "0 dB do integrador puro", diff: "0 dB do derivador puro" },
     perDecWords: "dB por década", degDecWords: "° por década",
     bad: msg => `A expressão desta figura é inválida: ${msg}.`, noForms: "Nenhuma das formas listadas é conhecida.",
     cornerErr: v => `erro no canto ${v} dB`,
     aria: (mag, ph) => `Diagrama de Bode assintótico. Módulo: ${mag}. Fase: ${ph}.`,
     upTo: (v, f) => `${v} até ${f}`, from: (v, a, b) => `${v} de ${a} a ${b}`, after: (v, f) => `${v} acima de ${f}`, all: v => `${v} em toda a faixa`,
-    names: { pole: "polo", zero: "zero", int: "integrador (polo na origem)", diff: "derivador (zero na origem)",
+    names: { pole: "polo", zero: "zero", int: "integrador puro (polo na origem)", diff: "derivador puro (zero na origem)",
              rpole: "polo RHP", rzero: "zero RHP", ipole: "polo invertido", izero: "zero invertido", irpole: "polo invertido RHP", irzero: "zero invertido RHP",
              pair: "par de polos", zpair: "par de zeros", rpair: "par de polos RHP", rzpair: "par de zeros RHP", ipair: "par de polos invertido", izpair: "par de zeros invertido",
              irpair: "par de polos invertido RHP", irzpair: "par de zeros invertido RHP" },
     undamped: "Q = ∞ (sem amortecimento)", step: "um degrau", stepAt: (a, b, f) => `um degrau de ${a} para ${b} em ${f}`,
     phaseStep: "Fase: {a} abaixo de {f}, {b} acima: um degrau, porque Q = ∞.",
     errInf: "No canto, o módulo exato é infinito (Q = ∞): um pico infinito nos polos, um entalhe nos zeros.",
-    pzTitle: "plano s (em unidades de ω)", pzKeys: ["polos", "zeros"], pzAria: (p, z) => `Plano s em unidades de ω: polos ${p}; zeros ${z}.`, none: "nenhum", double: "duplo",
+    pzTitle: w => `plano s (em unidades de ${w})`, pzKeys: ["polos", "zeros"], pzAria: (p, z, w) => `Plano s em unidades de ${w}: polos ${p}; zeros ${z}.`, none: "nenhum", double: "duplo",
     magCommon: "Módulo: 0 dB até {f}, depois {s}.", magInv: "Módulo: {s} até {f}, depois 0 dB.", magOrigin: "Módulo: {s} em toda a faixa, 0 dB em {f}.",
     phase: "Fase: {a} abaixo de {lo}, {b} acima de {hi}, e entre eles uma reta de {s} ({m} em {f}).", phaseConst: "Fase: {a} em qualquer frequência.",
     errBelow: "No canto, a curva exata fica 3 dB abaixo da assíntota.", errAbove: "No canto, a curva exata fica 3 dB acima da assíntota.",
     errPairPole: "No canto, a curva exata fica 20 log₁₀ Q dB acima da assíntota (abaixo, se Q < 1); com Q alto, quase toda a variação da fase exata se concentra perto do canto.",
     errPairZero: "No canto, a curva exata fica 20 log₁₀ Q dB abaixo da assíntota (acima, se Q < 1); com Q alto, quase toda a variação da fase exata se concentra perto do canto.",
     errNone: "A assíntota é a própria curva exata.",
+    f0: "Frequência f₀", dc: "nível DC", ratio: "ωz/ω₀", lo: "ω → 0⁺", hi: "ω → ∞", ends: "Assíntotas: {lo}: {a}; {hi}: {b}.",
+    atF0: "Em {f} (exato): {m}; fase: {p}.", inf: "∞", stepPh: (a, b) => `um degrau de ${a} para ${b}`, band: "Δf = f₀/Q",
+    filters: {
+      lp: ["passa-baixas", "O próprio par de polos"],
+      hp: ["passa-altas", "duplo derivador puro (0 dB em f₀) × par de polos = par de polos invertido"],
+      bp: ["passa-faixa", "derivador puro (0 dB em Q f₀) × par de polos"],
+      br: ["rejeita-faixa (sem entalhe)", "integrador puro (0 dB em Q f₀) × par de zeros: o inverso do passa-faixa"],
+      notch: ["notch (em ω₀)", "par de zeros sem amortecimento em ω₀ × par de polos"],
+      res: ["ressonador (notch inverso)", "par de zeros × par de polos sem amortecimento em ω₀ (polos no eixo jω): o inverso do notch"],
+      lpnotch: ["notch passa-baixas (ωz > ω₀)", "ganho (ωz/ω₀)² × par de zeros sem amortecimento em ωz × par de polos"],
+      hpnotch: ["notch passa-altas (ωz < ω₀)", "ganho (ωz/ω₀)² × par de zeros sem amortecimento em ωz × par de polos"],
+      ap: ["passa-tudo", "par de zeros RHP × par de polos: zeros e polos espelhados no eixo jω"],
+    },
+    remarks: {
+      lp: "Em f₀, as assíntotas se encontram em 0 dB e a curva exata vale Q, 20 log₁₀ Q dB: o erro do par.",
+      hp: "Como no passa-baixas, em f₀ as assíntotas se encontram em 0 dB e a curva exata vale Q, 20 log₁₀ Q dB.",
+      bp: "As assíntotas se encontram em f₀ a −20 log₁₀ Q dB; a curva exata vale 0 dB ali, e os pontos de −3 dB ficam separados de Δf = f₀/Q.",
+      br: "O inverso do passa-faixa: 0 dB em f₀ é o mínimo. Sem zero no eixo jω, não há entalhe.",
+      notch: "As assíntotas dos dois pares se cancelam: 0 dB em toda a faixa. O entalhe está só na curva exata, com a fase em degrau de −90° para +90° em f₀.",
+      res: "Aqui as assíntotas também se cancelam; o pico infinito em f₀ vem dos polos sem amortecimento, sobre o eixo jω: marginalmente estável.",
+      lpnotch: "O nível em baixa frequência é (ωz/ω₀)², 40 log₁₀(ωz/ω₀) dB: positivo, porque ωz > ω₀. O entalhe infinito fica em fz.",
+      hpnotch: "O nível em baixa frequência é (ωz/ω₀)², 40 log₁₀(ωz/ω₀) dB: negativo, porque ωz < ω₀. O entalhe infinito fica em fz.",
+      ap: "O módulo é 1 em qualquer frequência; só a fase muda, de 0° a −360°, passando por −180° em f₀.",
+    },
   },
 };
 
@@ -85,7 +137,7 @@ const slopeText = (v, per) => signed(Number(v.toFixed(1))) + (per.startsWith("/"
 const qText = q => (q === Infinity ? "∞" : num(q, undefined));
 const STEP = 1e4;  // a slope above this, in dB or degrees per decade, is an undamped pair's step
 const subDigits = n => String(n).replace(/\d/g, d => SUB[d]);
-// The course's numbering: the 0 dB frequency of each integrator or differentiator is fᵢ (fᵢ₁ < fᵢ₂ < …
+// The course's numbering: the 0 dB frequency of each pure integrator or differentiator is fᵢ (fᵢ₁ < fᵢ₂ < …
 // when they differ), and only the real corners are f₁ < f₂ < …. sub(c) → the subscript of factor c.
 function numbering(factors) {
   const sorted = list => [...new Set(list.map(c => c.f))].sort((a, b) => a - b);
@@ -94,38 +146,25 @@ function numbering(factors) {
   return { origin, real, originSub, sub: c => (KINDS[c.kind].origin ? originSub(c.f) : String(real.indexOf(c.f) + 1)) };
 }
 
-// ---- the equation, in LaTeX ----
-const gainTex = k => {
-  const a = Math.abs(k), text = a >= 1e4 || a < 1e-3 ? a.toExponential(3).replace(/\.?0+e/, "e").replace(/e\+?(-?)(\d+)/, (_, m, e) => ` \\cdot 10^{${m}${e}}`) : String(Number(a.toPrecision(4)));
-  return (k < 0 ? "-" : "") + text;
-};
-function factorTex(c, w, q) {
-  const d = KINDS[c.kind], sg = d.rhp ? "-" : "+";
-  if (d.origin) return `\\frac{s}{${w}}`;
-  const u = d.inv ? `\\frac{${w}}{s}` : `\\frac{s}{${w}}`;
-  if (d.order === 1) return `1 ${sg} ${u}`;
-  if (c.Q === Infinity) return `1 + \\left(${u}\\right)^{2}`;
-  const uq = d.inv ? `\\frac{${w}}{${q} s}` : `\\frac{s}{${q} ${w}}`;
-  return `1 ${sg} ${uq} + \\left(${u}\\right)^{2}`;
-}
-// symbols(c) → [ω symbol, Q symbol]. The equation: K·Π(numerator)/Π(denominator), equal factors as powers.
-function equationTex(gain, hasGain, factors, symbols) {
-  const groups = { 1: [], [-1]: [] };
-  for (const c of factors) {
-    const [w, q] = symbols(c), tex = factorTex(c, w, q), part = groups[KINDS[c.kind].side];
-    const same = part.find(p => p.tex === tex);
-    if (same) same.n++; else part.push({ tex, n: 1, simple: !!KINDS[c.kind].origin });
-  }
-  const product = list => list.map(p => {
-    const alone = list.length === 1 && p.n === 1;
-    const body = alone ? p.tex : `\\left(${p.tex}\\right)`;
-    return p.n > 1 ? `${body}^{${p.n}}` : body;
-  }).join(" ");
-  const top = product(groups[1]), den = product(groups[-1]);
-  const k = hasGain || gain !== 1 ? gainTex(gain) : "";
-  const kPart = k === "-1" ? "-" : k ? k + " \\cdot " : "";
-  if (!den) return `G(s) = ${top ? (k === "-1" ? "-" : k ? k + " " : "") + top : k || "1"}`;
-  return `G(s) = ${kPart}\\dfrac{${top || "1"}}{${den}}`;
+// A filter's equation in its own form, D(s) written apart, and its decomposition into the forms.
+const SQ = x => `\\left(${x}\\right)^{2}`;
+const S_W0 = "\\frac{s}{\\omega_0}", S_QW0 = "\\frac{s}{Q\\omega_0}";
+function filterTex(name, inf) {
+  const D = inf ? `1 + ${SQ(S_W0)}` : `1 + ${S_QW0} + ${SQ(S_W0)}`, und = `1 + ${SQ(S_W0)}`;
+  const over = n => `G(s) = \\dfrac{${n}}{D(s)}`;
+  const form = {
+    lp: over("1"), hp: over(SQ(S_W0)), bp: over(S_QW0), br: `G(s) = \\dfrac{D(s)}{${S_QW0}}`, notch: over(und),
+    res: `G(s) = \\dfrac{D(s)}{${und}}`, lpnotch: over(`${SQ("\\frac{\\omega_z}{\\omega_0}")} + ${SQ(S_W0)}`), ap: over(`1 - ${S_QW0} + ${SQ(S_W0)}`),
+  };
+  form.hpnotch = form.lpnotch;
+  const invPair = inf ? `1 + ${SQ("\\frac{\\omega_0}{s}")}` : `1 + \\frac{\\omega_0}{Q s} + ${SQ("\\frac{\\omega_0}{s}")}`;
+  const zNotch = `${SQ("\\frac{\\omega_z}{\\omega_0}")}\\left(1 + ${SQ("\\frac{s}{\\omega_z}")}\\right) \\cdot \\dfrac{1}{D(s)}`;
+  const parts = {
+    lp: null, hp: `${SQ(S_W0)} \\cdot \\dfrac{1}{D(s)} = \\dfrac{1}{${invPair}}`, bp: `${S_QW0} \\cdot \\dfrac{1}{D(s)}`,
+    br: `\\dfrac{1}{${S_QW0}} \\cdot D(s)`, notch: `\\left(${und}\\right) \\cdot \\dfrac{1}{D(s)}`, res: `D(s) \\cdot \\dfrac{1}{${und}}`,
+    lpnotch: zNotch, hpnotch: zNotch, ap: `\\left(1 - ${S_QW0} + ${SQ(S_W0)}\\right) \\cdot \\dfrac{1}{D(s)}`,
+  };
+  return { form: form[name], D: `D(s) = ${D}`, parts: parts[name] };
 }
 
 // ---- canvas helpers ----
@@ -148,14 +187,19 @@ export default async function mount(body, options, { lang, typeset }) {
   const explorer = !options.factors && !!options.forms;
   let parsed = null, forms = [];
   if (explorer) {
-    forms = options.forms.split(",").map(t => t.trim()).filter(t => KINDS[t]);
+    forms = options.forms.split(",").map(t => t.trim()).filter(t => KINDS[t] || FILTERS[t]);
     if (!forms.length) return fail(s.noForms);
   } else {
     try { parsed = parseFactors(options.factors || ""); } catch (error) { return fail(s.bad(error.message)); }
   }
-  const state = { kind: forms[0], f: 1000, Q: 0.707, undamped: false };
-  const current = () => explorer ? { gain: 1, hasGain: false,
-    factors: [{ kind: state.kind, f: state.f, ...(isPair(state.kind) ? { Q: state.undamped ? Infinity : state.Q } : {}) }] } : parsed;
+  const state = { kind: forms[0], f: 1000, Q: 0.707, undamped: false, r: {} };
+  for (const k of forms) if (FILTERS[k]?.ratio) state.r[k] = FILTERS[k].ratio[2];
+  const isFilter = kind => !!FILTERS[kind];
+  // the Q slider is for the pairs and the filters; the Q = ∞ switch, for the pairs and the filters where it means something
+  const hasQ = kind => isPair(kind) || isFilter(kind), canInf = kind => isPair(kind) || !!FILTERS[kind]?.inf;
+  const qNow = () => (state.undamped && canInf(state.kind) ? Infinity : state.Q);
+  const current = () => !explorer ? parsed : isFilter(state.kind) ? filterFactors(state.kind, { f: state.f, Q: qNow(), r: state.r[state.kind] })
+    : { gain: 1, hasGain: false, factors: [{ kind: state.kind, f: state.f, ...(isPair(state.kind) ? { Q: qNow() } : {}) }] };
   const withPz = explorer && options.pz === "on";
   // the explorer's axis stays put while the sliders move: two decades beyond the slider's ends
   const F_RANGE = [100, 1e4], Q_RANGE = [0.1, 10];
@@ -171,11 +215,13 @@ export default async function mount(body, options, { lang, typeset }) {
   plots.append(el("div", { class: "w-asym-wrap" }, row));
   const plot = canvasPlot(main, { height: 470, draw });
   main.append(legend([["--loop", s.asym], ["--plant", s.exact, "dashed"]]));
-  let pzPlot = null;
+  let pzPlot = null, pzTitleBox = null;
+  const pzUnit = () => (isFilter(state.kind) ? "ω₀" : "ω");
   if (withPz) {
     const side = el("div", { class: "w-asym-side" });
     row.append(side);
-    side.append(el("div", { class: "w-note", text: s.pzTitle }));
+    pzTitleBox = el("div", { class: "w-note" });
+    side.append(pzTitleBox);
     pzPlot = canvasPlot(side, { height: 240, draw: drawPz, className: "square" });
     side.append(legend([["--text", s.pzKeys[0], "cross"], ["--text", s.pzKeys[1], "ring"]]));
   }
@@ -200,17 +246,24 @@ export default async function mount(body, options, { lang, typeset }) {
   else body.append(answer, plots, controls);
 
   let fSlider = null, qSlider = null, qSwitch = null, formSelect = null;
+  const rSliders = {};
   if (explorer) {
     if (forms.length > 1) {
       const id = uid("w-asym-form");
-      formSelect = el("select", { id, class: "w-asym-select" }, ...forms.map(k => el("option", { value: k, text: s.names[k] })));
+      formSelect = el("select", { id, class: "w-asym-select" }, ...forms.map(k => el("option", { value: k, text: isFilter(k) ? s.filters[k][0] : s.names[k] })));
       formSelect.addEventListener("change", () => { state.kind = formSelect.value; formChanged(); });
-      controls.append(el("div", { class: "w-asym-form" }, el("label", { for: id, text: s.form }), formSelect));
+      controls.append(el("div", { class: "w-asym-form" }, el("label", { for: id, text: forms.every(isFilter) ? s.filter : s.form }), formSelect));
     }
     fSlider = slider(controls, { label: s.corner, min: F_RANGE[0], max: F_RANGE[1], value: state.f, log: true, format: f => hzText(f, lang),
       oninput: f => { state.f = f; update(); } });
     qSlider = slider(controls, { label: s.Q, min: Q_RANGE[0], max: Q_RANGE[1], value: state.Q, log: true, format: q => num(Number(q.toPrecision(2)), undefined),
-      oninput: q => { state.Q = q; update(); } });
+      oninput: q => { state.Q = q; if (isFilter(state.kind)) writeEquation(); update(); } });
+    // one ωz/ω0 slider per notch variant (each with its own side of ω0); only the current one shows
+    for (const k of forms) if (FILTERS[k]?.ratio) {
+      const [lo, hi] = FILTERS[k].ratio;
+      rSliders[k] = slider(controls, { label: s.ratio, min: lo, max: hi, value: state.r[k], log: true, format: v => num(Number(v.toPrecision(2)), undefined),
+        oninput: v => { state.r[k] = v; writeEquation(); update(); } });
+    }
     qSwitch = toggle(controls, { label: s.undamped, checked: false, onchange: v => {
       state.undamped = v; qSlider.input.disabled = v; writeEquation(); update(); } });
   }
@@ -232,29 +285,63 @@ export default async function mount(body, options, { lang, typeset }) {
   }
   function computeRange() {
     if (!explorer) return rangeOf([parsed]);
-    const list = [];
-    for (const f of F_RANGE) for (const Q of isPair(state.kind) ? [...Q_RANGE, 0.5, Infinity] : [1])
-      list.push({ gain: 1, factors: [{ kind: state.kind, f, Q }] });
+    const list = [], k = state.kind, d = FILTERS[k];
+    const qs = hasQ(k) ? [...Q_RANGE, 0.5, ...(canInf(k) ? [Infinity] : [])] : [1];
+    for (const f of F_RANGE) for (const Q of qs) {
+      if (d) for (const r of d.ratio ? d.ratio.slice(0, 2) : [1]) list.push(filterFactors(k, { f, Q, r }));
+      else list.push({ gain: 1, factors: [{ kind: k, f, Q }] });
+    }
     return rangeOf(list);
   }
 
   // ---- the equation and the words ----
   const italicSub = (base, sub) => [el("i", { text: base }), el("sub", { text: sub })];
-  function kindSub(kind) { return KINDS[kind].origin ? "i" : isPair(kind) ? "0" : KINDS[kind].side < 0 ? "p" : "z"; }
+  function kindSub(kind) { return isFilter(kind) ? "0" : KINDS[kind].origin ? "i" : isPair(kind) ? "0" : KINDS[kind].side < 0 ? "p" : "z"; }
+  // a filter: its form, D(s), the decomposition and the words; the asymptotes' ends and the exact value at f0
+  function writeFilter() {
+    const name = state.kind, inf = qNow() === Infinity, tex = filterTex(name, inf);
+    const lines = [`\\[${tex.form}\\]`, `\\[${tex.D}\\]`];
+    if (tex.parts) lines.push(`\\[= ${tex.parts}\\]`);
+    eqBox.textContent = lines.join("");
+    const g = current(), m = model(g), pl = polylines(m, fmin, fmax);
+    const end = (segs, i) => {
+      const seg = segs.at(i), slope = Math.abs(seg.slope) < 1e-6;
+      return slope ? dbText(i === 0 ? seg.v0 : seg.v1) : `${signed(Number(seg.slope.toFixed(1)))} ${s.perDecWords}`;
+    };
+    const ms = segments(pl.mag), ps = pl.phase;
+    const a = `${end(ms, 0)}, ${signed(Math.round(ps[0][1]))}°`, b = `${end(ms, -1)}, ${signed(Math.round(ps.at(-1)[1]))}°`;
+    // the exact value at f0; an undamped pair there makes it 0 or ∞, with the phase in a step
+    const f0 = state.f, und = g.factors.find(c => c.Q === Infinity && Math.abs(c.f / f0 - 1) < 1e-9);
+    let mag, ph;
+    if (und) {
+      mag = KINDS[und.kind].side > 0 ? "−∞ dB" : "+∞ dB";
+      const [, p1] = m.rawExact(f0 * (1 - 1e-7)), [, p2] = m.rawExact(f0 * (1 + 1e-7));
+      ph = s.stepPh(signed(Math.round(p1)) + "°", signed(Math.round(p2)) + "°");
+    } else {
+      const [db, p] = m.rawExact(f0);
+      mag = `${num(Number(10 ** (db / 20)).toPrecision(3) * 1, undefined)} (${dbText(db)})`;
+      ph = signed(Math.round(p)) + "°";
+    }
+    words.replaceChildren(
+      el("p", {}, `${tex.parts ? "= " : ""}${s.filters[name][1]}.`),
+      el("p", {}, ...fillWords(s.ends, { lo: [s.lo], hi: [s.hi], a: [a], b: [b] })),
+      el("p", {}, ...fillWords(s.atF0, { f: italicSub("f", "0"), m: [mag], p: [ph] })),
+      el("p", {}, s.remarks[name]));
+    typeset(eqBox);
+  }
   function fillWords(template, map) {
     return String(template).split(/\{(\w+)\}/).flatMap((part, i) => (i % 2 ? map[part] ?? [] : part ? [part] : []));
   }
   function writeEquation() {
+    if (explorer && isFilter(state.kind)) return writeFilter();
     const g = current();
     let symbols;
     if (explorer) {
       const sub = kindSub(state.kind);
       symbols = () => [`\\omega_{${sub}}`, "Q"];
     } else {
-      const { sub } = numbering(g.factors);
-      const pairs = g.factors.filter(c => isPair(c.kind));
-      const oneQ = new Set(pairs.map(c => c.Q)).size <= 1;
-      symbols = c => { const i = sub(c); return [`\\omega_{${i}}`, oneQ ? "Q" : `Q_{${i}}`]; };
+      const { sub } = numbering(g.factors), qSub = qNumbering(g.factors);
+      symbols = c => { const q = qSub(c); return [`\\omega_{${sub(c)}}`, q ? `Q_{${q}}` : "Q"]; };
     }
     eqBox.textContent = `\\[${equationTex(g.gain, g.hasGain, g.factors, symbols)}\\]`;
     if (explorer) {
@@ -275,7 +362,12 @@ export default async function mount(body, options, { lang, typeset }) {
   function writeValues() {
     const g = current();
     const parts = [];
-    if (explorer) {
+    if (explorer && isFilter(state.kind)) {
+      const Q = qNow(), r = state.r[state.kind];
+      parts.push(...italicSub("f", "0"), ` = ${hzText(state.f, lang)} (${s.with}); `, el("i", { text: "Q" }), ` = ${qText(Q === Infinity ? Q : Number(Q.toPrecision(2)))}`);
+      if (r) parts.push("; ", ...italicSub("f", "z"), ` = ${hzText(r * state.f, lang)} (ωz/ω₀ = ${num(Number(r.toPrecision(2)), undefined)}, ${s.dc}: ${signed(Number((40 * Math.log10(r)).toFixed(1)))} dB)`);
+      if (["bp", "notch"].includes(state.kind)) parts.push(`; ${s.band} = ${hzText(state.f / Q, lang)}`);
+    } else if (explorer) {
       const c = g.factors[0], sub = kindSub(c.kind);
       parts.push(...italicSub("f", sub), ` = ${hzText(c.f, lang)} (${s.with})`);
       if (isPair(c.kind)) parts.push("; ", el("i", { text: "Q" }), c.Q === Infinity ? " = ∞" : ` = ${num(Number(c.Q.toPrecision(2)), undefined)} (${s.cornerErr(signed(Number((-KINDS[c.kind].side * 20 * Math.log10(c.Q)).toFixed(1))))})`);
@@ -286,15 +378,18 @@ export default async function mount(body, options, { lang, typeset }) {
       const groups = [group(origin, originSub), group(real, (f, i) => String(i + 1))].filter(x => x.length);
       groups.forEach((x, i) => parts.push(...(i ? ["; "] : []), ...x));
       if (groups.length) parts.push(` (${s.with})`);
-      const pairs = g.factors.filter(c => isPair(c.kind)), oneQ = new Set(pairs.map(c => c.Q)).size <= 1;
-      pairs.forEach((c, i) => {
-        if (oneQ && i) return;
-        parts.push("; ", ...(oneQ ? [el("i", { text: "Q" })] : italicSub("Q", sub(c))), ` = ${qText(c.Q)}`);
-      });
+      // one Q for all the pairs, or Q₁, Q₂… for each distinct (f, Q), as in the equation
+      const qSub = qNumbering(g.factors), seen = new Set();
+      for (const c of g.factors.filter(c => isPair(c.kind))) {
+        const q = qSub(c), key = q ?? "Q";
+        if (seen.has(key)) continue;
+        seen.add(key);
+        parts.push("; ", ...(q ? italicSub("Q", q) : [el("i", { text: "Q" })]), ` = ${qText(c.Q)}`);
+      }
     }
     values.replaceChildren(...parts);
     // under the plot, for the reader of read mode: the corners' values, and the frequency where each
-    // integrator or differentiator crosses 0 dB (not a corner: its slope never changes). No Q: the reader
+    // pure integrator or differentiator crosses 0 dB (not a corner: its slope never changes). No Q: the reader
     // finds it on the plot, from the exact curve's peak over the asymptote.
     if (!explorer && mode === "read") {
       const real = [...new Set(g.factors.filter(c => !KINDS[c.kind].origin).map(c => c.f))].sort((a, b) => a - b);
@@ -316,13 +411,17 @@ export default async function mount(body, options, { lang, typeset }) {
     writeValues();
     plot.label(describe(pl));
     plot.render();
-    if (pzPlot) { pzPlot.label(pzDescribe()); pzPlot.render(); }
+    if (pzPlot) { pzTitleBox.textContent = s.pzTitle(pzUnit()); pzPlot.label(pzDescribe()); pzPlot.render(); }
   }
   function formChanged() {
+    const show = (sl, on) => { for (const node of [sl.input, sl.output, sl.input.previousElementSibling]) node.hidden = !on; };
     if (qSlider) {
-      for (const node of [qSlider.input, qSlider.output, qSlider.input.previousElementSibling, qSwitch.parentElement]) node.hidden = !isPair(state.kind);
+      show(qSlider, hasQ(state.kind));
+      qSwitch.parentElement.hidden = !canInf(state.kind);
+      qSlider.input.disabled = state.undamped && canInf(state.kind);
     }
-    if (fSlider) fSlider.input.previousElementSibling.textContent = KINDS[state.kind].origin ? s.zeroDb : s.corner;
+    for (const [k, sl] of Object.entries(rSliders)) show(sl, k === state.kind);
+    if (fSlider) fSlider.input.previousElementSibling.textContent = isFilter(state.kind) ? s.f0 : KINDS[state.kind].origin ? s.zeroDb : s.corner;
     yRange = computeRange();
     writeEquation();
     update();
@@ -331,7 +430,7 @@ export default async function mount(body, options, { lang, typeset }) {
     // in words for a screen reader: "−20 dB per decade", the phase's levels signed ("+90°")
     const text = (pts, unit, per, sign) => segments(pts).map((seg, i, all) => {
       const a = hzText(seg.f0, lang), b = hzText(seg.f1, lang);
-      if (Math.abs(seg.slope) > STEP) return s.stepAt(signed(seg.v0) + unit, signed(seg.v1) + unit, a);
+      if (Math.abs(seg.slope) > STEP) return s.stepAt(signed(Math.round(seg.v0)) + unit, signed(Math.round(seg.v1)) + unit, a);
       const level = Number(seg.v0.toFixed(1));
       const v = Math.abs(seg.slope) < 1e-6 ? (sign ? signed(level) : num(level, undefined)) + unit : signed(Number(seg.slope.toFixed(1))) + per;
       return all.length === 1 ? s.all(v) : i === 0 ? s.upTo(v, b) : i === all.length - 1 ? s.after(v, a) : s.from(v, a, b);
@@ -371,7 +470,7 @@ export default async function mount(body, options, { lang, typeset }) {
     g.save();
     g.font = FONT; g.textAlign = "center";
     const rows = [[], []], cornerRects = [];
-    // the fallback label: fᵢ for an integrator's or differentiator's 0 dB frequency, f₁, f₂… for a real corner
+    // the fallback label: fᵢ for a pure integrator's or differentiator's 0 dB frequency, f₁, f₂… for a real corner
     const numbers = numbering(m.factors);
     const short = f => "f" + (numbers.real.includes(f) ? subDigits(numbers.real.indexOf(f) + 1) : "ᵢ" + (numbers.origin.length > 1 ? subDigits(numbers.origin.indexOf(f) + 1) : ""));
     m.corners.forEach(f => {
@@ -454,7 +553,7 @@ export default async function mount(body, options, { lang, typeset }) {
 
   // ---- the s-plane, in units of the form's ω ----
   function pzRoots() {
-    const r = rootsOf(current().factors[0]);
+    const r = isFilter(state.kind) ? filterRoots(state.kind, { f: state.f, Q: qNow(), r: state.r[state.kind] }) : rootsOf(current().factors[0]);
     const merge = list => {
       const out = [];
       for (const z of list) { const same = out.find(o => Math.hypot(o.re - z.re, o.im - z.im) < 1e-9); if (same) same.n++; else out.push({ ...z, n: 1 }); }
@@ -466,7 +565,7 @@ export default async function mount(body, options, { lang, typeset }) {
     const { poles, zeros } = pzRoots();
     const t = list => list.length ? list.map(z => `${num(Number(z.re.toFixed(2)), undefined)}${z.im ? ` ${z.im > 0 ? "+" : "−"} j${num(Number(Math.abs(z.im).toFixed(2)), undefined)}` : ""}` +
       (z.n > 1 ? ` (${s.double})` : "")).join(", ") : s.none;
-    return s.pzAria(t(poles), t(zeros));
+    return s.pzAria(t(poles), t(zeros), pzUnit());
   }
   function drawPz(g, w, h) {
     const { poles, zeros } = pzRoots();
@@ -483,8 +582,8 @@ export default async function mount(body, options, { lang, typeset }) {
       g.strokeStyle = css("--muted"); g.lineWidth = 1.2;
       g.beginPath(); g.moveTo(box.left, p.Y(0)); g.lineTo(box.left + box.width, p.Y(0)); g.moveTo(p.X(0), box.top); g.lineTo(p.X(0), box.top + box.height); g.stroke();
       g.fillStyle = css("--muted"); g.font = FONT; g.textAlign = "right";
-      g.fillText("σ/ω", box.left + box.width - 4, p.Y(0) - 5);
-      g.textAlign = "left"; g.fillText("jω/ω", p.X(0) + 5, box.top + 12);
+      g.fillText(`σ/${pzUnit()}`, box.left + box.width - 4, p.Y(0) - 5);
+      g.textAlign = "left"; g.fillText(`jω/${pzUnit()}`, p.X(0) + 5, box.top + 12);
       g.strokeStyle = css("--text"); g.lineWidth = 2;
       for (const z of poles) {
         const x = p.X(z.re), y = p.Y(z.im), r = 6;

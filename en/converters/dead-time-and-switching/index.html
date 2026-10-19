@@ -8,13 +8,13 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <meta name="description" content="What happens at the switch node during the dead time, why the high-side switch switches with loss and the low-side one does not, and how to choose the dead time between shoot-through and body-diode loss.">
-<link rel="alternate" hreflang="pt-BR" href="https://cicerosantos.github.io/pt/converters/dead-time-and-switching/">
-<link rel="alternate" hreflang="en" href="https://cicerosantos.github.io/en/converters/dead-time-and-switching/">
-<link rel="alternate" hreflang="x-default" href="https://cicerosantos.github.io/en/converters/dead-time-and-switching/">
-<link rel="stylesheet" href="/assets/site.css?v=439396ca8f">
+<link rel="alternate" hreflang="pt-BR" href="https://cicerosantos.com/pt/converters/dead-time-and-switching/">
+<link rel="alternate" hreflang="en" href="https://cicerosantos.com/en/converters/dead-time-and-switching/">
+<link rel="alternate" hreflang="x-default" href="https://cicerosantos.com/en/converters/dead-time-and-switching/">
+<link rel="stylesheet" href="/assets/site.css?v=607ae5b90a">
 <link rel="stylesheet" href="/assets/vendor/katex-0.16.11/katex.min.css?v=717bc9ae78">
-<link rel="stylesheet" href="/assets/notes/notes.css?v=beab937384">
-<script src="/assets/site.js?v=3e41b5e20a"></script>
+<link rel="stylesheet" href="/assets/notes/notes.css?v=4ad2a9032e">
+<script src="/assets/site.js?v=1a73f41d56"></script>
 <script src="/assets/lang.js?v=7142661d7c"></script>
 <script defer src="/assets/vendor/highlight-11.9.0/highlight.min.js?v=837a6fa5b0"></script>
 <script defer src="/assets/vendor/highlight-11.9.0/languages/c.min.js?v=147c335b43"></script>
@@ -22,15 +22,17 @@
 <script type="importmap">
 {"imports": {
   "/assets/notes/busca.js": "/assets/notes/busca.js?v=601c4e62a7",
-  "/assets/notes/notes.js": "/assets/notes/notes.js?v=6abcba7974",
-  "/assets/notes/widgets/asymptote-model.js": "/assets/notes/widgets/asymptote-model.js?v=c453a43954",
-  "/assets/notes/widgets/asymptote.js": "/assets/notes/widgets/asymptote.js?v=cc3c2d7106",
+  "/assets/notes/notes.js": "/assets/notes/notes.js?v=5f268069d4",
+  "/assets/notes/widgets/asymptote-model.js": "/assets/notes/widgets/asymptote-model.js?v=fb99d66540",
+  "/assets/notes/widgets/asymptote.js": "/assets/notes/widgets/asymptote.js?v=603e05f4f2",
   "/assets/notes/widgets/bode.js": "/assets/notes/widgets/bode.js?v=8483a4fe6e",
-  "/assets/notes/widgets/common.js": "/assets/notes/widgets/common.js?v=e5738ac01f",
+  "/assets/notes/widgets/common.js": "/assets/notes/widgets/common.js?v=b2e1f811ab",
   "/assets/notes/widgets/delay.js": "/assets/notes/widgets/delay.js?v=79255eee30",
   "/assets/notes/widgets/discrete.js": "/assets/notes/widgets/discrete.js?v=4391fd2c20",
   "/assets/notes/widgets/discretize.js": "/assets/notes/widgets/discretize.js?v=b6eecc02b4",
   "/assets/notes/widgets/locus.js": "/assets/notes/widgets/locus.js?v=4cf6594d63",
+  "/assets/notes/widgets/probe-model.js": "/assets/notes/widgets/probe-model.js?v=f2385953ac",
+  "/assets/notes/widgets/probe.js": "/assets/notes/widgets/probe.js?v=ca5773687f",
   "/assets/notes/widgets/pwmtiming.js": "/assets/notes/widgets/pwmtiming.js?v=ae57b55966",
   "/assets/notes/widgets/pzmap.js": "/assets/notes/widgets/pzmap.js?v=fd01408274",
   "/assets/notes/widgets/quantization.js": "/assets/notes/widgets/quantization.js?v=3977ed9c78",
@@ -38,7 +40,7 @@
   "/assets/notes/widgets/step.js": "/assets/notes/widgets/step.js?v=3256785486",
   "/assets/notes/widgets/switched.js": "/assets/notes/widgets/switched.js?v=4ef4394fbf",
   "/assets/notes/widgets/zplane.js": "/assets/notes/widgets/zplane.js?v=5640f43cd5",
-  "/assets/pcl/i18n.js": "/assets/pcl/i18n.js?v=07e64cfb3c",
+  "/assets/pcl/i18n.js": "/assets/pcl/i18n.js?v=75b8efd44a",
   "/assets/pcl/loop.js": "/assets/pcl/loop.js?v=fb8dd57c92",
   "/assets/pcl/plot.js": "/assets/pcl/plot.js?v=3f5c41abdd",
   "/assets/pcl/sampled.js": "/assets/pcl/sampled.js?v=f9d6525cce",
@@ -50,13 +52,14 @@
   "/power-labs/scope.js": "/power-labs/scope.js?v=d3b4fb846b"
 }}
 </script>
-<script type="module" src="/assets/notes/notes.js?v=6abcba7974"></script>
+<script type="module" src="/assets/notes/notes.js?v=5f268069d4"></script>
 </head>
 <body>
 <div class="layout">
   <aside class="side"></aside>
   <main class="page note" data-lang="en" data-slug="dead-time-and-switching">
-<nav class="crumbs" aria-label="breadcrumb"><a href="/en/converters/">Power converters</a></nav>
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/en/">Course</a> › <a href="/en/converters/">Power converters</a></nav>
+<nav class="trail-bar" aria-label="Trail: Buck power stage" data-trail="buck-power-stage" data-trail-title="Buck power stage" data-step="step 3 of 5"><span class="trail-title"><a class="trail-name" href="/en/converters/buck-power-stage/">Buck power stage</a></span><span class="trail-step">step 3 of 5</span><span class="trail-nav"><a rel="prev" href="/en/converters/buck-losses/?trail=buck-power-stage" title="Losses of the synchronous buck">← previous<span class="sr-only">: Losses of the synchronous buck</span></a><a rel="next" href="/en/converters/inductor-magnetics/?trail=buck-power-stage" title="The buck inductor: core losses, Dowell and saturation">next →<span class="sr-only">: The buck inductor: core losses, Dowell and saturation</span></a></span></nav>
 <h1 id="dead-time-and-switching">Dead time and switching in the synchronous buck</h1>
 <p class="summary">What happens at the switch node during the dead time, why the high-side switch switches with loss and the low-side one does not, and how to choose the dead time between shoot-through and body-diode loss.</p>
 <aside class="prereqs"><b>First, see:</b> <a class="note-link" href="/en/converters/buck-losses/" data-title="Losses of the synchronous buck" data-summary="The conduction, switching, dead-time, gate, inductor and capacitor losses of the lab&#x27;s buck, added up into a budget and an efficiency-versus-load curve.">Losses of the synchronous buck</a></aside>
@@ -160,7 +163,8 @@ c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
 M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2106em;"><span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">99</span></span></span></span></span> MHz.</p>
 </details>
 </article>
-<footer class="note-foot"><section class="see-also"><h2>See also</h2><p><a class="note-link" href="/en/converters/thermal-and-selection/" data-title="Thermal design and part selection for the buck" data-summary="From loss to junction temperature through the thermal resistance, with the iteration that couples \(R_{DS(on)}\) and temperature, and the criteria for choosing the MOSFETs, inductor and capacitors of the lab&#x27;s buck.">Thermal design and part selection for the buck</a> · <a class="note-link" href="/en/converters/capacitor-rms-current/" data-title="RMS current in the buck&#x27;s capacitors" data-summary="The buck&#x27;s input capacitor carries a pulsed current of RMS value \(I_o\sqrt{D(1-D)}\), much larger than the output capacitor&#x27;s, which sees only the inductor&#x27;s triangular ripple.">RMS current in the buck&#x27;s capacitors</a></p></section><section class="backlinks"><h2>Used in</h2><ul><li><a class="note-link" href="/en/converters/buck-losses/" data-title="Losses of the synchronous buck" data-summary="The conduction, switching, dead-time, gate, inductor and capacitor losses of the lab&#x27;s buck, added up into a budget and an efficiency-versus-load curve.">Losses of the synchronous buck</a></li><li><a class="note-link" href="/en/converters/buck/" data-title="Synchronous buck 24 V → 9 V: worked example" data-summary="The lab&#x27;s buck, from the specifications to the firmware, with the numbers of every step of the trail and the four controllers simulated in QSPICE.">Synchronous buck 24 V → 9 V: worked example</a></li><li><a class="note-link" href="/en/converters/capacitor-rms-current/" data-title="RMS current in the buck&#x27;s capacitors" data-summary="The buck&#x27;s input capacitor carries a pulsed current of RMS value \(I_o\sqrt{D(1-D)}\), much larger than the output capacitor&#x27;s, which sees only the inductor&#x27;s triangular ripple.">RMS current in the buck&#x27;s capacitors</a></li><li><a class="note-link" href="/en/converters/thermal-and-selection/" data-title="Thermal design and part selection for the buck" data-summary="From loss to junction temperature through the thermal resistance, with the iteration that couples \(R_{DS(on)}\) and temperature, and the criteria for choosing the MOSFETs, inductor and capacitors of the lab&#x27;s buck.">Thermal design and part selection for the buck</a></li></ul></section><p class="tags"><span>#buck</span> <span>#switching</span> <span>#losses</span></p></footer>
+<nav class="trail-bar trail-bar-end" aria-label="Trail: Buck power stage (end of the note)" data-trail="buck-power-stage"><span class="trail-title"><a class="trail-name" href="/en/converters/buck-power-stage/">Buck power stage</a></span><span class="trail-step">step 3 of 5</span><span class="trail-nav"><a href="/en/converters/buck-losses/?trail=buck-power-stage" title="Losses of the synchronous buck">← previous<span class="sr-only">: Losses of the synchronous buck</span></a><a href="/en/converters/inductor-magnetics/?trail=buck-power-stage" title="The buck inductor: core losses, Dowell and saturation">next: The buck inductor: core losses, Dowell and saturation →</a></span></nav>
+<footer class="note-foot"><section class="see-also"><h2>See also</h2><p><a class="note-link" href="/en/converters/thermal-and-selection/" data-title="Thermal design and part selection for the buck" data-summary="From loss to junction temperature through the thermal resistance, with the iteration that couples \(R_{DS(on)}\) and temperature, and the criteria for choosing the MOSFETs, inductor and capacitors of the lab&#x27;s buck.">Thermal design and part selection for the buck</a> · <a class="note-link" href="/en/converters/capacitor-rms-current/" data-title="RMS current in the buck&#x27;s capacitors" data-summary="The buck&#x27;s input capacitor carries a pulsed current of RMS value \(I_o\sqrt{D(1-D)}\), much larger than the output capacitor&#x27;s, which sees only the inductor&#x27;s triangular ripple.">RMS current in the buck&#x27;s capacitors</a></p></section><section class="backlinks"><h2>Used in</h2><ul><li><a class="note-link" href="/en/converters/buck-losses/" data-title="Losses of the synchronous buck" data-summary="The conduction, switching, dead-time, gate, inductor and capacitor losses of the lab&#x27;s buck, added up into a budget and an efficiency-versus-load curve.">Losses of the synchronous buck</a></li><li><a class="note-link" href="/en/converters/buck/" data-title="Synchronous buck 24 V → 9 V: worked example" data-summary="The lab&#x27;s buck, from the specifications to the firmware, with the numbers of every step of the trail and the four controllers simulated in QSPICE.">Synchronous buck 24 V → 9 V: worked example</a></li><li><a class="note-link" href="/en/converters/capacitor-rms-current/" data-title="RMS current in the buck&#x27;s capacitors" data-summary="The buck&#x27;s input capacitor carries a pulsed current of RMS value \(I_o\sqrt{D(1-D)}\), much larger than the output capacitor&#x27;s, which sees only the inductor&#x27;s triangular ripple.">RMS current in the buck&#x27;s capacitors</a></li><li><a class="note-link" href="/en/converters/thermal-and-selection/" data-title="Thermal design and part selection for the buck" data-summary="From loss to junction temperature through the thermal resistance, with the iteration that couples \(R_{DS(on)}\) and temperature, and the criteria for choosing the MOSFETs, inductor and capacitors of the lab&#x27;s buck.">Thermal design and part selection for the buck</a></li></ul></section><section class="backlinks"><h2>In the trails</h2><p><a class="note-link" href="/en/converters/buck-power-stage/" data-title="Buck power stage" data-summary="From the sized filter to the parts: the RMS current in the capacitors, the losses, the dead time, the inductor and the thermal design of the lab&#x27;s buck.">Buck power stage</a></p></section><p class="tags"><span>#buck</span> <span>#switching</span> <span>#losses</span></p></footer>
   </main>
 </div>
 </body>

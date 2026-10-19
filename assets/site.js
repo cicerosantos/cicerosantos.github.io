@@ -3,15 +3,21 @@
 // to PAGES.
 // Each page's icon is the inside of a 24×24 stroked SVG. {lang} in an href is the visitor's language,
 // en or pt. A tab is current on its address and those below it; a tab with a section, on the notes of
-// that section (/en/<section>/ or /pt/<section>/).
+// that section (/en/<section>/ or /pt/<section>/); the course's home (home: true), only on its own address.
 const PAGES = [
   { href: "/", label: { en: "Home", pt: "Início" }, icon: '<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 9.5V20h4.5v-6h4v6h4.5V9.5"/>' },
   // a square wave
   { href: "/power-labs/", label: { en: "Power labs", pt: "Power labs" },
     icon: '<path d="M2.5 17h4V7h5v10h5V7h5"/>' },
+  // the course's home page, /en/ and /pt/: a signpost
+  { href: "/{lang}/", home: true, label: { en: "Course", pt: "Curso" },
+    icon: '<path d="M12 3v18"/><path d="M5 5.5h11l3 2.5-3 2.5H5z"/><path d="M19 13H8l-3 2.5L8 18h11z"/>' },
   // the s-plane: its axes, a pole (×) and a zero (○)
   { href: "/{lang}/control-basics/", section: "control-basics", label: { en: "Classical control", pt: "Controle clássico" },
     icon: '<path d="M3 12h18M15.5 3.5v17"/><path d="M5.5 4.5l5 5M10.5 4.5l-5 5"/><circle cx="8" cy="17" r="2.6"/>' },
+  // an amplifier: a triangle with two inputs and an output
+  { href: "/{lang}/analog-electronics/", section: "analog-electronics", label: { en: "Analog electronics", pt: "Eletrônica analógica" },
+    icon: '<path d="M6.5 4.5v15L19 12z"/><path d="M2.5 9h4M2.5 15h4M19 12h2.5"/><path d="M8.5 9h2.5M8.5 15h2.5M9.75 13.75v2.5"/>' },
   // an open book
   { href: "/{lang}/converters/", section: "converters", label: { en: "Power converters", pt: "Conversores" },
     icon: '<path d="M12 6.8C10.2 5.3 7.4 4.6 3.5 4.9v12.9c3.9-.3 6.7.4 8.5 1.9 1.8-1.5 4.6-2.2 8.5-1.9V4.9c-3.9-.3-6.7.4-8.5 1.9z"/><path d="M12 6.8v12.9"/>' },
@@ -96,7 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   const here = location.pathname.replace(/index\.html$/, ""), section = sectionHere();
   const hrefOf = page => page.href.replace("{lang}", UI);
-  const current = page => page.section ? page.section === section : page.href === "/" ? here === "/" : here.startsWith(page.href);
+  const current = page => page.section ? page.section === section : page.home ? here === hrefOf(page)
+    : page.href === "/" ? here === "/" : here.startsWith(page.href);
   const item = (tag, attributes, svg, label, title = label) =>
     `<${tag} class="item" ${attributes} title="${title}">${icon(svg)}<span class="label">${label}</span></${tag}>`;
   aside.innerHTML = `
@@ -147,3 +154,56 @@ function topControls() {
   if (!group) group = Object.assign(document.createElement("div"), { className: "top-controls" });
   return group;
 }
+
+// ---- the notes' trails ----
+// A note in several trails has a bar for each. Reached from a trail (its links carry ?trail=<slug>, kept for the
+// tab in sessionStorage "pcl-trail"), the page shows only that trail's bars, with a short "also in the trail X"
+// link in the one it keeps; rules added here, in the <head>, before the page is drawn, so nothing moves. A
+// ?trail= the note has no bar for is ignored, and a stored trail it has no bar for is forgotten, so a trail left
+// behind never filters the pages read later. Without JavaScript or :has(), or from elsewhere, every bar shows.
+// The trail in force is left in <html data-trail>, for notes.js's progress.
+(() => {
+  if (!/^\/(en|pt)\/[a-z-]+\/[a-z0-9-]+\/$/.test(location.pathname.replace(/index\.html$/, ""))) return;
+  const valid = slug => typeof slug === "string" && /^[a-z0-9-]{1,80}$/.test(slug);
+  const asked = new URLSearchParams(location.search).get("trail");
+  let stored = null;
+  try { stored = sessionStorage.getItem("pcl-trail"); } catch (error) { /* storage blocked */ }
+  const candidates = [...new Set([asked, stored].filter(valid))];
+  if (!candidates.length) return;
+  // the first candidate whose bar the page has wins: ?trail= first, then the stored one
+  const rules = candidates.map((trail, k) => {
+    const before = candidates.slice(0, k).map(other => `:not(:has(.trail-bar[data-trail="${other}"]))`).join("");
+    const main = `main${before}:has(.trail-bar[data-trail="${trail}"])`;
+    return `${main} .trail-bar:not([data-trail="${trail}"]) { display: none; }\n`
+         + `${main} .trail-bar[data-trail="${trail}"] .trail-also { display: block; }`;
+  });
+  const style = document.createElement("style");
+  style.textContent = rules.join("\n");
+  document.head.append(style);
+  document.addEventListener("DOMContentLoaded", () => {
+    const trail = candidates.find(slug => document.querySelector(`.trail-bar[data-trail="${slug}"]`));
+    try {
+      if (trail) sessionStorage.setItem("pcl-trail", trail);
+      else if (stored) sessionStorage.removeItem("pcl-trail");
+    } catch (error) { /* storage blocked */ }
+    if (trail) document.documentElement.dataset.trail = trail;
+    else style.remove();
+  });
+})();
+
+// The course's home page: "Continue where I left off", from the last step of a trail read in this language
+// (notes.js keeps it in localStorage "pcl-progress"). The page calls this right after the empty, hidden slot.
+window.pclContinue = slot => {
+  const lang = (location.pathname.match(/^\/(en|pt)\//) || [])[1];
+  let last = null;
+  try { last = JSON.parse(localStorage.getItem("pcl-progress") || "{}")[lang]; } catch (error) { return; }
+  if (!slot || !last || typeof last !== "object") return;
+  const { url, title, trailTitle, step } = last;
+  if (typeof url !== "string" || !new RegExp(`^/${lang}/[a-z-]+/[a-z0-9-]+/(\\?trail=[a-z0-9-]+)?$`).test(url)) return;
+  if (typeof title !== "string" || !title) return;
+  const link = Object.assign(document.createElement("a"), { href: url, textContent: title });
+  const where = [trailTitle, step].filter(text => typeof text === "string" && text).join(" · ");
+  slot.append(document.createTextNode(`${say({ en: "Continue where you left off", pt: "Continue de onde parou" })}: `), link);
+  if (where) slot.append(" ", Object.assign(document.createElement("span"), { textContent: `(${where})` }));
+  slot.hidden = false;
+};

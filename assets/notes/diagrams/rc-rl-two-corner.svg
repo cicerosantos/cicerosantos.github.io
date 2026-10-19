@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 176" aria-hidden="true">
+  <!-- The two-corner networks: u to y through R1; u to node A through C1 (left) or L1 (right); R4 from A to ground, R3 from A to y, R2 from y to ground -->
+  <g fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--text)">
+    <path d="M22 92 L22 109"/>
+    <path d="M22 133 L22 150"/>
+    <path d="M10 121 a12 12 0 1 0 24 0 a12 12 0 1 0 -24 0"/>
+    <path d="M18.5 116 H25.5 M22 112.5 V119.5 M18.5 126.5 H25.5"/>
+    <path d="M22 92 L36 92"/>
+    <path d="M36 92 L67 92"/>
+    <path d="M73 92 L104 92"/>
+    <path d="M67 82 L67 102"/>
+    <path d="M73 82 L73 102"/>
+    <path d="M36 92 L36 48"/>
+    <path d="M36 48 L92 48"/>
+    <path d="M126 48 L182 48"/>
+    <path d="M92 48 L94.8333 54 L100.5 42 L106.167 54 L111.833 42 L117.5 54 L123.167 42 L126 48"/>
+    <path d="M182 48 L182 92"/>
+    <path d="M104 92 L126 92"/>
+    <path d="M160 92 L182 92"/>
+    <path d="M126 92 L128.833 98 L134.5 86 L140.167 98 L145.833 86 L151.5 98 L157.167 86 L160 92"/>
+    <path d="M104 92 L104 104"/>
+    <path d="M104 138 L104 150"/>
+    <path d="M104 104 L98 106.833 L110 112.5 L98 118.167 L110 123.833 L98 129.5 L110 135.167 L104 138"/>
+    <path d="M182 92 L212 92"/>
+    <path d="M182 92 L182 104"/>
+    <path d="M182 138 L182 150"/>
+    <path d="M182 104 L176 106.833 L188 112.5 L176 118.167 L188 123.833 L176 129.5 L188 135.167 L182 138"/>
+    <path d="M22 150 L212 150"/>
+    <path d="M22 150 L22 156"/>
+    <path d="M13 156 H31 M16.5 160 H27.5 M20 164 H24"/>
+    <path d="M252 92 L252 109"/>
+    <path d="M252 133 L252 150"/>
+    <path d="M240 121 a12 12 0 1 0 24 0 a12 12 0 1 0 -24 0"/>
+    <path d="M248.5 116 H255.5 M252 112.5 V119.5 M248.5 126.5 H255.5"/>
+    <path d="M252 92 L266 92"/>
+    <path d="M266 92 L282 92"/>
+    <path d="M318 92 L334 92"/>
+    <path d="M282 92 A4.5 4.5 0 0 1 291.0 92.0 A4.5 4.5 0 0 1 300.0 92.0 A4.5 4.5 0 0 1 309.0 92.0 A4.5 4.5 0 0 1 318.0 92.0"/>
+    <path d="M266 92 L266 48"/>
+    <path d="M266 48 L322 48"/>
+    <path d="M356 48 L412 48"/>
+    <path d="M322 48 L324.833 54 L330.5 42 L336.167 54 L341.833 42 L347.5 54 L353.167 42 L356 48"/>
+    <path d="M412 48 L412 92"/>
+    <path d="M334 92 L356 92"/>
+    <path d="M390 92 L412 92"/>
+    <path d="M356 92 L358.833 98 L364.5 86 L370.167 98 L375.833 86 L381.5 98 L387.167 86 L390 92"/>
+    <path d="M334 92 L334 104"/>
+    <path d="M334 138 L334 150"/>
+    <path d="M334 104 L328 106.833 L340 112.5 L328 118.167 L340 123.833 L328 129.5 L340 135.167 L334 138"/>
+    <path d="M412 92 L442 92"/>
+    <path d="M412 92 L412 104"/>
+    <path d="M412 138 L412 150"/>
+    <path d="M412 104 L406 106.833 L418 112.5 L406 118.167 L418 123.833 L406 129.5 L418 135.167 L412 138"/>
+    <path d="M252 150 L442 150"/>
+    <path d="M252 150 L252 156"/>
+    <path d="M243 156 H261 M246.5 160 H257.5 M250 164 H254"/>
+  </g>
+  <g stroke-width="1.6" style="stroke:var(--text);fill:var(--bg)">
+    <circle cx="212" cy="92" r="3.4"/>
+    <circle cx="212" cy="150" r="3.4"/>
+    <circle cx="442" cy="92" r="3.4"/>
+    <circle cx="442" cy="150" r="3.4"/>
+  </g>
+  <g style="fill:var(--text)">
+    <circle cx="36" cy="92" r="2.6"/>
+    <circle cx="104" cy="92" r="2.6"/>
+    <circle cx="182" cy="92" r="2.6"/>
+    <circle cx="104" cy="150" r="2.6"/>
+    <circle cx="182" cy="150" r="2.6"/>
+    <circle cx="266" cy="92" r="2.6"/>
+    <circle cx="334" cy="92" r="2.6"/>
+    <circle cx="412" cy="92" r="2.6"/>
+    <circle cx="334" cy="150" r="2.6"/>
+    <circle cx="412" cy="150" r="2.6"/>
+  </g>
+  <!-- labels; Portuguese (l-pt) and English (l-en) where they differ: the notes show one set by the page's language -->
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="14" style="fill:var(--text)">
+    <text x="6" y="18" text-anchor="start" font-size="13" font-weight="600" class="l-pt" style="fill:var(--muted)">(a) com C1</text>
+    <text x="6" y="18" text-anchor="start" font-size="13" font-weight="600" class="l-en" style="fill:var(--muted)">(a) with C1</text>
+    <text x="18" y="84" text-anchor="end"><tspan font-style="italic">u</tspan></text>
+    <text x="70" y="76" text-anchor="middle"><tspan font-style="italic">C</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="109" y="36" text-anchor="middle"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="94" y="112" text-anchor="end" font-size="13">A</text>
+    <text x="143" y="79" text-anchor="middle"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">3</tspan></text>
+    <text x="116" y="126" text-anchor="start"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">4</tspan></text>
+    <text x="193" y="133" text-anchor="start"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">2</tspan></text>
+    <text x="214" y="83" text-anchor="start"><tspan font-style="italic">y</tspan></text>
+    <text x="236" y="18" text-anchor="start" font-size="13" font-weight="600" class="l-pt" style="fill:var(--muted)">(b) com L1</text>
+    <text x="236" y="18" text-anchor="start" font-size="13" font-weight="600" class="l-en" style="fill:var(--muted)">(b) with L1</text>
+    <text x="248" y="84" text-anchor="end"><tspan font-style="italic">u</tspan></text>
+    <text x="300" y="79" text-anchor="middle"><tspan font-style="italic">L</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="339" y="36" text-anchor="middle"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">1</tspan></text>
+    <text x="324" y="112" text-anchor="end" font-size="13">A</text>
+    <text x="373" y="79" text-anchor="middle"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">3</tspan></text>
+    <text x="346" y="126" text-anchor="start"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">4</tspan></text>
+    <text x="423" y="133" text-anchor="start"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">2</tspan></text>
+    <text x="444" y="83" text-anchor="start"><tspan font-style="italic">y</tspan></text>
+  </g>
+</svg>

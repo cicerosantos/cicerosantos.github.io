@@ -5,7 +5,8 @@
 //   t(key, ...args): a text of the page's scripts, from STRINGS below; a function entry takes args.
 //   num(text): a number as text, with U+2212 for minus and, in Portuguese, a decimal comma.
 // The lab's pages are written in English; on import, this module translates the elements marked
-// data-t="key" (text), data-t-title, data-t-aria (aria-label) and data-t-content (a <meta>'s content).
+// data-t="key" (text), data-t-title, data-t-aria (aria-label), data-t-content (a <meta>'s content) and
+// data-t-href (a link's address in the other language).
 export const LANG = /^pt/i.test(document.documentElement.lang) ? "pt" : "en";
 export const LOCALE = LANG === "pt" ? "pt-BR" : "en";
 
@@ -33,6 +34,8 @@ const STRINGS = {
         "degraus de referência, de entrada e de carga com vários projetos de controlador, com zoom, cursores, medições e o ganho de malha.",
   },
   "gallery.cards": { en: "Converters", pt: "Conversores" },
+  "gallery.course": { en: "The course: the notes behind these converters →", pt: "O curso: as notas por trás destes conversores →" },
+  "gallery.course.href": { en: "/en/", pt: "/pt/" },
   "gallery.footer": {
     en: "Simulated with QSPICE, Qorvo's freeware circuit simulator, under Wine. This site is not affiliated with or endorsed by Qorvo.",
     pt: "Simulado com o QSPICE, simulador de circuitos gratuito da Qorvo, sob o Wine. Este site não tem vínculo com a Qorvo nem é endossado por ela.",
@@ -179,7 +182,7 @@ export function t(key, ...args) {
 
 // The page's own texts, written in English in its HTML.
 if (LANG !== "en") {
-  const ATTRIBUTES = { t: null, tTitle: "title", tAria: "aria-label", tContent: "content" };
+  const ATTRIBUTES = { t: null, tTitle: "title", tAria: "aria-label", tContent: "content", tHref: "href" };
   for (const [key, attribute] of Object.entries(ATTRIBUTES)) {
     const name = "data-" + key.replace(/[A-Z]/g, c => "-" + c.toLowerCase());
     for (const element of document.querySelectorAll(`[${name}]`)) {

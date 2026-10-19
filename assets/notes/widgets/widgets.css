@@ -99,11 +99,17 @@
 /* Controls: a panel, sliders as the Bode window's (label, track, value), switches segmented. */
 .w-controls { display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; font-size: 12px; }
 .w-controls:empty { display: none; }
-.w-sliders { display: grid; grid-template-columns: auto minmax(0, 1fr) 72px; gap: 3px 10px; align-items: center; }
+.w-sliders { display: grid; grid-template-columns: auto minmax(0, 1fr) 84px; gap: 3px 10px; align-items: center; }
 .w-sliders label { white-space: nowrap; }
 .w-sliders input[type="range"] { width: 100%; min-width: 0; margin: 0; accent-color: var(--accent); min-height: 26px; }
-.w-sliders output { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.w-sliders input:disabled + output, .w-sliders label.off { color: var(--muted); }
+.w-sliders .w-num { width: 100%; min-width: 0; box-sizing: border-box; min-height: 26px; padding: 2px 6px; text-align: right;
+                    font: inherit; font-variant-numeric: tabular-nums; color: var(--text); background: var(--bg);
+                    border: 1px solid var(--field-border); border-radius: 5px; }
+.w-sliders .w-num:hover { border-color: var(--accent); }
+.w-sliders .w-num:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.w-sliders .w-num[aria-invalid="true"] { border-color: var(--callout-warning); }
+.w-sliders .w-num:disabled, .w-sliders label.off { color: var(--muted); }
+@media (pointer: coarse) { .w-sliders .w-num { min-height: 36px; font-size: 16px; } }
 .w-switch { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; border: 0; padding: 0; margin: 2px 0; min-width: 0; }
 .w-switch legend { float: left; color: var(--muted); padding: 0; margin: 0; }
 .w-segmented { display: flex; flex-wrap: nowrap; min-width: 0; }
@@ -127,7 +133,7 @@
 .w-scope:hover { border-color: var(--accent); color: var(--accent); }
 
 @media (max-width: 480px) {
-  .w-sliders { grid-template-columns: minmax(0, 1fr) 72px; gap: 0 8px; }
+  .w-sliders { grid-template-columns: minmax(0, 1fr) 96px; gap: 0 8px; }
   .w-sliders label { grid-column: 1 / -1; margin-top: 4px; }
 }
 

@@ -37,6 +37,17 @@ a.note-link:hover { border-bottom-style: solid; }
 .trail-bar .trail-nav { margin-left: auto; display: flex; gap: 14px; }
 .trail-bar .trail-nav a { text-decoration: none; font-weight: 600; }
 .trail-bar-end { margin: 28px 0 14px; }
+.trail-bar-end .trail-nav { flex-wrap: wrap; row-gap: 6px; }
+.trail-bar .trail-title { color: var(--muted); }
+/* "também na trilha X": shown by site.js only in the one bar it keeps, when it hides the others */
+.trail-bar .trail-also { display: none; flex-basis: 100%; color: var(--muted); font-size: 13px; }
+.trail-bar .trail-end { color: var(--muted); }
+/* an optional step: the badge, in the bars, the trail's list and the index's "In order" */
+.badge-optional { display: inline-block; font-size: 12px; line-height: 1.5; padding: 0 7px; border-radius: 999px; font-weight: 600;
+                  background: var(--selected-bg); color: var(--selected-text); vertical-align: 1px; }
+.trail-bar .trail-optional { font-weight: 500; }
+li.step-optional { list-style-type: "+  "; }
+li.step-optional::marker { color: var(--muted); }
 .prereqs { border-left: 3px solid var(--accent); background: var(--selected-bg); padding: 8px 12px; border-radius: 0 8px 8px 0;
            font-size: 14.5px; margin: 0 0 18px; }
 .prereqs a { color: var(--selected-text); }  /* the accent is under 4.5:1 on --selected-bg */
@@ -125,11 +136,35 @@ details.callout[open] > summary { margin-bottom: 6px; }
 /* A section's index: links to the other section, the equations and the lab. */
 .section-links { margin: 0 0 14px; font-size: 14px; color: var(--muted); }
 .section-links span { color: var(--muted); }
+/* an index's "In order": each trail's steps, unit by unit */
+.note h4 { font-size: 15px; margin: 16px 0 4px; font-weight: 640; color: var(--muted); }
+.order-list { margin: 4px 0 8px; padding-left: 28px; }
+.order-list li { padding: 2px 0; }
+.steps-count { font-size: 14px; font-weight: 400; color: var(--muted); }
+/* the course's home page, /pt/ and /en/ */
+.home-path { margin: 14px 0 0; line-height: 1.6; }
+.continue { margin: 0 0 18px; padding: 10px 14px; border: 1px solid var(--line); border-left: 3px solid var(--accent);
+            border-radius: 8px; background: var(--panel); font-size: 15px; }
+.continue a { font-weight: 600; }
+.continue span { color: var(--muted); }
+.home-profiles { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.home-profiles li, .home-card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.home-profiles li { display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+.home-collections { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.home-card h3 { margin: 0 0 6px; font-size: 17px; }
+.home-card h3 a { text-decoration: none; }
+.home-trails { margin: 0; padding-left: 22px; font-size: 15px; }
+.home-trails li { padding: 2px 0; }
+.home-trails span { color: var(--muted); font-size: 13.5px; white-space: nowrap; }
+.home-all { margin: 8px 0 0; font-size: 14px; }
+.home-all a { text-decoration: none; }
+.home-collections + .section-links { margin-top: 24px; }
 
 @media (max-width: 760px) {
   .page.note { font-size: 15.5px; }
   .note h1 { font-size: 25px; }
   .trail-bar .trail-nav { margin-left: 0; }
+  .trail-bar-end .trail-nav { flex-direction: column; align-items: flex-start; gap: 6px; }
 }
 @media print {
   .side, .trail-bar, .note-search, .note-tip, .w-controls { display: none !important; }

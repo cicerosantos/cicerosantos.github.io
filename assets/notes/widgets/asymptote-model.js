@@ -13,7 +13,7 @@
 // Each factor's own phase is 0° where it tends to 1 (DC for the common forms, high frequency for the
 // inverted ones), so its exact phase is continuous and its asymptote is the course's table: a straight
 // line in log f from one decade below the corner to one decade above (first order ±45°/dec, a pair
-// ±90°/dec), whatever Q. The integrator and the differentiator are −90° and +90° everywhere.
+// ±90°/dec), whatever Q. The pure integrator and differentiator are −90° and +90° everywhere.
 // The composite's phase is the plain sum of the factors' phases, each continuous from its own anchor,
 // plus 180° for a negative gain (angle(−1) = +180°: −1/(1 + s/ω) goes from +180° to +90°); no
 // wrapping to a principal value.
@@ -127,7 +127,7 @@ export function span(corners) {
   return [10 ** (Math.floor(lo + 1e-9) - 2), 10 ** (Math.ceil(hi - 1e-9) + 2)];
 }
 // The asymptotes as polylines: the breakpoints in log f (the corners for the magnitude; fc/10 and
-// 10·fc for the phase, the integrator's and differentiator's none) with fmin and fmax, each point
+// 10·fc for the phase, the pure integrator's and differentiator's none) with fmin and fmax, each point
 // [f, value], consecutive collinear points merged. Exact at the breakpoints, since both are piecewise
 // linear in log f.
 export function polylines(m, fmin, fmax) {
@@ -200,4 +200,94 @@ export function rootsOf(factor) {
   const top = d.side > 0 ? roots : origin, bottom = d.side > 0 ? origin : roots;
   if (d.origin) return d.side > 0 ? { zeros: origin, poles: [] } : { zeros: [], poles: origin };
   return { zeros: top, poles: bottom };
+}
+
+// ---- the second-order filters, as compositions of the forms above ----
+// Each filter with the pole pair D(s) = 1 + s/(Qω0) + (s/ω0)², at f0 (Hz), written as the factors whose
+// asymptotes the figure draws: name → { inf (Q = ∞ allowed), ratio ([min, max, default] of ωz/ω0),
+// build(f0, Q, r) → factors, gain(r) }.
+//   lp       1/D                          the pole pair
+//   hp       (s/ω0)²/D                    a double pure differentiator (0 dB at f0) × the pair = the inverted pair
+//   bp       (s/(Qω0))/D                  a pure differentiator with its 0 dB at Q·f0 × the pair
+//   br       D/(s/(Qω0)) = 1/G_bp         a pure integrator with its 0 dB at Q·f0 × the zero pair
+//   notch    (1 + (s/ω0)²)/D              the undamped zero pair at f0 over the pair
+//   res      D/(1 + (s/ω0)²) = 1/G_notch  the zero pair over the undamped pole pair (poles on the jω axis)
+//   lpnotch  ((ωz/ω0)² + (s/ω0)²)/D       the gain (ωz/ω0)² × the undamped zero pair at ωz over the pair, ωz > ω0
+//   hpnotch  the same, ωz < ω0
+//   ap       (1 − s/(Qω0) + (s/ω0)²)/D    the RHP zero pair over the pair: mirror images, |G| = 1
+const notchBuild = (f, Q, r) => [{ kind: "zpair", f: r * f, Q: Infinity }, { kind: "pair", f, Q }];
+export const FILTERS = {
+  lp: { inf: true, build: (f, Q) => [{ kind: "pair", f, Q }] },
+  hp: { inf: true, build: (f, Q) => [{ kind: "diff", f }, { kind: "diff", f }, { kind: "pair", f, Q }] },
+  bp: { build: (f, Q) => [{ kind: "diff", f: Q * f }, { kind: "pair", f, Q }] },
+  br: { build: (f, Q) => [{ kind: "int", f: Q * f }, { kind: "zpair", f, Q }] },
+  notch: { build: (f, Q) => [{ kind: "zpair", f, Q: Infinity }, { kind: "pair", f, Q }] },
+  res: { build: (f, Q) => [{ kind: "zpair", f, Q }, { kind: "pair", f, Q: Infinity }] },
+  lpnotch: { inf: true, ratio: [1.5, 10, 3], build: notchBuild, gain: r => r * r },
+  hpnotch: { inf: true, ratio: [0.1, 1 / 1.5, 1 / 3], build: notchBuild, gain: r => r * r },
+  ap: { build: (f, Q) => [{ kind: "rzpair", f, Q }, { kind: "pair", f, Q }] },
+};
+export const FILTER_NAMES = Object.keys(FILTERS);
+// { gain, hasGain, factors } of a filter, like parseFactors' result. Q = Infinity only where inf allows it.
+export function filterFactors(name, { f = 1000, Q = 0.707, r } = {}) {
+  const d = FILTERS[name];
+  if (!d) throw new Error(`unknown filter "${name}"`);
+  if (Q === Infinity && !d.inf) throw new Error(`"${name}": Q = ∞ is not meaningful`);
+  const ratio = d.ratio ? (r ?? d.ratio[2]) : 1;
+  const gain = d.gain ? d.gain(ratio) : 1;
+  return { gain, hasGain: !!d.gain, factors: d.build(f, Q, ratio) };
+}
+// A filter's poles and zeros in units of its ω0: each factor's roots (in units of its own ω) scaled by f/f0.
+export function filterRoots(name, params = {}) {
+  const f0 = params.f ?? 1000, out = { poles: [], zeros: [] };
+  for (const c of filterFactors(name, params).factors) {
+    const r = rootsOf(c), k = c.f / f0;
+    for (const side of ["poles", "zeros"]) out[side].push(...r[side].map(z => ({ re: z.re * k, im: z.im * k })));
+  }
+  return out;
+}
+
+// ---- the equation, in LaTeX ----
+export const gainTex = k => {
+  const a = Math.abs(k), text = a >= 1e4 || a < 1e-3 ? a.toExponential(3).replace(/\.?0+e/, "e").replace(/e\+?(-?)(\d+)/, (_, m, e) => ` \\cdot 10^{${m}${e}}`) : String(Number(a.toPrecision(4)));
+  return (k < 0 ? "-" : "") + text;
+};
+export function factorTex(c, w, q) {
+  const d = KINDS[c.kind], sg = d.rhp ? "-" : "+";
+  if (d.origin) return `\\frac{s}{${w}}`;
+  const u = d.inv ? `\\frac{${w}}{s}` : `\\frac{s}{${w}}`;
+  if (d.order === 1) return `1 ${sg} ${u}`;
+  if (c.Q === Infinity) return `1 + \\left(${u}\\right)^{2}`;
+  const uq = d.inv ? `\\frac{${w}}{${q} s}` : `\\frac{s}{${q} ${w}}`;
+  return `1 ${sg} ${uq} + \\left(${u}\\right)^{2}`;
+}
+// symbols(c) → [ω symbol, Q symbol]. The equation: K·Π(numerator)/Π(denominator), equal factors as powers.
+export function equationTex(gain, hasGain, factors, symbols) {
+  const groups = { 1: [], [-1]: [] };
+  for (const c of factors) {
+    const [w, q] = symbols(c), tex = factorTex(c, w, q), part = groups[KINDS[c.kind].side];
+    const same = part.find(p => p.tex === tex);
+    if (same) same.n++; else part.push({ tex, n: 1, simple: !!KINDS[c.kind].origin });
+  }
+  const product = list => list.map(p => {
+    const alone = list.length === 1 && p.n === 1;
+    const body = alone ? p.tex : `\\left(${p.tex}\\right)`;
+    return p.n > 1 ? `${body}^{${p.n}}` : body;
+  }).join(" ");
+  const top = product(groups[1]), den = product(groups[-1]);
+  const k = hasGain || gain !== 1 ? gainTex(gain) : "";
+  const kPart = k === "-1" ? "-" : k ? k + " \\cdot " : "";
+  if (!den) return `G(s) = ${top ? (k === "-1" ? "-" : k ? k + " " : "") + top : k || "1"}`;
+  return `G(s) = ${kPart}\\dfrac{${top || "1"}}{${den}}`;
+}
+
+// The Q symbols of a composite: null (one Q, written "Q") when every pair has the same Q; otherwise each
+// distinct pair (f, Q) gets its own index, "1", "2"…, in the order of f and then of appearance, so two
+// pairs at one corner with different Q are Q₂ and Q₃, not one squared factor. qNumbering(factors)(c).
+export function qNumbering(factors) {
+  const pairs = factors.filter(c => isPair(c.kind));
+  if (new Set(pairs.map(c => c.Q)).size <= 1) return () => null;
+  const keys = [];
+  for (const c of [...pairs].sort((a, b) => a.f - b.f)) { const k = `${c.f}|${c.Q}`; if (!keys.includes(k)) keys.push(k); }
+  return c => (isPair(c.kind) ? String(keys.indexOf(`${c.f}|${c.Q}`) + 1) : null);
 }
