@@ -1,8 +1,8 @@
-@import url("/assets/pcl/traces.css");
 /* The oscilloscope page, scope.html: its own look,
    apart from site.css, with the trace colours as tokens. */
 /* Colours used as text or thin lines are at least 3:1 (lines) or 4.5:1 (text) on the panel. The traces'
-   colours and the charts' grid and cursor are in traces.css, shared with the notes' figures. */
+   colours and the charts' grid and cursor are in traces.css, shared with the notes' figures and linked
+   by scope.html before this sheet (not @imported, so that the build's ?v= versioning reaches it). */
 :root {
   --bg: #f6f7f9; --panel: #ffffff; --text: #1d2330; --muted: #5d6779; --line: #e3e6eb; --field-border: #98a2b3;
   --accent: #2563eb; --selected-bg: #e8effd; --selected-text: #1d4ed8;

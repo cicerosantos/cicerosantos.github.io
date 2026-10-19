@@ -11,15 +11,44 @@
 <link rel="alternate" hreflang="pt-BR" href="https://cicerosantos.github.io/pt/digital-control/buck-digital-loop/">
 <link rel="alternate" hreflang="en" href="https://cicerosantos.github.io/en/digital-control/buck-digital-loop/">
 <link rel="alternate" hreflang="x-default" href="https://cicerosantos.github.io/en/digital-control/buck-digital-loop/">
-<link rel="stylesheet" href="/assets/site.css">
-<link rel="stylesheet" href="/assets/vendor/katex-0.16.11/katex.min.css">
-<link rel="stylesheet" href="/assets/notes/notes.css">
-<script src="/assets/site.js"></script>
-<script src="/assets/lang.js"></script>
-<script defer src="/assets/vendor/highlight-11.9.0/highlight.min.js"></script>
-<script defer src="/assets/vendor/highlight-11.9.0/languages/c.min.js"></script>
-<script defer src="/assets/vendor/highlight-11.9.0/languages/python.min.js"></script>
-<script type="module" src="/assets/notes/notes.js"></script>
+<link rel="stylesheet" href="/assets/site.css?v=439396ca8f">
+<link rel="stylesheet" href="/assets/vendor/katex-0.16.11/katex.min.css?v=717bc9ae78">
+<link rel="stylesheet" href="/assets/notes/notes.css?v=edef8324e3">
+<script src="/assets/site.js?v=3e41b5e20a"></script>
+<script src="/assets/lang.js?v=7142661d7c"></script>
+<script defer src="/assets/vendor/highlight-11.9.0/highlight.min.js?v=837a6fa5b0"></script>
+<script defer src="/assets/vendor/highlight-11.9.0/languages/c.min.js?v=147c335b43"></script>
+<script defer src="/assets/vendor/highlight-11.9.0/languages/python.min.js?v=d49d8b48c9"></script>
+<script type="importmap">
+{"imports": {
+  "/assets/notes/busca.js": "/assets/notes/busca.js?v=601c4e62a7",
+  "/assets/notes/notes.js": "/assets/notes/notes.js?v=6abcba7974",
+  "/assets/notes/widgets/bode.js": "/assets/notes/widgets/bode.js?v=8483a4fe6e",
+  "/assets/notes/widgets/common.js": "/assets/notes/widgets/common.js?v=e5738ac01f",
+  "/assets/notes/widgets/delay.js": "/assets/notes/widgets/delay.js?v=79255eee30",
+  "/assets/notes/widgets/discrete.js": "/assets/notes/widgets/discrete.js?v=4391fd2c20",
+  "/assets/notes/widgets/discretize.js": "/assets/notes/widgets/discretize.js?v=b6eecc02b4",
+  "/assets/notes/widgets/locus.js": "/assets/notes/widgets/locus.js?v=4cf6594d63",
+  "/assets/notes/widgets/pwmtiming.js": "/assets/notes/widgets/pwmtiming.js?v=ae57b55966",
+  "/assets/notes/widgets/pzmap.js": "/assets/notes/widgets/pzmap.js?v=fd01408274",
+  "/assets/notes/widgets/quantization.js": "/assets/notes/widgets/quantization.js?v=3977ed9c78",
+  "/assets/notes/widgets/rootlocus.js": "/assets/notes/widgets/rootlocus.js?v=732d214cb5",
+  "/assets/notes/widgets/step.js": "/assets/notes/widgets/step.js?v=3256785486",
+  "/assets/notes/widgets/switched.js": "/assets/notes/widgets/switched.js?v=4ef4394fbf",
+  "/assets/notes/widgets/zplane.js": "/assets/notes/widgets/zplane.js?v=5640f43cd5",
+  "/assets/pcl/i18n.js": "/assets/pcl/i18n.js?v=07e64cfb3c",
+  "/assets/pcl/loop.js": "/assets/pcl/loop.js?v=fb8dd57c92",
+  "/assets/pcl/plot.js": "/assets/pcl/plot.js?v=3f5c41abdd",
+  "/assets/pcl/sampled.js": "/assets/pcl/sampled.js?v=f9d6525cce",
+  "/power-labs/complex.js": "/power-labs/complex.js?v=c3fe510c1e",
+  "/power-labs/converters/boost/converter.js": "/power-labs/converters/boost/converter.js?v=887775867e",
+  "/power-labs/converters/buck/converter.js": "/power-labs/converters/buck/converter.js?v=d54a683060",
+  "/power-labs/converters/buckboost/converter.js": "/power-labs/converters/buckboost/converter.js?v=3e4b3bb539",
+  "/power-labs/gallery.js": "/power-labs/gallery.js?v=e926043e1f",
+  "/power-labs/scope.js": "/power-labs/scope.js?v=d3b4fb846b"
+}}
+</script>
+<script type="module" src="/assets/notes/notes.js?v=6abcba7974"></script>
 </head>
 <body>
 <div class="layout">
@@ -40,16 +69,18 @@
 <li><a class="note-link" href="/pt/digital-control/computation-delay/" data-title="Atraso de cálculo e do PWM" data-summary="Da amostra do ADC à borda do PWM que ela move passam \((1 + D)\,T_s\) neste *firmware*, e esse atraso custa \(360^\circ\, f\,(1 + D)\,T_s\) de fase no cruzamento.">Atraso de cálculo e do PWM</a>: o cálculo e o PWM atrasam a resposta, e o atraso custa margem de fase.</li>
 <li><a class="note-link" href="/pt/digital-control/tustin/" data-title="Transformação bilinear (Tustin) e pré-distorção" data-summary="Como levar um controlador de s para z pela regra do trapézio, por que as frequências se distorcem, como corrigir no cruzamento e como Tustin se compara a Euler e ao casamento de polos e zeros.">Transformação bilinear (Tustin) e pré-distorção</a>: levamos o controlador de s para z.</li>
 <li><a class="note-link" href="/pt/digital-control/2p2z-compensator/" data-title="Compensador 2p2z" data-summary="O compensador de dois polos e dois zeros, parente digital do tipo III, projetado pelos seus polos e zeros, e sua relação com o PID; com o projeto padrão do *buck*.">Compensador 2p2z</a>: o compensador de dois polos e dois zeros, projetado por polos e zeros.</li>
-<li><a class="note-link" href="/pt/digital-control/adc-quantization/" data-title="Quantização do ADC" data-summary="O ADC lê a saída em degraus de \(q = V_{FS}/(2^N - 1)\): o passo, o ruído de quantização, a referência escrita como código e o instante da amostra decidem o que o laço consegue regular.">Quantização do ADC</a>: o ADC só enxerga degraus de tensão.</li>
+<li><a class="note-link" href="/pt/digital-control/adc-quantization/" data-title="Quantização do ADC" data-summary="O ADC lê a saída em degraus de \(q = V_{FS}/(2^N - 1)\): o passo, o ruído de quantização e a referência escrita como código decidem o que o laço consegue regular.">Quantização do ADC</a>: o ADC só enxerga degraus de tensão.</li>
 <li><a class="note-link" href="/pt/digital-control/loop-gain-measurement/" data-title="Medição do ganho de malha por injeção na razão cíclica" data-summary="Uma senoide somada à razão cíclica no *firmware* dá o ganho de malha como \(-C/U\); a amplitude precisa crescer com a frequência para mover a amostra do ADC vários códigos, e uma segunda medida com metade da amplitude mostra se o ponto é linear.">Medição do ganho de malha por injeção na razão cíclica</a>: medimos o ganho de malha no circuito chaveado, com uma senoide grande o bastante para vencer esses degraus.</li>
 <li><a class="note-link" href="/pt/digital-control/dpwm-resolution-limit-cycles/" data-title="Resolução do DPWM e ciclos-limite" data-summary="A razão cíclica também anda em degraus: quando o degrau que ela provoca na saída é maior que o passo do ADC, o laço não tem onde parar e oscila num ciclo-limite.">Resolução do DPWM e ciclos-limite</a>: a razão cíclica também anda em degraus, e isso pode gerar ciclos-limite.</li>
-<li><a class="note-link" href="/pt/digital-control/fixed-point-q15/" data-title="Ponto fixo Q15" data-summary="Ponto fixo, quando não há FPU ou a medição mostra ganho: inteiros escalonados em formatos Q\(m\).\(n\), multiplicação Q15 com arredondamento e saturação, e a escala dos coeficientes do 2p2z do *buck* a 400 MHz.">Ponto fixo Q15</a>: ponto fixo ou ponto flutuante, uma escolha de projeto com custo em ciclos.</li>
-<li><a class="note-link" href="/pt/digital-control/anti-windup/" data-title="*Anti-windup* e saturação da razão cíclica" data-summary="Quando a razão cíclica bate no limite, o integrador não pode continuar acumulando erro: grampo do integrador, forma de velocidade do 2p2z, *back-calculation*, rampa da referência e o chute derivativo."><em>Anti-windup</em> e saturação da razão cíclica</a>: quando a razão cíclica satura, o controlador não pode continuar acumulando erro.</li>
-<li><a class="note-link" href="/pt/digital-control/2p2z-c-implementation/" data-title="O 2p2z em C, na interrupção" data-summary="A interrupção completa do *buck*: ler o ADC, calcular o erro, rodar a equação a diferenças do 2p2z, saturar e escrever o CCR, em ponto flutuante e em ponto fixo, com o orçamento de ciclos e como medi-lo.">O 2p2z em C, na interrupção</a>: tudo junto, no código C da interrupção.</li>
+<li><a class="note-link" href="/pt/digital-control/float-or-fixed-point/" data-title="Ponto flutuante ou ponto fixo" data-summary="Entre `float` e ponto fixo, o núcleo decide primeiro: sem FPU, o ponto fixo é a saída; com FPU, a escolha é de projeto, e só uma medição de ciclos a justifica.">Ponto flutuante ou ponto fixo</a>: ponto flutuante ou ponto fixo, uma escolha de projeto com custo em ciclos.</li>
+<li><a class="note-link" href="/pt/digital-control/fixed-point-q15/" data-title="Ponto fixo Q15" data-summary="Escala dos coeficientes do 2p2z do *buck* em ponto fixo: formatos Q\(m\).\(n\), multiplicação Q15 com arredondamento e saturação, e os coeficientes em contagens por código no Q3.12.">Ponto fixo Q15</a>: em ponto fixo, os coeficientes do 2p2z ganham uma escala e um formato Q.</li>
+<li><a class="note-link" href="/pt/digital-control/anti-windup/" data-title="*Anti-windup* e saturação da razão cíclica" data-summary="Quando a razão cíclica bate no limite, o integrador não pode continuar acumulando erro: grampo do integrador, forma de velocidade do 2p2z e *back-calculation*."><em>Anti-windup</em> e saturação da razão cíclica</a>: quando a razão cíclica satura, o controlador não pode continuar acumulando erro.</li>
+<li><a class="note-link" href="/pt/digital-control/derivative-kick/" data-title="Chute derivativo e derivativo na medida" data-summary="Num degrau da referência, o termo derivativo calculado sobre o erro salta num só período e satura a razão cíclica; derivar a medida tira a referência desse termo.">Chute derivativo e derivativo na medida</a>: num degrau da referência, o derivativo sobre o erro dá um salto; sobre a medida, não.</li>
+<li><a class="note-link" href="/pt/digital-control/2p2z-c-implementation/" data-title="O 2p2z em C, na interrupção" data-summary="A interrupção do *buck* em C: ler o ADC, calcular o erro, rodar a equação a diferenças do 2p2z, saturar e escrever o CCR, com proteção contra NaN, falha, coeficientes em *buffer* duplo e estouro do ADC.">O 2p2z em C, na interrupção</a>: tudo junto, no código C da interrupção.</li>
 </ol>
 </article>
 <p class="trail-start"><a class="button" href="/pt/converters/buck-ccm-steady-state/">Começar a trilha →</a></p>
-<footer class="note-foot"><section class="backlinks"><h2>Usado em</h2><ul><li><a class="note-link" href="/pt/control-basics/start-here/" data-title="Comece aqui" data-summary="Para que serve a unidade Ler a planta, do controle clássico, e cinco perguntas para descobrir, em poucos minutos, quais notas dela você precisa ler.">Comece aqui</a></li><li><a class="note-link" href="/pt/converters/buck-ccm-steady-state/" data-title="Razão cíclica e ondulação do *buck* em CCM" data-summary="Em regime permanente, o balanço volt-segundo no indutor dá a razão cíclica do *buck*, e a forma triangular da corrente dá as ondulações de corrente e de tensão.">Razão cíclica e ondulação do <em>buck</em> em CCM</a></li><li><a class="note-link" href="/pt/converters/buck/" data-title="*Buck* síncrono 24 V → 9 V: exemplo resolvido" data-summary="O *buck* do laboratório, das especificações ao *firmware*, com os números de cada passo da trilha e os quatro controladores simulados no QSPICE."><em>Buck</em> síncrono 24 V → 9 V: exemplo resolvido</a></li></ul></section><section class="backlinks"><h2>Nas trilhas</h2><p><a class="note-link" href="/pt/control-basics/control-basics-trail/" data-title="Controle clássico" data-summary="As duas primeiras unidades do controle clássico, em ordem: ler a planta em frequência e fechar o laço, com as margens e o limite que o zero no semiplano direito impõe ao cruzamento.">Controle clássico</a> · <a class="note-link" href="/pt/digital-control/boost-digital-loop/" data-title="Do *boost* ao laço digital" data-summary="O que muda no laço digital quando a planta tem um zero no semiplano direito: do modelo médio do *boost* ao *buck-boost* de quatro chaves, e daí ao projeto que serve em toda a faixa.">Do <em>boost</em> ao laço digital</a></p></section><p class="tags"><span>#buck</span> <span>#trilha</span></p></footer>
+<footer class="note-foot"><section class="backlinks"><h2>Usado em</h2><ul><li><a class="note-link" href="/pt/control-basics/start-here/" data-title="Comece aqui" data-summary="Para que servem as três primeiras unidades do controle clássico, ler a planta, fechar o laço e compensar, e nove perguntas para descobrir, em poucos minutos, quais notas delas você precisa ler.">Comece aqui</a></li><li><a class="note-link" href="/pt/converters/buck-ccm-steady-state/" data-title="Razão cíclica e ondulação do *buck* em CCM" data-summary="Em regime permanente, o balanço volt-segundo no indutor dá a razão cíclica do *buck*, e a forma triangular da corrente dá as ondulações de corrente e de tensão.">Razão cíclica e ondulação do <em>buck</em> em CCM</a></li><li><a class="note-link" href="/pt/converters/buck/" data-title="*Buck* síncrono 24 V → 9 V: exemplo resolvido" data-summary="O *buck* do laboratório, das especificações ao *firmware*, com os números de cada passo da trilha e os quatro controladores simulados no QSPICE."><em>Buck</em> síncrono 24 V → 9 V: exemplo resolvido</a></li></ul></section><section class="backlinks"><h2>Nas trilhas</h2><p><a class="note-link" href="/pt/control-basics/control-basics-trail/" data-title="Controle clássico" data-summary="As quatro primeiras unidades do controle clássico, em ordem: ler a planta em frequência, fechar o laço, com as margens e o limite do zero no semiplano direito, compensar, com o erro em regime, o avanço e o atraso de fase, e ler o lugar das raízes.">Controle clássico</a> · <a class="note-link" href="/pt/digital-control/boost-digital-loop/" data-title="Do *boost* ao laço digital" data-summary="O que muda no laço digital quando a planta tem um zero no semiplano direito: do modelo médio do *boost* ao *buck-boost* de quatro chaves, e daí ao projeto que serve em toda a faixa.">Do <em>boost</em> ao laço digital</a></p></section><p class="tags"><span>#buck</span> <span>#trilha</span></p></footer>
   </main>
 </div>
 </body>

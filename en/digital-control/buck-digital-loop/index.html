@@ -11,15 +11,44 @@
 <link rel="alternate" hreflang="pt-BR" href="https://cicerosantos.github.io/pt/digital-control/buck-digital-loop/">
 <link rel="alternate" hreflang="en" href="https://cicerosantos.github.io/en/digital-control/buck-digital-loop/">
 <link rel="alternate" hreflang="x-default" href="https://cicerosantos.github.io/en/digital-control/buck-digital-loop/">
-<link rel="stylesheet" href="/assets/site.css">
-<link rel="stylesheet" href="/assets/vendor/katex-0.16.11/katex.min.css">
-<link rel="stylesheet" href="/assets/notes/notes.css">
-<script src="/assets/site.js"></script>
-<script src="/assets/lang.js"></script>
-<script defer src="/assets/vendor/highlight-11.9.0/highlight.min.js"></script>
-<script defer src="/assets/vendor/highlight-11.9.0/languages/c.min.js"></script>
-<script defer src="/assets/vendor/highlight-11.9.0/languages/python.min.js"></script>
-<script type="module" src="/assets/notes/notes.js"></script>
+<link rel="stylesheet" href="/assets/site.css?v=439396ca8f">
+<link rel="stylesheet" href="/assets/vendor/katex-0.16.11/katex.min.css?v=717bc9ae78">
+<link rel="stylesheet" href="/assets/notes/notes.css?v=edef8324e3">
+<script src="/assets/site.js?v=3e41b5e20a"></script>
+<script src="/assets/lang.js?v=7142661d7c"></script>
+<script defer src="/assets/vendor/highlight-11.9.0/highlight.min.js?v=837a6fa5b0"></script>
+<script defer src="/assets/vendor/highlight-11.9.0/languages/c.min.js?v=147c335b43"></script>
+<script defer src="/assets/vendor/highlight-11.9.0/languages/python.min.js?v=d49d8b48c9"></script>
+<script type="importmap">
+{"imports": {
+  "/assets/notes/busca.js": "/assets/notes/busca.js?v=601c4e62a7",
+  "/assets/notes/notes.js": "/assets/notes/notes.js?v=6abcba7974",
+  "/assets/notes/widgets/bode.js": "/assets/notes/widgets/bode.js?v=8483a4fe6e",
+  "/assets/notes/widgets/common.js": "/assets/notes/widgets/common.js?v=e5738ac01f",
+  "/assets/notes/widgets/delay.js": "/assets/notes/widgets/delay.js?v=79255eee30",
+  "/assets/notes/widgets/discrete.js": "/assets/notes/widgets/discrete.js?v=4391fd2c20",
+  "/assets/notes/widgets/discretize.js": "/assets/notes/widgets/discretize.js?v=b6eecc02b4",
+  "/assets/notes/widgets/locus.js": "/assets/notes/widgets/locus.js?v=4cf6594d63",
+  "/assets/notes/widgets/pwmtiming.js": "/assets/notes/widgets/pwmtiming.js?v=ae57b55966",
+  "/assets/notes/widgets/pzmap.js": "/assets/notes/widgets/pzmap.js?v=fd01408274",
+  "/assets/notes/widgets/quantization.js": "/assets/notes/widgets/quantization.js?v=3977ed9c78",
+  "/assets/notes/widgets/rootlocus.js": "/assets/notes/widgets/rootlocus.js?v=732d214cb5",
+  "/assets/notes/widgets/step.js": "/assets/notes/widgets/step.js?v=3256785486",
+  "/assets/notes/widgets/switched.js": "/assets/notes/widgets/switched.js?v=4ef4394fbf",
+  "/assets/notes/widgets/zplane.js": "/assets/notes/widgets/zplane.js?v=5640f43cd5",
+  "/assets/pcl/i18n.js": "/assets/pcl/i18n.js?v=07e64cfb3c",
+  "/assets/pcl/loop.js": "/assets/pcl/loop.js?v=fb8dd57c92",
+  "/assets/pcl/plot.js": "/assets/pcl/plot.js?v=3f5c41abdd",
+  "/assets/pcl/sampled.js": "/assets/pcl/sampled.js?v=f9d6525cce",
+  "/power-labs/complex.js": "/power-labs/complex.js?v=c3fe510c1e",
+  "/power-labs/converters/boost/converter.js": "/power-labs/converters/boost/converter.js?v=887775867e",
+  "/power-labs/converters/buck/converter.js": "/power-labs/converters/buck/converter.js?v=d54a683060",
+  "/power-labs/converters/buckboost/converter.js": "/power-labs/converters/buckboost/converter.js?v=3e4b3bb539",
+  "/power-labs/gallery.js": "/power-labs/gallery.js?v=e926043e1f",
+  "/power-labs/scope.js": "/power-labs/scope.js?v=d3b4fb846b"
+}}
+</script>
+<script type="module" src="/assets/notes/notes.js?v=6abcba7974"></script>
 </head>
 <body>
 <div class="layout">
@@ -40,16 +69,18 @@
 <li><a class="note-link" href="/en/digital-control/computation-delay/" data-title="Computation and PWM delay" data-summary="From the ADC sample to the PWM edge it moves, \((1 + D)\,T_s\) go by in this firmware, and this delay costs \(360^\circ\, f\,(1 + D)\,T_s\) of phase at the crossover.">Computation and PWM delay</a>: computing and the PWM delay the response, and the delay costs phase margin.</li>
 <li><a class="note-link" href="/en/digital-control/tustin/" data-title="The bilinear (Tustin) transform and prewarping" data-summary="How to take a controller from s to z by the trapezoidal rule, why the frequencies warp, how to correct them at the crossover, and how Tustin compares with Euler and with matched poles and zeros.">The bilinear (Tustin) transform and prewarping</a>: we take the controller from s to z.</li>
 <li><a class="note-link" href="/en/digital-control/2p2z-compensator/" data-title="The 2p2z compensator" data-summary="The two-pole, two-zero compensator, a digital relative of the type III, designed by its poles and zeros, and its relation with the PID; with the buck&#x27;s default design.">The 2p2z compensator</a>: the two-pole, two-zero compensator, designed from its poles and zeros.</li>
-<li><a class="note-link" href="/en/digital-control/adc-quantization/" data-title="ADC quantization" data-summary="The ADC reads the output in steps of \(q = V_{FS}/(2^N - 1)\): the step, the quantization noise, the reference written as a code and the sampling instant decide what the loop can regulate.">ADC quantization</a>: the ADC sees only steps of voltage.</li>
+<li><a class="note-link" href="/en/digital-control/adc-quantization/" data-title="ADC quantization" data-summary="The ADC reads the output in steps of \(q = V_{FS}/(2^N - 1)\): the step, the quantization noise and the reference written as a code decide what the loop can regulate.">ADC quantization</a>: the ADC sees only steps of voltage.</li>
 <li><a class="note-link" href="/en/digital-control/loop-gain-measurement/" data-title="Measuring the loop gain by injecting into the duty" data-summary="A sine added to the duty in the firmware gives the loop gain as \(-C/U\); the amplitude has to grow with frequency so the ADC sample moves several codes, and a second measurement at half the amplitude shows whether the point is linear.">Measuring the loop gain by injecting into the duty</a>: we measure the loop gain in the switched circuit, with a sine large enough to beat those steps.</li>
 <li><a class="note-link" href="/en/digital-control/dpwm-resolution-limit-cycles/" data-title="DPWM resolution and limit cycles" data-summary="The duty also moves in steps: when the step it causes at the output is larger than the ADC step, the loop has nowhere to settle and oscillates in a limit cycle.">DPWM resolution and limit cycles</a>: the duty cycle moves in steps too, which can cause limit cycles.</li>
-<li><a class="note-link" href="/en/digital-control/fixed-point-q15/" data-title="Q15 fixed point" data-summary="Fixed point, when there is no FPU or when measurement shows a gain: scaled integers in Q\(m\).\(n\) formats, Q15 multiplication with rounding and saturation, and the scaling of the buck&#x27;s 2p2z coefficients at 400 MHz.">Q15 fixed point</a>: fixed point or floating point, a design choice with a cost in cycles.</li>
-<li><a class="note-link" href="/en/digital-control/anti-windup/" data-title="Anti-windup and duty saturation" data-summary="When the duty hits its limit, the integrator must not keep accumulating error: the integrator clamp, the 2p2z velocity form, back-calculation, the reference slew and the derivative kick.">Anti-windup and duty saturation</a>: when the duty cycle saturates, the controller must stop accumulating error.</li>
-<li><a class="note-link" href="/en/digital-control/2p2z-c-implementation/" data-title="The 2p2z in C, in the interrupt" data-summary="The buck&#x27;s complete interrupt: read the ADC, compute the error, run the 2p2z difference equation, saturate and write the CCR, in float and in fixed point, with the cycle budget and how to measure it.">The 2p2z in C, in the interrupt</a>: everything together, in the interrupt's C code.</li>
+<li><a class="note-link" href="/en/digital-control/float-or-fixed-point/" data-title="Floating point or fixed point" data-summary="Between `float` and fixed point, the core decides first: without an FPU, fixed point is the output; with an FPU, the choice is a design one, and only a cycle measurement justifies it.">Floating point or fixed point</a>: floating point or fixed point, a design choice with a cost in cycles.</li>
+<li><a class="note-link" href="/en/digital-control/fixed-point-q15/" data-title="Q15 fixed point" data-summary="The scale of the buck&#x27;s 2p2z coefficients in fixed point: Q\(m\).\(n\) formats, Q15 multiplication with rounding and saturation, and the coefficients in counts per code in Q3.12.">Q15 fixed point</a>: in fixed point, the 2p2z's coefficients get a scale and a Q format.</li>
+<li><a class="note-link" href="/en/digital-control/anti-windup/" data-title="Anti-windup and duty saturation" data-summary="When the duty hits its limit, the integrator must not keep accumulating error: the integrator clamp, the 2p2z velocity form and back-calculation.">Anti-windup and duty saturation</a>: when the duty cycle saturates, the controller must stop accumulating error.</li>
+<li><a class="note-link" href="/en/digital-control/derivative-kick/" data-title="Derivative kick and derivative on the measurement" data-summary="On a reference step, a derivative term computed on the error jumps in a single period and saturates the duty; differentiating the measurement takes the reference out of that term.">Derivative kick and derivative on the measurement</a>: on a reference step, the derivative of the error jumps; the derivative of the measurement does not.</li>
+<li><a class="note-link" href="/en/digital-control/2p2z-c-implementation/" data-title="The 2p2z in C, in the interrupt" data-summary="The buck&#x27;s interrupt in C: read the ADC, compute the error, run the 2p2z difference equation, saturate and write the CCR, with protection against NaN, fault, double-buffered coefficients and ADC overrun.">The 2p2z in C, in the interrupt</a>: everything together, in the interrupt's C code.</li>
 </ol>
 </article>
 <p class="trail-start"><a class="button" href="/en/converters/buck-ccm-steady-state/">Start the trail →</a></p>
-<footer class="note-foot"><section class="backlinks"><h2>Used in</h2><ul><li><a class="note-link" href="/en/control-basics/start-here/" data-title="Start here" data-summary="What the Read the plant unit of classical control is for, and five questions to find out, in a few minutes, which of its notes you need to read.">Start here</a></li><li><a class="note-link" href="/en/converters/buck-ccm-steady-state/" data-title="Duty ratio and ripple of the buck in CCM" data-summary="In steady state, the volt-second balance on the inductor gives the buck&#x27;s duty ratio, and the triangular current gives the current and voltage ripple.">Duty ratio and ripple of the buck in CCM</a></li><li><a class="note-link" href="/en/converters/buck/" data-title="Synchronous buck 24 V → 9 V: worked example" data-summary="The lab&#x27;s buck, from the specifications to the firmware, with the numbers of every step of the trail and the four controllers simulated in QSPICE.">Synchronous buck 24 V → 9 V: worked example</a></li></ul></section><section class="backlinks"><h2>In the trails</h2><p><a class="note-link" href="/en/control-basics/control-basics-trail/" data-title="Classical control" data-summary="The first two units of classical control, in order: reading the plant in frequency and closing the loop, with the margins and the limit a right-half-plane zero puts on the crossover.">Classical control</a> · <a class="note-link" href="/en/digital-control/boost-digital-loop/" data-title="From the boost to the digital loop" data-summary="What changes in the digital loop when the plant has a right-half-plane zero: from the boost&#x27;s averaged model to the four-switch buck-boost, and from there to a design that works across the whole range.">From the boost to the digital loop</a></p></section><p class="tags"><span>#buck</span> <span>#trail</span></p></footer>
+<footer class="note-foot"><section class="backlinks"><h2>Used in</h2><ul><li><a class="note-link" href="/en/control-basics/start-here/" data-title="Start here" data-summary="What the first three units of classical control are for, reading the plant, closing the loop and compensating, and nine questions to find out, in a few minutes, which of their notes you need to read.">Start here</a></li><li><a class="note-link" href="/en/converters/buck-ccm-steady-state/" data-title="Duty ratio and ripple of the buck in CCM" data-summary="In steady state, the volt-second balance on the inductor gives the buck&#x27;s duty ratio, and the triangular current gives the current and voltage ripple.">Duty ratio and ripple of the buck in CCM</a></li><li><a class="note-link" href="/en/converters/buck/" data-title="Synchronous buck 24 V → 9 V: worked example" data-summary="The lab&#x27;s buck, from the specifications to the firmware, with the numbers of every step of the trail and the four controllers simulated in QSPICE.">Synchronous buck 24 V → 9 V: worked example</a></li></ul></section><section class="backlinks"><h2>In the trails</h2><p><a class="note-link" href="/en/control-basics/control-basics-trail/" data-title="Classical control" data-summary="The first four units of classical control, in order: reading the plant in frequency, closing the loop, with the margins and the limit of a right-half-plane zero, compensating, with steady-state error, phase lead and phase lag, and reading the root locus.">Classical control</a> · <a class="note-link" href="/en/digital-control/boost-digital-loop/" data-title="From the boost to the digital loop" data-summary="What changes in the digital loop when the plant has a right-half-plane zero: from the boost&#x27;s averaged model to the four-switch buck-boost, and from there to a design that works across the whole range.">From the boost to the digital loop</a></p></section><p class="tags"><span>#buck</span> <span>#trail</span></p></footer>
   </main>
 </div>
 </body>

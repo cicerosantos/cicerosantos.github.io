@@ -4,10 +4,12 @@
 // Options: converter (buck | boost | buckboost), design (a controller id of scenarios.json, or custom,
 // with fc, fz1, fz2, fp, form).
 //
-// The plant in z is discrete.js's sampled-data model of the converter's averaged power stage
-// (converter.js PLANT at the operating point of scenarios.json's defaults): sampled exactly, with the
-// duty change acting as an impulse at the PWM's falling edge, (1 + DELAY·D)·T after its sample, as in
-// converter.js's plant(). Its pole at z = 0 is the period of computation latency.
+// The plant in z is discrete.js's sampled-data model (converter.js PLANT at the operating point of
+// scenarios.json's defaults), the same as converter.js's plant(). Buck: the averaged power stage,
+// sampled exactly, with the duty change acting as an impulse at the PWM's falling edge, (1 + D)·T
+// after its sample. Boost and buck-boost: the switched circuit's model of /assets/pcl/sampled.js,
+// the jump at the falling edge taken at the state there; to first order a delay of (1 + D/2)·T.
+// Its pole at z = 0 is the period of computation latency.
 import { DEFAULT_BODE, designController, retune } from "../../pcl/loop.js";
 import { sampledPlant, controllerZ, closedLoopPoles } from "./discrete.js";
 import { loadConverter, pickDesign, num, hz, css, el, canvasPlot, legend, slider, choice, frame, CONVERTER_NAMES, rich } from "./common.js";
@@ -18,12 +20,14 @@ const TEXT = {
         stable: "Stable: every closed-loop pole is inside the unit circle.", unstable: "Unstable: a closed-loop pole is outside the unit circle.",
         head: ["pole", "|z|", "f", "ζ"], outside: v => `plant zero at z = ${v}, outside the view (right half-plane zero)`,
         model: (n, d) => `Plant: the ${n}'s averaged stage, sampled exactly; a duty change acts at the PWM's falling edge, (1 + ${d})·Tₛ after the sample it comes from (one period of computation delay, then the edge). The pole at z = 0 is that period.`,
+        edge: (n, d) => `Plant: the ${n}'s switched circuit, linearized and sampled once a period; a duty change moves the PWM's falling edge, one period after the sample it comes from, and acts with the state at that edge. It behaves like a delay of (1 + ${d})·Tₛ, as if it acted at the middle of G1's pulse. The pole at z = 0 is the period of computation delay.`,
         aria: (n, r, st) => `z-plane of the ${n} loop: largest closed-loop pole radius ${r}, ${st}.`, st: ["stable", "unstable"] },
   pt: { fc: "Cruzamento", fz1: "Zero 1", fz2: "Zero 2", fp: "Polo", view: "Vista", whole: "círculo inteiro", near: "perto de z = 1",
         ctlP: "polos do controlador", ctlZ: "zeros do controlador", plantP: "polos da planta", plantZ: "zeros da planta", closed: "polos de malha fechada",
         stable: "Estável: todos os polos de malha fechada estão dentro do círculo unitário.", unstable: "Instável: há um polo de malha fechada fora do círculo unitário.",
         head: ["polo", "|z|", "f", "ζ"], outside: v => `zero da planta em z = ${v}, fora da vista (zero no semiplano direito)`,
         model: (n, d) => `Planta: estágio médio do *${n}*, amostrado de forma exata; uma mudança da razão cíclica age na borda de descida do PWM, (1 + ${d})·Tₛ depois da amostra que a gerou (um período de atraso de cálculo, depois a borda). O polo em z = 0 é esse período.`,
+        edge: (n, d) => `Planta: circuito chaveado do *${n}*, linearizado e amostrado uma vez por período; uma mudança da razão cíclica move a borda de descida do PWM, um período depois da amostra que a gerou, e age com o estado dessa borda. Ela se comporta como um atraso de (1 + ${d})·Tₛ, como se agisse no meio do pulso de G1. O polo em z = 0 é o período de atraso de cálculo.`,
         aria: (n, r, st) => `Plano z da malha do ${n}: maior raio de polo de malha fechada ${r}, ${st}.`, st: ["estável", "instável"] },
 };
 
@@ -74,7 +78,7 @@ export default async function mount(body, options, { lang }) {
     });
     table.innerHTML = `<table class="w-table"><thead><tr>${s.head.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.join("")}</tbody></table>`;
     const far = zp.zeros.filter(z => Math.abs(z.re) > 1.5);
-    note.replaceChildren(...rich(s.model(cname, num(Number(zp.delta.toFixed(3)), undefined, lang)) + (far.length ? " " + far.map(z => s.outside(num(z.re, 2, lang))).join("; ") + "." : "")));
+    note.replaceChildren(...rich(s[name === "buck" ? "model" : "edge"](cname, num(Number(zp.delta.toFixed(3)), undefined, lang)) + (far.length ? " " + far.map(z => s.outside(num(z.re, 2, lang))).join("; ") + "." : "")));
     for (const [key, sl] of Object.entries(sliders)) sl.set(design[key]);
     plot.label(s.aria(cname, num(radius, 3, lang), s.st[unstable ? 1 : 0]));
     plot.render();

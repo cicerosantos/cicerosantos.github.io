@@ -37,8 +37,8 @@
         "pt": "PID"
       },
       "about": {
-        "en": "PID with a derivative filter: KP 0.0114, KI 18.2, KD 1.75 µs/V, TF 7.96 µs (zeros at 500 Hz, below the LC resonance at 690 Hz, pole at 20 kHz). Crossover 1.5 kHz, phase margin 43° at 1 A and 38° at 2 A, gain margin 17 dB at 1 A and 13 dB at 2 A.",
-        "pt": "PID com filtro no derivativo: KP 0.0114; KI 18.2; KD 1.75 µs/V; TF 7.96 µs (zeros em 500 Hz, abaixo da ressonância LC em 690 Hz, polo em 20 kHz). Cruzamento em 1.5 kHz, margem de fase de 43° com 1 A e 38° com 2 A, margem de ganho de 17 dB com 1 A e 13 dB com 2 A."
+        "en": "PID with a derivative filter: KP 0.0114, KI 18.2, KD 1.75 µs/V, TF 7.96 µs (zeros at 500 Hz, below the LC resonance at 690 Hz, pole at 20 kHz). Crossover 1.5 kHz, phase margin 43° at 1 A and 39° at 2 A, gain margin 17 dB at 1 A and 13 dB at 2 A.",
+        "pt": "PID com filtro no derivativo: KP 0.0114; KI 18.2; KD 1.75 µs/V; TF 7.96 µs (zeros em 500 Hz, abaixo da ressonância LC em 690 Hz, polo em 20 kHz). Cruzamento em 1.5 kHz, margem de fase de 43° com 1 A e 39° com 2 A, margem de ganho de 17 dB com 1 A e 13 dB com 2 A."
       },
       "design": {
         "form": "pid",
@@ -91,8 +91,8 @@
         "pt": "2p2z"
       },
       "about": {
-        "en": "The Bode window's default design: crossover 1.5 kHz, two zeros at 500 Hz, below the LC resonance at 690 Hz, pole at 30 kHz, matched to z. Phase margin 45° at 1 A and 41° at 2 A, gain margin 17 dB at 1 A and 13 dB at 2 A. The right-half-plane zero (14 kHz at 1 A, 7 kHz at 2 A) keeps the crossover low.",
-        "pt": "O projeto inicial da janela de Bode: cruzamento em 1.5 kHz, dois zeros em 500 Hz, abaixo da ressonância LC em 690 Hz, polo em 30 kHz, discretizados por casamento de polos e zeros. Margem de fase de 45° com 1 A e 41° com 2 A, margem de ganho de 17 dB com 1 A e 13 dB com 2 A. O zero no semiplano direito (14 kHz com 1 A, 7 kHz com 2 A) mantém o cruzamento baixo."
+        "en": "The Bode window's default design: crossover 1.5 kHz, two zeros at 500 Hz, below the LC resonance at 690 Hz, pole at 30 kHz, matched to z. Phase margin 46° at 1 A and 41° at 2 A, gain margin 18 dB at 1 A and 14 dB at 2 A. The right-half-plane zero (14 kHz at 1 A, 7 kHz at 2 A) keeps the crossover low.",
+        "pt": "O projeto inicial da janela de Bode: cruzamento em 1.5 kHz, dois zeros em 500 Hz, abaixo da ressonância LC em 690 Hz, polo em 30 kHz, discretizados por casamento de polos e zeros. Margem de fase de 46° com 1 A e 41° com 2 A, margem de ganho de 18 dB com 1 A e 14 dB com 2 A. O zero no semiplano direito (14 kHz com 1 A, 7 kHz com 2 A) mantém o cruzamento baixo."
       },
       "design": {
         "form": "2p2z",
@@ -118,8 +118,8 @@
         "pt": "Agressivo"
       },
       "about": {
-        "en": "Zeros at 700 Hz, on the LC resonance, with the crossover pushed to 4 kHz and the pole down to 10 kHz: phase margin 19° at 1 A, but 0.5° at 2 A, where the right-half-plane zero comes down to 7 kHz (gain margin 0.1 dB). Fast on the reference and input steps; the load step rings for milliseconds.",
-        "pt": "Zeros em 700 Hz, sobre a ressonância LC, com o cruzamento levado a 4 kHz e o polo baixado a 10 kHz: margem de fase de 19° com 1 A, mas 0.5° com 2 A, quando o zero no semiplano direito desce a 7 kHz (margem de ganho de 0.1 dB). Rápido nos degraus de referência e de entrada; o degrau de carga oscila por milissegundos."
+        "en": "Zeros at 700 Hz, on the LC resonance, with the crossover pushed to 4 kHz and the pole down to 10 kHz: phase margin 20° at 1 A, but 2.1° at 2 A, where the right-half-plane zero comes down to 7 kHz (gain margin 0.4 dB). Fast on the reference and input steps; the load step rings for milliseconds.",
+        "pt": "Zeros em 700 Hz, sobre a ressonância LC, com o cruzamento levado a 4 kHz e o polo baixado a 10 kHz: margem de fase de 20° com 1 A, mas 2.1° com 2 A, quando o zero no semiplano direito desce a 7 kHz (margem de ganho de 0.4 dB). Rápido nos degraus de referência e de entrada; o degrau de carga oscila por milissegundos."
       },
       "design": {
         "form": "2p2z",
@@ -145,8 +145,8 @@
         "pt": "Instável"
       },
       "about": {
-        "en": "Crossover 8 kHz, zeros at 500 Hz, pole at 8 kHz: beyond the frequency where the right-half-plane zero and the delay use up the phase: phase margin −20°. The loop oscillates before any step, and the output's average sits below the reference.",
-        "pt": "Cruzamento em 8 kHz, zeros em 500 Hz, polo em 8 kHz: além da frequência em que o zero no semiplano direito e o atraso consomem a fase: margem de fase de −20°. A malha oscila antes de qualquer degrau, e a média da saída fica abaixo da referência."
+        "en": "Crossover 8 kHz, zeros at 500 Hz, pole at 8 kHz: beyond the frequency where the right-half-plane zero and the delay use up the phase: phase margin −17°. The loop oscillates before any step, and the output's average sits below the reference.",
+        "pt": "Cruzamento em 8 kHz, zeros em 500 Hz, polo em 8 kHz: além da frequência em que o zero no semiplano direito e o atraso consomem a fase: margem de fase de −17°. A malha oscila antes de qualquer degrau, e a média da saída fica abaixo da referência."
       },
       "design": {
         "form": "2p2z",

@@ -7,19 +7,48 @@
 <title>Classical control · Control basics</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
-<meta name="description" content="The first two units of classical control, in order: reading the plant in frequency and closing the loop, with the margins and the limit a right-half-plane zero puts on the crossover.">
+<meta name="description" content="The first four units of classical control, in order: reading the plant in frequency, closing the loop, with the margins and the limit of a right-half-plane zero, compensating, with steady-state error, phase lead and phase lag, and reading the root locus.">
 <link rel="alternate" hreflang="pt-BR" href="https://cicerosantos.github.io/pt/control-basics/control-basics-trail/">
 <link rel="alternate" hreflang="en" href="https://cicerosantos.github.io/en/control-basics/control-basics-trail/">
 <link rel="alternate" hreflang="x-default" href="https://cicerosantos.github.io/en/control-basics/control-basics-trail/">
-<link rel="stylesheet" href="/assets/site.css">
-<link rel="stylesheet" href="/assets/vendor/katex-0.16.11/katex.min.css">
-<link rel="stylesheet" href="/assets/notes/notes.css">
-<script src="/assets/site.js"></script>
-<script src="/assets/lang.js"></script>
-<script defer src="/assets/vendor/highlight-11.9.0/highlight.min.js"></script>
-<script defer src="/assets/vendor/highlight-11.9.0/languages/c.min.js"></script>
-<script defer src="/assets/vendor/highlight-11.9.0/languages/python.min.js"></script>
-<script type="module" src="/assets/notes/notes.js"></script>
+<link rel="stylesheet" href="/assets/site.css?v=439396ca8f">
+<link rel="stylesheet" href="/assets/vendor/katex-0.16.11/katex.min.css?v=717bc9ae78">
+<link rel="stylesheet" href="/assets/notes/notes.css?v=edef8324e3">
+<script src="/assets/site.js?v=3e41b5e20a"></script>
+<script src="/assets/lang.js?v=7142661d7c"></script>
+<script defer src="/assets/vendor/highlight-11.9.0/highlight.min.js?v=837a6fa5b0"></script>
+<script defer src="/assets/vendor/highlight-11.9.0/languages/c.min.js?v=147c335b43"></script>
+<script defer src="/assets/vendor/highlight-11.9.0/languages/python.min.js?v=d49d8b48c9"></script>
+<script type="importmap">
+{"imports": {
+  "/assets/notes/busca.js": "/assets/notes/busca.js?v=601c4e62a7",
+  "/assets/notes/notes.js": "/assets/notes/notes.js?v=6abcba7974",
+  "/assets/notes/widgets/bode.js": "/assets/notes/widgets/bode.js?v=8483a4fe6e",
+  "/assets/notes/widgets/common.js": "/assets/notes/widgets/common.js?v=e5738ac01f",
+  "/assets/notes/widgets/delay.js": "/assets/notes/widgets/delay.js?v=79255eee30",
+  "/assets/notes/widgets/discrete.js": "/assets/notes/widgets/discrete.js?v=4391fd2c20",
+  "/assets/notes/widgets/discretize.js": "/assets/notes/widgets/discretize.js?v=b6eecc02b4",
+  "/assets/notes/widgets/locus.js": "/assets/notes/widgets/locus.js?v=4cf6594d63",
+  "/assets/notes/widgets/pwmtiming.js": "/assets/notes/widgets/pwmtiming.js?v=ae57b55966",
+  "/assets/notes/widgets/pzmap.js": "/assets/notes/widgets/pzmap.js?v=fd01408274",
+  "/assets/notes/widgets/quantization.js": "/assets/notes/widgets/quantization.js?v=3977ed9c78",
+  "/assets/notes/widgets/rootlocus.js": "/assets/notes/widgets/rootlocus.js?v=732d214cb5",
+  "/assets/notes/widgets/step.js": "/assets/notes/widgets/step.js?v=3256785486",
+  "/assets/notes/widgets/switched.js": "/assets/notes/widgets/switched.js?v=4ef4394fbf",
+  "/assets/notes/widgets/zplane.js": "/assets/notes/widgets/zplane.js?v=5640f43cd5",
+  "/assets/pcl/i18n.js": "/assets/pcl/i18n.js?v=07e64cfb3c",
+  "/assets/pcl/loop.js": "/assets/pcl/loop.js?v=fb8dd57c92",
+  "/assets/pcl/plot.js": "/assets/pcl/plot.js?v=3f5c41abdd",
+  "/assets/pcl/sampled.js": "/assets/pcl/sampled.js?v=f9d6525cce",
+  "/power-labs/complex.js": "/power-labs/complex.js?v=c3fe510c1e",
+  "/power-labs/converters/boost/converter.js": "/power-labs/converters/boost/converter.js?v=887775867e",
+  "/power-labs/converters/buck/converter.js": "/power-labs/converters/buck/converter.js?v=d54a683060",
+  "/power-labs/converters/buckboost/converter.js": "/power-labs/converters/buckboost/converter.js?v=3e4b3bb539",
+  "/power-labs/gallery.js": "/power-labs/gallery.js?v=e926043e1f",
+  "/power-labs/scope.js": "/power-labs/scope.js?v=d3b4fb846b"
+}}
+</script>
+<script type="module" src="/assets/notes/notes.js?v=6abcba7974"></script>
 </head>
 <body>
 <div class="layout">
@@ -27,16 +56,16 @@
   <main class="page note" data-lang="en" data-slug="control-basics-trail">
 <nav class="crumbs" aria-label="breadcrumb"><a href="/en/control-basics/">Control basics</a> · Trail</nav>
 <h1 id="control-basics-trail">Classical control</h1>
-<p class="summary">The first two units of classical control, in order: reading the plant in frequency and closing the loop, with the margins and the limit a right-half-plane zero puts on the crossover.</p>
-<article class="note-body"><p>This trail gathers the first two units of classical control, in order. In the first, you read a converter's plant as a transfer function, in factored form, and draw its Bode plot by asymptotes. In the second, you close the loop, measure the margins, and see the limit that a right-half-plane zero puts on the crossover. Each step uses the lab converters' numbers. If you do not know where to start, answer the questions in <a class="note-link" href="/en/control-basics/start-here/" data-title="Start here" data-summary="What the Read the plant unit of classical control is for, and five questions to find out, in a few minutes, which of its notes you need to read.">Start here</a> first.</p>
+<p class="summary">The first four units of classical control, in order: reading the plant in frequency, closing the loop, with the margins and the limit of a right-half-plane zero, compensating, with steady-state error, phase lead and phase lag, and reading the root locus.</p>
+<article class="note-body"><p>This trail gathers the first four units of classical control, in order. In the first, you read a converter's plant as a transfer function, in factored form, and draw its Bode plot by asymptotes. In the second, you close the loop, measure the margins, and see the limit that a right-half-plane zero puts on the crossover. In the third, you choose the compensator: the integrator for the steady-state error, phase lead for the margin, and phase lag when reducing the error is enough. In the fourth, you see the same limits in the <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span></span> plane, through the path of the closed-loop poles, and what a cancellation hides. Each step uses the lab converters' numbers. If you do not know where to start, answer the questions in <a class="note-link" href="/en/control-basics/start-here/" data-title="Start here" data-summary="What the first three units of classical control are for, reading the plant, closing the loop and compensating, and nine questions to find out, in a few minutes, which of their notes you need to read.">Start here</a> first.</p>
 <h2 id="unit-1-reading-the-plant">Unit 1: reading the plant</h2>
 <ol>
 <li><a class="note-link" href="/en/control-basics/transfer-function/" data-title="Transfer function and factored form" data-summary="The transfer function is a ratio of polynomials. Written in factored form, the DC gain stands alone in front, and each pole and zero marks a frequency on the Bode plot.">Transfer function and factored form</a>: the buck's plant as a ratio of polynomials, with the DC gain, the poles and the zeros in factored form.</li>
 <li><a class="note-link" href="/en/control-basics/first-order-pole-zero/" data-title="First-order pole and zero" data-summary="A real pole drops the magnitude at −20 dB per decade and lags the phase down to −90°; a zero does the opposite. The asymptote is 3 dB off at the pole frequency, where the real phase is −45°.">First-order pole and zero</a>: the simplest block, a real pole or zero, with its asymptotes and the 3 dB error at the corner.</li>
 <li><a class="note-link" href="/en/control-basics/second-order-q/" data-title="Second-order pole pair and quality factor Q" data-summary="A pole pair is described by f₀ and Q. In the Bode plot, Q gives the height of the resonant peak; in the step, the balance between oscillation and decay, with the overshoot.">Second-order pole pair and quality factor Q</a>: two poles together can oscillate, and the factor <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi></mrow><annotation encoding="application/x-tex">Q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">Q</span></span></span></span></span> says how much; it is the buck's LC.</li>
-<li><a class="note-link" href="/en/control-basics/second-order-filter-catalog/" data-title="Second-order filters: the catalogue" data-summary="The five second-order filters with a pole pair, each as a factored form with f₀ and Q, and the asymptote that identifies it on the Bode plot.">Second-order filters: the catalogue</a>: the five second-order filters, from low-pass to all-pass, recognized by their asymptotes.</li>
+<li><a class="note-link" href="/en/control-basics/second-order-filter-catalog/" data-title="Second-order filters: the catalog" data-summary="The five second-order filters with a pole pair, each as a factored form with f₀ and Q, and the asymptote that identifies it on the Bode plot.">Second-order filters: the catalog</a>: the five second-order filters, from low-pass to all-pass, recognized by their asymptotes.</li>
 <li><a class="note-link" href="/en/control-basics/bode-by-composition/" data-title="Bode by composition: from factored form to asymptote" data-summary="Draw a plant&#x27;s Bode plot by hand, adding one factor at a time with the magnitude and phase asymptotes, and read the factored form back from the asymptotic Bode plot.">Bode by composition: from factored form to asymptote</a>: add the asymptotes of each factor to draw the plant's Bode plot, and read the equation back from the curve.</li>
-<li><a class="note-link" href="/en/control-basics/network-factoring/" data-title="From circuit to factored form (reinforcement)" data-summary="Optional reinforcement. How to go from the circuit to the factored form, normalising the denominator, and where G₀, f₀, Q and the zero of the *buck*&#x27;s and the *boost*&#x27;s plant come from.">From circuit to factored form (reinforcement)</a>: optional reinforcement, to see where the plant's formulas come from in the circuit.</li>
+<li><a class="note-link" href="/en/control-basics/network-factoring/" data-title="From circuit to factored form (reinforcement)" data-summary="Optional reinforcement. How to go from the circuit to the factored form, normalizing the denominator, and where G₀, f₀, Q and the zero of the *buck*&#x27;s and the *boost*&#x27;s plant come from.">From circuit to factored form (reinforcement)</a>: optional reinforcement, to see where the plant's formulas come from in the circuit.</li>
 </ol>
 <h2 id="unit-2-closing-the-loop">Unit 2: closing the loop</h2>
 <ol start="7">
@@ -44,11 +73,22 @@
 <li><a class="note-link" href="/en/control-basics/margin-and-damping/" data-title="From margin to damping: the ζ ≈ MF/100 rule and where it fails" data-summary="How the phase margin turns into damping and overshoot, over what range the ζ ≈ MF/100 rule holds, and why it misses in the buck with the 2p2z.">From margin to damping: the ζ ≈ MF/100 rule and where it fails</a>: from phase margin to the damping of the step, with the rule <span class="math"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ζ</mi><mo>≈</mo><mrow><mi mathvariant="normal">M</mi><mi mathvariant="normal">F</mi></mrow><mi mathvariant="normal">/</mi><mn>100</mn></mrow><annotation encoding="application/x-tex">\zeta \approx \mathrm{MF}/100</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.07378em;">ζ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathrm">MF</span></span><span class="mord">/100</span></span></span></span></span>, the range where it holds and where it fails in the buck.</li>
 <li><a class="note-link" href="/en/control-basics/rhp-zero-intro/" data-title="Right-half-plane zero" data-summary="A zero right of the jω axis has an ordinary zero&#x27;s magnitude and a pole&#x27;s phase; it takes phase away from the loop, makes the step start the wrong way, and limits the crossover.">Right-half-plane zero</a>: the right-half-plane zero as a phase lag, the initial inverse response, and the limit on the crossover in the boost.</li>
 </ol>
+<h2 id="unit-3-compensating">Unit 3: compensating</h2>
+<ol start="10">
+<li><a class="note-link" href="/en/control-basics/steady-state-error/" data-title="Steady-state error and system type" data-summary="The number of integrators in the loop gain, the system type, decides for which input the steady-state error goes to zero; the constants \(K_p\), \(K_v\) and \(K_a\) give the error left for a step, a ramp and a parabola.">Steady-state error and system type</a>: the system type and the error constants, the ceiling of a proportional controller on a type 0 plant, and the integrator that zeroes the step error.</li>
+<li><a class="note-link" href="/en/control-basics/pi-lead-type3/" data-title="PI, phase lead and the type III" data-summary="The integrator brings the steady-state error to zero and costs 90° of phase; phase lead gives phase back at the crossover; the type III is an integrator with two leads, and the 2p2z is its digital relative.">PI, phase lead and the type III</a>: the PI, phase lead and the type III, which the buck's 2p2z implements.</li>
+<li><a class="note-link" href="/en/control-basics/lag-compensator/" data-title="The phase-lag compensator" data-summary="A pole followed by a higher zero, well below the crossover, multiplies the low-frequency gain by the factor α and costs a few degrees of margin; with no pole at the origin, it reduces the step error but does not zero it.">The phase-lag compensator</a>: phase lag, which multiplies the low-frequency gain without moving the crossover, and why it does not zero the error.</li>
+</ol>
+<h2 id="unit-4-the-root-locus">Unit 4: the root locus</h2>
+<ol start="13">
+<li><a class="note-link" href="/en/control-basics/root-locus/" data-title="Root locus (qualitative reading)" data-summary="How the closed-loop poles move as the compensator&#x27;s gain rises, the rules for a hand sketch, and the reading in the buck and the boost, where the right-half-plane zero puts a ceiling on the gain.">Root locus (qualitative reading)</a>: how the closed-loop poles move with the gain; the delay sets the buck's ceiling, and the right-half-plane zero sets the boost's.</li>
+<li><a class="note-link" href="/en/control-basics/pole-zero-cancellation/" data-title="Pole-zero cancellation and its risks" data-summary="A compensator zero on a plant pole removes the pole from the loop gain, but not from the closed loop; an imperfect cancellation leaves a slow doublet, and a right-half-plane zero is never canceled.">Pole-zero cancellation and its risks</a>: what a zero placed on a pole hides: the pair stays in the closed loop, the doublet leaves a slow tail, and a right-half-plane zero is never canceled.</li>
+</ol>
 <h2 id="end-of-the-trail">End of the trail</h2>
-<p>From here, go back to the converters: the <a class="note-link" href="/en/digital-control/buck-digital-loop/" data-title="From the analog buck to the digital loop" data-summary="From the power stage to the firmware: the design path of a microcontroller-controlled buck, note by note.">From the analog buck to the digital loop</a> trail takes the buck from the power stage to the <em>firmware</em>, and the <a class="note-link" href="/en/digital-control/boost-digital-loop/" data-title="From the boost to the digital loop" data-summary="What changes in the digital loop when the plant has a right-half-plane zero: from the boost&#x27;s averaged model to the four-switch buck-boost, and from there to a design that works across the whole range.">From the boost to the digital loop</a> trail shows what changes when the plant has a right-half-plane zero. The next units of classical control, on compensation and the root locus, join this trail when they are ready.</p>
+<p>From here, go back to the converters: the <a class="note-link" href="/en/digital-control/buck-digital-loop/" data-title="From the analog buck to the digital loop" data-summary="From the power stage to the firmware: the design path of a microcontroller-controlled buck, note by note.">From the analog buck to the digital loop</a> trail takes the buck from the power stage to the <em>firmware</em>, and the <a class="note-link" href="/en/digital-control/boost-digital-loop/" data-title="From the boost to the digital loop" data-summary="What changes in the digital loop when the plant has a right-half-plane zero: from the boost&#x27;s averaged model to the four-switch buck-boost, and from there to a design that works across the whole range.">From the boost to the digital loop</a> trail shows what changes when the plant has a right-half-plane zero. The next unit of classical control, the passage to digital, joins this trail when it is ready.</p>
 </article>
 <p class="trail-start"><a class="button" href="/en/control-basics/transfer-function/">Start the trail →</a></p>
-<footer class="note-foot"><section class="backlinks"><h2>Used in</h2><ul><li><a class="note-link" href="/en/control-basics/start-here/" data-title="Start here" data-summary="What the Read the plant unit of classical control is for, and five questions to find out, in a few minutes, which of its notes you need to read.">Start here</a></li><li><a class="note-link" href="/en/control-basics/transfer-function/" data-title="Transfer function and factored form" data-summary="The transfer function is a ratio of polynomials. Written in factored form, the DC gain stands alone in front, and each pole and zero marks a frequency on the Bode plot.">Transfer function and factored form</a></li></ul></section><p class="tags"><span>#basics</span> <span>#trail</span></p></footer>
+<footer class="note-foot"><section class="backlinks"><h2>Used in</h2><ul><li><a class="note-link" href="/en/control-basics/start-here/" data-title="Start here" data-summary="What the first three units of classical control are for, reading the plant, closing the loop and compensating, and nine questions to find out, in a few minutes, which of their notes you need to read.">Start here</a></li><li><a class="note-link" href="/en/control-basics/transfer-function/" data-title="Transfer function and factored form" data-summary="The transfer function is a ratio of polynomials. Written in factored form, the DC gain stands alone in front, and each pole and zero marks a frequency on the Bode plot.">Transfer function and factored form</a></li></ul></section><p class="tags"><span>#basics</span> <span>#trail</span></p></footer>
   </main>
 </div>
 </body>

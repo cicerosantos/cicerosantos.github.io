@@ -12,70 +12,54 @@
 // a duty change δd is a pulse of height 1 and width δd·T there: an impulse of area T·δd at
 // (1 + D)T after the sample. Integrating x' = A·x over one period with that impulse inside it
 // (the modified z-transform with the input at the fraction D of the period) gives
-//     x[k+1] = Φ·x[k] + Γ·u[k−1],    Φ = e^{A·T},    Γ = T·e^{A·(1 − δ)·T}·B,    δ = DELAY·D,
+//     x[k+1] = Φ·x[k] + Γ·u[k−1],    Φ = e^{A·T},    Γ = T·e^{A·(1 − D)·T}·B,
 //     y[k]   = Cy·x[k],
-// so P(z) = Cy·(zI − Φ)⁻¹·Γ·z⁻¹. DELAY is converter.js's: 1 for the buck, which makes this exact
-// for its switched circuit too (its two topologies share A, and the edge's jump is B·T·δd whatever
-// the state); 0.6 for the boost and the buck-boost, fitted in converter.js to QSPICE, where the
-// topologies differ and the ripple shifts the edge's effect.
-// Check: P(e^{jωT}) equals the sum of converter.js's plant() over the aliases f + m·fs (to 1e-5 dB
-// for the buck, 0.02° for the others), so it differs from plant() alone only by those aliases: at
-// the crossovers of scenarios.json's stable controllers by under 0.15 dB and 0.15°; up to fs/10 by
-// 0.1 dB/0.2° (buck), 0.2 dB/1° (boost), 0.4 dB/1.8° (buck-boost); at fs/4 by 0.7 dB/3.6°, 0.4 dB/9°
-// and 1.9 dB/12°, where the stage's response near fs is no longer negligible. The closed-loop
-// poles' stability agrees with loop.js's margins for every controller of scenarios.json. This
-// replaces a zero-order hold over T times z⁻¹, which delayed the input by 1.5 T on average instead
-// of (1 + DELAY·D)·T (up to 7° off at the crossover).
+// so P(z) = Cy·(zI − Φ)⁻¹·Γ·z⁻¹. This is the buck's, exact for its switched circuit too: its two
+// topologies share A, and the edge's jump is B·T·δd whatever the state.
+// Check: P(e^{jωT}) equals the sum of converter.js's plant() over the aliases f + m·fs (to 1e-5 dB),
+// so it differs from plant() alone only by those aliases: up to fs/10 by 0.1 dB and 0.2°, at fs/4 by
+// 0.7 dB and 3.6°, where the stage's response near fs is no longer negligible.
+// The boost and the buck-boost switch between two different topologies, and the edge's jump depends
+// on the state there. Their P(z) is the same form with the Φ, Γ and Cy of /assets/pcl/sampled.js,
+// which is also their converter.js plant(): Γ = T·e^{A_off·(1 − D)·T}·b_e, with b_e the jump at the
+// edge's state (the inductor current's peak, the capacitor voltage's valley). The closed-loop poles'
+// stability agrees with loop.js's margins for every controller of scenarios.json. This replaces a
+// zero-order hold over T times z⁻¹, which delayed the input by 1.5 T on average instead of
+// (1 + D)·T (up to 7° off at the crossover).
 import { cx, cadd, csub, cmul, cdiv, cscale } from "/power-labs/complex.js";
 import { pidTo2p2z } from "../../pcl/loop.js";
+import { expm, edgeModel } from "../../pcl/sampled.js";
+export { expm };
 
-// The averaged stage linearized at converter.js's operating point op ({ vin, vref, r, duty,
+// The buck's averaged stage linearized at converter.js's operating point op ({ vin, vref, r, duty,
 // current }), from the converter.js PLANT constants, as converter.js's plant() writes it:
-//   buck:        L·i' = vin·d − R·i − v
-//   boost:       L·i' = −Rl·i − D'·v + V·d                  (D' = 1 − D, V = op.vref)
-//   buck-boost:  L·i' = −Rl·i − D'·v + (Vin + V)·d
-//   C·vC' = the capacitor's current: i − v/r (buck); D'·i − I·d − v/r (boost, buck-boost)
-//   v = vC + ESR·(capacitor's current)
+//   L·i' = vin·d − R·i − v,    C·vC' = i − v/r,    v = vC + ESR·(i − v/r)
 // Returns { A, B, Cy } for x = [i, vC] and the ADC's y.
 export function averagedStage(name, P, op) {
-  const R = P.R ?? P.RL, { L, C, ESR } = P, r = op.r, k = r / (r + ESR);
-  if (name === "buck")
-    return { A: [[-(R + k * ESR) / L, -k / L], [k / C, -k / (r * C)]], B: [op.vin / L, 0], Cy: [k * ESR, k] };
-  const dp = 1 - op.duty, I = op.current, V = op.vref;
-  const drive = name === "boost" ? V : op.vin + V;
-  // v = k·(vC + ESR·(D'·i − I·d)); the capacitor's current D'·i − I·d − v/r = k·(D'·i − I·d) − (k/r)·vC
-  return {
-    A: [[-(R + k * ESR * dp * dp) / L, -k * dp / L], [k * dp / C, -k / (r * C)]],
-    B: [(drive + k * ESR * dp * I) / L, -k * I / C],
-    Cy: [k * ESR, k],
-  };
+  if (name !== "buck") throw new Error(`averagedStage: ${name} uses sampled.js's edge model`);
+  const { R, L, C, ESR } = P, r = op.r, k = r / (r + ESR);
+  return { A: [[-(R + k * ESR) / L, -k / L], [k / C, -k / (r * C)]], B: [op.vin / L, 0], Cy: [k * ESR, k] };
 }
 
-// ---- small matrices ----
-const matmul = (A, B) => A.map(row => B[0].map((_, j) => row.reduce((s, a, k) => s + a * B[k][j], 0)));
-export function expm(A) {
-  const norm = Math.max(...A.map(r => r.reduce((s, v) => s + Math.abs(v), 0)));
-  const squarings = Math.max(0, Math.ceil(Math.log2(norm || 1)) + 1);
-  const As = A.map(r => r.map(v => v / 2 ** squarings));
-  let E = As.map((r, i) => r.map((_, j) => (i === j ? 1 : 0))), term = E;
-  for (let k = 1; k <= 16; k++) { term = matmul(term, As).map(r => r.map(v => v / k)); E = E.map((r, i) => r.map((v, j) => v + term[i][j])); }
-  for (let i = 0; i < squarings; i++) E = matmul(E, E);
-  return E;
-}
 const scaled = (A, t) => A.map(r => r.map(v => v * t));
 
 // The sampled-data plant of the derivation above: P(z) = num(z)/den(z), polynomials in z, highest
-// power first. Also returns A, B, Cy, Φ, Γ, the delay fraction δ and the plant's poles and zeros.
+// power first. Also returns Φ, Γ, Cy, the first-order delay fraction δ (the duty change acts, to
+// first order, δ·T into the period: D for the buck, D/2 for the others) and the plant's poles and zeros.
 export function sampledPlant(name, P, op, T) {
-  const { A, B, Cy } = averagedStage(name, P, op);
-  const delta = (P.DELAY ?? 1) * op.duty;
-  const Phi = expm(scaled(A, T)), E = expm(scaled(A, (1 - delta) * T));
-  const Gamma = [T * (E[0][0] * B[0] + E[0][1] * B[1]), T * (E[1][0] * B[0] + E[1][1] * B[1])];
+  let Phi, Gamma, Cy, delta;
+  if (name === "buck") {
+    const stage = averagedStage(name, P, op), E = expm(scaled(stage.A, (1 - op.duty) * T));
+    Phi = expm(scaled(stage.A, T)); Cy = stage.Cy; delta = op.duty;
+    Gamma = [T * (E[0][0] * stage.B[0] + E[0][1] * stage.B[1]), T * (E[1][0] * stage.B[0] + E[1][1] * stage.B[1])];
+  } else {
+    ({ Phi, Gamma, Cy } = edgeModel(name, P, op, T)); delta = op.duty / 2;
+  }
   const [[a, b], [c, dd]] = Phi, [g1, g2] = Gamma, [c1, c2] = Cy;
   // Cy·adj(zI − Φ)·Γ
   const num = [c1 * g1 + c2 * g2, -c1 * dd * g1 + c1 * b * g2 + c2 * c * g1 - c2 * a * g2];
   const den2 = [1, -(a + dd), a * dd - b * c];
-  return { A, B, Cy, Phi, Gamma, delta, num, den: [...den2, 0],  // the trailing 0: the latency's z⁻¹
+  return { Cy, Phi, Gamma, delta, num, den: [...den2, 0],  // the trailing 0: the latency's z⁻¹
            poles: roots(den2), zeros: Math.abs(num[0]) > 1e-15 ? [cx(-num[1] / num[0])] : [] };
 }
 

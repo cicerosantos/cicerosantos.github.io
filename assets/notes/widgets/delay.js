@@ -4,9 +4,11 @@
 // Options: converter (buck | boost | buckboost), design (a controller id of scenarios.json, or custom,
 // with fc, fz1, fz2, fp, form), compare (conventions).
 //
-// The plant's own delay, from converter.js, is (1 + DELAY·D)·T. The figure divides the plant by
-// that term and multiplies by e^(−jωτ) with the chosen τ; the rest of the plant (including the boost's
-// and buck-boost's ESR sample term) is kept.
+// The plant's own delay, from converter.js, is (1 + DELAY·D)·T: exact for the buck (DELAY 1); for the
+// boost and the buck-boost, whose plant() is the sampled-data model of /assets/pcl/sampled.js, its
+// first-order equivalent (DELAY 0.5). The figure divides the plant by that term and multiplies by
+// e^(−jωτ) with the chosen τ; the rest of the plant (including the boost's and buck-boost's ESR
+// sample term) is kept.
 //
 // compare=conventions (buck only): four ways of counting the same loop's delay, with a slider for the
 // D that sets the trailing edge's position. The buck's averaged stage does not depend on D at a given
@@ -17,7 +19,7 @@
 //   double counting, ZOH added to (1 + D)T:     sinc(ωT/2)·e^(−jω(1.5 + D)T)   (an error)
 // plus, dotted, the exact sampled-data model of the trailing edge (discrete.js). At D = 0.375 the
 // 2p2z's margins, at its last 0 dB crossing (8 kHz), are 41.3° (41.4° exact), 39.6°, 53.9° and 34.2°.
-// The boost's and buck-boost's 0.6·D is a fitted residual, not a convention, so they are left out.
+// The boost's and buck-boost's plant is not an averaged stage times a pure delay, so they are left out.
 import { DEFAULT_BODE, frequencies, designController, retune, response, margins, controller } from "../../pcl/loop.js";
 import { cmul, cexpj, cscale } from "/power-labs/complex.js";
 import { loadConverter, pickDesign, num, hz, deg, decade, eng, css, el, canvasPlot, panel, line, hline, vline, tag, legend, slider, choice, frame, CONVERTER_NAMES } from "./common.js";

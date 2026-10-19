@@ -1,7 +1,7 @@
 // The synchronous boost of converters/boost/: what the oscilloscope page needs to show its frames,
 // and its small-signal model for the Bode window.
-import { cx, cadd, cdiv, cmul, cscale, cexpj } from "../../complex.js";
 import { tr } from "/assets/pcl/i18n.js";
+import { edgePlant } from "/assets/pcl/sampled.js";
 
 // Frame columns, as recorded by converters/common/scenario.cpp from converters/boost/netlist.cir:
 // t (us from frame start), then the signals.
@@ -16,14 +16,18 @@ const CURRENT = { width: 1, alpha: 0.85 };
 //   v/d = Zo·(D'·V − I·(sL + Rl)) / (sL + Rl + Zo·D'²)
 // The I·(sL + Rl) term is the right-half-plane zero. Rl is the inductor's 15 mΩ and one switch's
 // 10 mΩ. The ADC sample is not the average output: it comes just before G1 turns on, when the
-// capacitor carries the whole inductor current, so it reads ESR·(D·i + I) more (see plant()).
-// The delay, (1 + 0.6·D)·T, is fitted: the duty computed from a sample takes effect in the next
-// period. Checked against QSPICE with tools/qspice_loop_check.py, adding to the duty a sine that
-// moves the ADC sample by about 10 codes and gives the same loop gain at half its amplitude, at
-// 12 V in and 1 and 2 A (48 and 24 Ω), across the LC resonance: within 0.2 dB and 1.4° from 300 Hz
-// to 7 kHz.
-// Exported for the notes' figures (discrete-time models); DELAY is the D's factor in the delay.
-export const PLANT = { L: 33e-6, RL: 0.025, C: 100e-6, ESR: 0.010, DELAY: 0.6 };
+// capacitor carries the whole inductor current, so it reads ESR·(D·i + I) more. The duty computed
+// from a sample takes effect in the next period, at G1's falling edge.
+// plant() is not this averaged form times a delay: it is the sampled-data model of the switched
+// circuit in /assets/pcl/sampled.js, derived, with no fitted factor. To first order it is the
+// averaged form, with the ESR term, delayed by (1 + D/2)·T. Checked against QSPICE with
+// tools/qspice_loop_check.py, adding to the duty a sine that moves the ADC sample by about 10 codes,
+// at 12 V in and 12, 24 and 48 Ω (4, 2 and 1 A), across the LC resonance, every point linear at half
+// amplitude: within 0.2 dB and 1.4° from 300 Hz to 7 kHz (per point in sampled.js).
+// Exported for the notes' figures (discrete-time models). DELAY is the D's factor in the first-order
+// delay, (1 + DELAY·D)·T, for the figure that swaps the plant's delay for another (delay.js).
+export const PLANT = { L: 33e-6, RL: 0.025, C: 100e-6, ESR: 0.010, DELAY: 0.5 };
+const plant = edgePlant("boost", PLANT);
 
 export default {
   COL,
@@ -63,18 +67,6 @@ export default {
                 pt: `em Vin ${vin} V · Vout ${vout} V · carga ${load} · D ${duty}` });
   },
 
-  // Output voltage per unit of duty.
-  plant(f, op) {
-    const w = 2 * Math.PI * f, s = cx(0, w), dp = 1 - op.duty;
-    const zc = cadd(cx(PLANT.ESR), cdiv(cx(1), cscale(s, PLANT.C)));
-    const zo = cdiv(cscale(zc, op.r), cadd(cx(op.r), zc));
-    const zl = cadd(cx(PLANT.RL), cscale(s, PLANT.L));
-    const numerator = cmul(zo, cadd(cx(dp * op.vref), cscale(zl, -op.current)));
-    const stage = cdiv(numerator, cadd(zl, cscale(zo, dp * dp)));
-    // The ADC samples just before G1 turns on, when the capacitor carries the whole inductor current:
-    // ESR·(D·i + I) more than the average. i is the inductor current per unit duty.
-    const i = cdiv(cadd(cx(op.vref), cscale(stage, -dp)), zl);
-    const sampled = cadd(stage, cscale(cadd(cscale(i, op.duty), cx(op.current)), PLANT.ESR));
-    return cmul(sampled, cexpj(-w * (1 + PLANT.DELAY * op.duty) * this.T));
-  },
+  // The ADC sample per unit of duty, at f Hz up to fs/2: the sampled-data model of sampled.js.
+  plant(f, op) { return plant(f, op, this.T); },
 };

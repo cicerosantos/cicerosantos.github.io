@@ -5,11 +5,14 @@
 import { FONT, css, localNumber, niceStep, timeLabel, reading, detailRange, autoRange, sizeCanvas, timeGrid, valueAxis,
          triggerMarker, trace, cursorLine, cursorDot, cursorTime, legendItem } from "../../pcl/plot.js";
 
-// The figures' stylesheet, linked once.
+// The figures' stylesheets, traces.css and widgets.css. tools/build_notes.py links them, versioned
+// (?v=), in the head of every page with a figure; a page without them gets them here, unversioned.
 if (!document.querySelector('link[data-widgets-css]')) {
-  const link = Object.assign(document.createElement("link"), { rel: "stylesheet", href: new URL("./widgets.css", import.meta.url).href });
-  link.dataset.widgetsCss = "";
-  document.head.append(link);
+  for (const href of ["../../pcl/traces.css", "./widgets.css"]) {
+    const link = Object.assign(document.createElement("link"), { rel: "stylesheet", href: new URL(href, import.meta.url).href });
+    if (href === "./widgets.css") link.dataset.widgetsCss = "";
+    document.head.append(link);
+  }
 }
 
 // ---- converters ----
@@ -21,7 +24,7 @@ export function loadConverter(name = "buck") {
   if (!CONVERTERS.includes(name)) return Promise.reject(new Error(`unknown converter "${name}"`));
   cache[name] ||= Promise.all([
     import(`/power-labs/converters/${name}/converter.js`),
-    fetch(`/power-labs/converters/${name}/scenarios.json`).then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); }),
+    fetch(`/power-labs/converters/${name}/scenarios.json`, { cache: "no-cache" }).then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); }),
   ]).then(([module, spec]) => {
     const converter = module.default;
     return { name, converter, PLANT: module.PLANT, spec, op: converter.operatingPoint(spec.defaults) };

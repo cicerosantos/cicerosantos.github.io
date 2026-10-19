@@ -1,8 +1,8 @@
 /* The notes' interactive figures (widgets/*.js), in the oscilloscope's look (power-labs/scope.css):
    charts as panels on the page's background, the legend at a chart's upper right, the Bode window's
    plot, margins grid, sliders and segmented switches. The trace colours, grid and cursor are the
-   oscilloscope's own tokens (traces.css); the page's (site.css) give the panel, text and accent. */
-@import url("../../pcl/traces.css");
+   oscilloscope's own tokens (traces.css, linked by the page before this sheet: an @import would
+   escape the build's ?v= versioning); the page's (site.css) give the panel, text and accent. */
 :root { --closed: #7c3aed; --alt1: #15803d; --alt2: #c2410c; --alt3: #7c3aed; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) { --closed: #c4b5fd; --alt1: #4ade80; --alt2: #fb923c; --alt3: #c4b5fd; }
@@ -55,6 +55,8 @@
 .w-key.dotted { border-top-style: dotted; }
 .w-key.dot { width: 9px; height: 9px; border: 0; border-radius: 50%; background: var(--c); }
 .w-key.ring { width: 9px; height: 9px; border: 1.6px solid var(--c); border-radius: 50%; }
+.w-key.square { width: 9px; height: 9px; border: 1.6px solid var(--c); border-radius: 0; }
+.w-key.rhomb { width: 8px; height: 8px; border: 1.6px solid var(--c); border-radius: 0; transform: rotate(45deg); margin: 0 1px; }
 .w-key.cross { width: 10px; height: 10px; border: 0; background:
   linear-gradient(45deg, transparent 43%, var(--c) 43% 57%, transparent 57%),
   linear-gradient(-45deg, transparent 43%, var(--c) 43% 57%, transparent 57%); }
@@ -157,3 +159,6 @@
 .w-key.tri { width: 0; height: 0; border: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 9px solid var(--c); }
 .w-key.bar { width: 14px; height: 7px; border: 0; background: var(--c); }
 .w-key.diamond { width: 8px; height: 8px; border: 0; background: var(--c); transform: rotate(45deg); margin: 0 2px; }
+
+/* rootlocus: the design-point button under the K slider. */
+.w-rl-buttons { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0; }
