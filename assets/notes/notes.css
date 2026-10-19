@@ -36,6 +36,7 @@ a.note-link:hover { border-bottom-style: solid; }
 .trail-bar .trail-step { color: var(--muted); font-variant-numeric: tabular-nums; }
 .trail-bar .trail-nav { margin-left: auto; display: flex; gap: 14px; }
 .trail-bar .trail-nav a { text-decoration: none; font-weight: 600; }
+.trail-bar-end { margin: 28px 0 14px; }
 .prereqs { border-left: 3px solid var(--accent); background: var(--selected-bg); padding: 8px 12px; border-radius: 0 8px 8px 0;
            font-size: 14.5px; margin: 0 0 18px; }
 .prereqs a { color: var(--selected-text); }  /* the accent is under 4.5:1 on --selected-bg */

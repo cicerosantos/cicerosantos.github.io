@@ -13,7 +13,7 @@
 <link rel="alternate" hreflang="x-default" href="https://cicerosantos.github.io/en/digital-control/firmware-capstone/">
 <link rel="stylesheet" href="/assets/site.css?v=439396ca8f">
 <link rel="stylesheet" href="/assets/vendor/katex-0.16.11/katex.min.css?v=717bc9ae78">
-<link rel="stylesheet" href="/assets/notes/notes.css?v=edef8324e3">
+<link rel="stylesheet" href="/assets/notes/notes.css?v=beab937384">
 <script src="/assets/site.js?v=3e41b5e20a"></script>
 <script src="/assets/lang.js?v=7142661d7c"></script>
 <script defer src="/assets/vendor/highlight-11.9.0/highlight.min.js?v=837a6fa5b0"></script>
@@ -23,6 +23,8 @@
 {"imports": {
   "/assets/notes/busca.js": "/assets/notes/busca.js?v=601c4e62a7",
   "/assets/notes/notes.js": "/assets/notes/notes.js?v=6abcba7974",
+  "/assets/notes/widgets/asymptote-model.js": "/assets/notes/widgets/asymptote-model.js?v=c453a43954",
+  "/assets/notes/widgets/asymptote.js": "/assets/notes/widgets/asymptote.js?v=cc3c2d7106",
   "/assets/notes/widgets/bode.js": "/assets/notes/widgets/bode.js?v=8483a4fe6e",
   "/assets/notes/widgets/common.js": "/assets/notes/widgets/common.js?v=e5738ac01f",
   "/assets/notes/widgets/delay.js": "/assets/notes/widgets/delay.js?v=79255eee30",
@@ -207,6 +209,7 @@
 <p><strong><em>Buck-boost</em>.</strong> A faixa vai de 9 a 15 V e de 1 a 3 A; o pior canto está em <a class="note-link" href="/pt/digital-control/robust-design-operating-range/" data-title="Projeto robusto na faixa de operação" data-summary="Um compensador fixo para uma planta que muda com a entrada e a carga: os cantos da faixa, o cruzamento entre cerca de 1/5 e 1/3 do zero no semiplano direito no pior caso e as margens conferidas em cada ponto.">Projeto robusto na faixa de operação</a>. Para comparar, use o degrau gravado:</p>
 <p class="scenario-link"><a href="/power-labs/scope.html?c=buckboost&amp;s=2p2z-load&amp;lang=pt" data-converter="buckboost" data-scenario="2p2z-load"><span class="scenario-icon" aria-hidden="true">∿</span><span>Abrir no osciloscópio: <b>Degrau de carga de 1 para 3 A com o 2p2z do <em>buck-boost</em></b></span></a></p>
 </article>
+<nav class="trail-bar trail-bar-end" aria-label="Trilha (fim da nota)"><a class="trail-name" href="/pt/digital-control/boost-digital-loop/">Trilha: Do <em>boost</em> ao laço digital</a><span class="trail-step">passo 15 de 15</span><span class="trail-nav"><a href="/pt/digital-control/derivative-kick/" title="Chute derivativo e derivativo na medida">← anterior</a></span></nav>
 <footer class="note-foot"><section class="see-also"><h2>Veja também</h2><p><a class="note-link" href="/pt/digital-control/adc-sampling-esr/" data-title="Instante da amostra e a ESR no *boost*" data-summary="No *boost* e no *buck-boost*, a amostra tomada logo antes de G1 ligar fica acima da média da saída e lê um termo da ESR que muda a planta; e a resposta chaveada se comporta, em primeira ordem, como um atraso de (1 + D/2)·Tₛ, não (1 + D)·Tₛ.">Instante da amostra e a ESR no <em>boost</em></a> · <a class="note-link" href="/pt/digital-control/dpwm-resolution-limit-cycles/" data-title="Resolução do DPWM e ciclos-limite" data-summary="A razão cíclica também anda em degraus: quando o degrau que ela provoca na saída é maior que o passo do ADC, o laço não tem onde parar e oscila num ciclo-limite.">Resolução do DPWM e ciclos-limite</a> · <a class="note-link" href="/pt/digital-control/adc-quantization/" data-title="Quantização do ADC" data-summary="O ADC lê a saída em degraus de \(q = V_{FS}/(2^N - 1)\): o passo, o ruído de quantização e a referência escrita como código decidem o que o laço consegue regular.">Quantização do ADC</a></p></section><section class="backlinks"><h2>Nas trilhas</h2><p><a class="note-link" href="/pt/digital-control/boost-digital-loop/" data-title="Do *boost* ao laço digital" data-summary="O que muda no laço digital quando a planta tem um zero no semiplano direito: do modelo médio do *boost* ao *buck-boost* de quatro chaves, e daí ao projeto que serve em toda a faixa.">Do <em>boost</em> ao laço digital</a></p></section><p class="tags"><span>#firmware</span> <span>#projeto</span> <span>#boost</span> <span>#buck-boost</span></p></footer>
   </main>
 </div>

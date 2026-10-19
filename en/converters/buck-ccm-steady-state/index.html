@@ -13,7 +13,7 @@
 <link rel="alternate" hreflang="x-default" href="https://cicerosantos.github.io/en/converters/buck-ccm-steady-state/">
 <link rel="stylesheet" href="/assets/site.css?v=439396ca8f">
 <link rel="stylesheet" href="/assets/vendor/katex-0.16.11/katex.min.css?v=717bc9ae78">
-<link rel="stylesheet" href="/assets/notes/notes.css?v=edef8324e3">
+<link rel="stylesheet" href="/assets/notes/notes.css?v=beab937384">
 <script src="/assets/site.js?v=3e41b5e20a"></script>
 <script src="/assets/lang.js?v=7142661d7c"></script>
 <script defer src="/assets/vendor/highlight-11.9.0/highlight.min.js?v=837a6fa5b0"></script>
@@ -23,6 +23,8 @@
 {"imports": {
   "/assets/notes/busca.js": "/assets/notes/busca.js?v=601c4e62a7",
   "/assets/notes/notes.js": "/assets/notes/notes.js?v=6abcba7974",
+  "/assets/notes/widgets/asymptote-model.js": "/assets/notes/widgets/asymptote-model.js?v=c453a43954",
+  "/assets/notes/widgets/asymptote.js": "/assets/notes/widgets/asymptote.js?v=cc3c2d7106",
   "/assets/notes/widgets/bode.js": "/assets/notes/widgets/bode.js?v=8483a4fe6e",
   "/assets/notes/widgets/common.js": "/assets/notes/widgets/common.js?v=e5738ac01f",
   "/assets/notes/widgets/delay.js": "/assets/notes/widgets/delay.js?v=79255eee30",
@@ -55,7 +57,7 @@
   <aside class="side"></aside>
   <main class="page note" data-lang="en" data-slug="buck-ccm-steady-state">
 <nav class="crumbs" aria-label="breadcrumb"><a href="/en/converters/">Power converters</a></nav>
-<nav class="trail-bar" aria-label="Trail"><a class="trail-name" href="/en/digital-control/buck-digital-loop/">Trail: From the analog buck to the digital loop</a><span class="trail-step">step 1 of 18</span><span class="trail-nav"><a rel="next" href="/en/converters/lc-filter-sizing/" title="Sizing L and C">next →</a></span></nav>
+<nav class="trail-bar" aria-label="Trail"><a class="trail-name" href="/en/digital-control/buck-digital-loop/">Trail: From the analog buck to the digital loop</a><span class="trail-step">step 1 of 19</span><span class="trail-nav"><a rel="next" href="/en/converters/lc-filter-sizing/" title="Sizing L and C">next →</a></span></nav>
 <h1 id="buck-ccm-steady-state">Duty ratio and ripple of the buck in CCM</h1>
 <p class="summary">In steady state, the volt-second balance on the inductor gives the buck&#x27;s duty ratio, and the triangular current gives the current and voltage ripple.</p>
 <article class="note-body"><p>The buck connects the switching node to the input, then to ground, and the LC filter delivers the average of that square wave to the load. This note computes the duty ratio and the ripple in steady state. It is the first step of the <a class="note-link" href="/en/digital-control/buck-digital-loop/" data-title="From the analog buck to the digital loop" data-summary="From the power stage to the firmware: the design path of a microcontroller-controlled buck, note by note.">digital buck trail</a>.</p>
@@ -163,6 +165,7 @@
 <p><em>Modelagem de Conversores Chaveados: do modelo à bancada virtual</em> (in Portuguese): the volt-second balance and the triangular inductor current of the buck, derived step by step.</p>
 </aside>
 </article>
+<nav class="trail-bar trail-bar-end" aria-label="Trail (end of the note)"><a class="trail-name" href="/en/digital-control/buck-digital-loop/">Trail: From the analog buck to the digital loop</a><span class="trail-step">step 1 of 19</span><span class="trail-nav"><a href="/en/converters/lc-filter-sizing/">next: Sizing L and C →</a></span></nav>
 <footer class="note-foot"><section class="backlinks"><h2>Used in</h2><ul><li><a class="note-link" href="/en/control-basics/notation-bridge/" data-title="Notation in this course" data-summary="The symbol convention of every note, with the meaning of each symbol, how terms are written and the units each symbol uses.">Notation in this course</a></li><li><a class="note-link" href="/en/converters/averaged-model/" data-title="The averaged switch model" data-summary="Replacing the switch pair by its average over one period turns the buck into a continuous circuit; perturbed and linearized, it gives the small-signal model.">The averaged switch model</a></li><li><a class="note-link" href="/en/converters/boost/" data-title="Synchronous boost 12 V → 48 V: worked example" data-summary="The lab&#x27;s boost, from the specifications to the firmware, with the numbers of every step, the right-half-plane zero that holds the crossover at 1.5 kHz and the fifteen scenarios simulated in QSPICE.">Synchronous boost 12 V → 48 V: worked example</a></li><li><a class="note-link" href="/en/converters/buck-losses/" data-title="Losses of the synchronous buck" data-summary="The conduction, switching, dead-time, gate, inductor and capacitor losses of the lab&#x27;s buck, added up into a budget and an efficiency-versus-load curve.">Losses of the synchronous buck</a></li><li><a class="note-link" href="/en/converters/buck/" data-title="Synchronous buck 24 V → 9 V: worked example" data-summary="The lab&#x27;s buck, from the specifications to the firmware, with the numbers of every step of the trail and the four controllers simulated in QSPICE.">Synchronous buck 24 V → 9 V: worked example</a></li><li><a class="note-link" href="/en/converters/capacitor-rms-current/" data-title="RMS current in the buck&#x27;s capacitors" data-summary="The buck&#x27;s input capacitor carries a pulsed current of RMS value \(I_o\sqrt{D(1-D)}\), much larger than the output capacitor&#x27;s, which sees only the inductor&#x27;s triangular ripple.">RMS current in the buck&#x27;s capacitors</a></li><li><a class="note-link" href="/en/converters/lc-filter-sizing/" data-title="Sizing L and C" data-summary="How to choose the buck&#x27;s inductor and capacitor from the ripple specifications, the capacitor&#x27;s RMS current and the load step.">Sizing L and C</a></li><li><a class="note-link" href="/en/digital-control/adc-quantization/" data-title="ADC quantization" data-summary="The ADC reads the output in steps of \(q = V_{FS}/(2^N - 1)\): the step, the quantization noise and the reference written as a code decide what the loop can regulate.">ADC quantization</a></li><li><a class="note-link" href="/en/digital-control/soft-start-prebias/" data-title="Soft-start and *pre-biasing*" data-summary="The reference ramp, which avoids saturation during the transition, and *pre-biasing*, where the output already has voltage before the converter starts switching.">Soft-start and <em>pre-biasing</em></a></li></ul></section><section class="backlinks"><h2>In the trails</h2><p><a class="note-link" href="/en/digital-control/buck-digital-loop/" data-title="From the analog buck to the digital loop" data-summary="From the power stage to the firmware: the design path of a microcontroller-controlled buck, note by note.">From the analog buck to the digital loop</a></p></section><p class="tags"><span>#buck</span> <span>#steady-state</span></p></footer>
   </main>
 </div>

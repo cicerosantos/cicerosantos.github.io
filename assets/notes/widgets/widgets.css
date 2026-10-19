@@ -162,3 +162,26 @@
 
 /* rootlocus: the design-point button under the K slider. */
 .w-rl-buttons { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0; }
+
+/* asymptote: the equation (KaTeX, scrolled sideways when wider than the page), the buttons that hide the
+   answer or the plot, the form menu, and the s-plane beside the Bode plot when the figure is wide. */
+.w-asym-eq { display: flex; flex-direction: column; gap: 4px; padding: 6px 12px 10px; min-width: 0; }
+.w-asym-eq[hidden], .w-plots[hidden] { display: none; }
+.w-asym-tex { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+.w-asym-tex .katex-display { margin: 0.4em 0; }
+.w-asym-values { margin: 0; font-size: 13px; font-variant-numeric: tabular-nums; }
+.w-asym-words p { margin: 2px 0; font-size: 13px; color: var(--muted); max-width: none; }
+.w-asym-ask { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
+.w-asym-reveal { min-height: 32px; padding: 4px 12px; font-weight: 600; }
+.w-asym-reveal:focus-visible, .w-asym-select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (pointer: coarse) { .w-asym-reveal { min-height: 44px; } }
+.w-asym-form { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+.w-asym-form label { color: var(--muted); }
+.w-asym-select { font: inherit; font-size: 13px; min-height: 32px; max-width: 100%; padding: 3px 8px; border: 1px solid var(--field-border);
+                 border-radius: 7px; background: var(--bg); color: var(--text); }
+.w-asym-wrap { container-type: inline-size; min-width: 0; }
+.w-asym-row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+@container (min-width: 640px) { .w-asym-row { grid-template-columns: minmax(0, 1fr) 240px; align-items: start; } }
+.w-asym-main, .w-asym-side { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.w-asym-side .w-chart.square { width: 100%; max-width: 280px; }
+.w-sliders [hidden], .w-toggle[hidden] { display: none; }
