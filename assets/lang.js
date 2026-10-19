@@ -9,11 +9,15 @@
 //    last choice or the browser's language, and /assets/pcl/i18n.js translates the page. The link
 //    reloads the same address (the oscilloscope keeps its converter and scenario in the query) in the
 //    other language.
+//  - The home page, /, also has one page for both, with each text in the two languages (lang="en"
+//    and lang="pt-BR" blocks): the language is chosen as on the lab's pages, and the page's CSS
+//    shows the blocks of <html data-lang>. It needs no translation, so it is never hidden.
 (() => {
   const store = lang => { try { localStorage.setItem("pcl-lang", lang); } catch (error) { /* storage blocked */ } };
   const prefix = location.pathname.match(/^\/(en|pt)\//);
   const lab = /^\/power-labs\//.test(location.pathname);
-  if (!prefix && !lab) return;
+  const home = location.pathname === "/" || location.pathname === "/index.html";
+  if (!prefix && !lab && !home) return;
 
   let here;
   if (prefix) here = prefix[1];
@@ -31,7 +35,7 @@
     const root = document.documentElement;
     root.lang = here === "pt" ? "pt-BR" : "en";
     root.dataset.lang = here;  // for site.js, even when storage is blocked
-    if (here !== "en") {
+    if (lab && here !== "en") {
       // Hidden until i18n.js has translated the page's English, at most a few seconds.
       root.classList.add("i18n-pending");
       const style = document.createElement("style");

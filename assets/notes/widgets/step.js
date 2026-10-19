@@ -116,7 +116,7 @@ export default async function mount(body, options, { lang }) {
   if (clamps) ui.readout.append(el("p", { class: "w-note", text: s.clamp }));
   ui.readout.append(el("p", { class: "w-note" }, ...rich(s.model)));
   ui.controls.remove();
-  ui.foot.append(scopeLink(lang, name, scenario.id || `2p2z-${event}`, s.open));
+  if (chosen) ui.foot.append(scopeLink(lang, name, scenario.id || `2p2z-${event}`, s.open));  // a custom design has no simulation
   const aria = s.aria(cname, s.event[event], peakText, settleText);
   s.charts.forEach((name, i) => charts.label(i, `${name}. ${aria}`));
 

@@ -27,11 +27,11 @@ const PAGES = [
 ];
 
 // The labels are in the visitor's language: the page's own under /en/ and /pt/; on the lab's pages
-// the one lang.js chose; elsewhere the one last chosen with lang.js's link, or else the browser's.
+// and the home page the one lang.js chose; elsewhere the one last chosen with lang.js's link, or else the browser's.
 const PAGE_LANG = (location.pathname.match(/^\/(en|pt)\//) || [])[1] || null;
 function preferredLang() {
   if (PAGE_LANG) return PAGE_LANG;
-  const chosen = document.documentElement.dataset.lang;  // set by lang.js on the lab's pages
+  const chosen = document.documentElement.dataset.lang;  // set by lang.js on the lab's pages and the home page
   if (chosen === "en" || chosen === "pt") return chosen;
   try { const stored = localStorage.getItem("pcl-lang"); if (stored === "en" || stored === "pt") return stored; }
   catch (error) { /* storage blocked */ }

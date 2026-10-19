@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 250" aria-hidden="true">
+  <!-- z = e^{sTs}: the s-plane (left) and the z-plane (right), with matching colours. The jω axis between ±jπ/Ts
+       (blue) becomes the unit circle; the left half of that strip, the disc; the line σ = σ1 (teal, σ1·Ts = −π/4) becomes the
+       circle of radius e^{σ1 Ts} = 0.456, to scale; the pole pair p (orange, at ±60° of ωTs) maps to e^{pTs};
+       s = 0 goes to z = 1, and ±jπ/Ts (purple) to z = −1. Scale: π/Ts = 80 px in s; the unit circle has r = 80 px. -->
+  <!-- regions -->
+  <g style="fill:var(--vout)" fill-opacity="0.12">
+    <rect x="20" y="50" width="110" height="160"/>
+    <circle cx="350" cy="130" r="80"/>
+  </g>
+  <!-- axes and the strip's edges -->
+  <g fill="none" stroke-width="1.2" stroke-linecap="round" style="stroke:var(--muted)">
+    <path d="M20 130 H214 M209 126 L215 130 L209 134"/>
+    <path d="M130 238 V24 M126 29 L130 23 L134 29"/>
+    <path d="M20 50 H214 M20 210 H214" stroke-dasharray="4 4"/>
+    <path d="M258 130 H452 M447 126 L453 130 L447 134"/>
+    <path d="M350 238 V24 M346 29 L350 23 L354 29"/>
+    <path d="M350 130 L368.3 98.4" stroke-dasharray="3 3"/>
+  </g>
+  <!-- jω axis and unit circle -->
+  <g fill="none" stroke-width="3" stroke-linecap="round" style="stroke:var(--vout)">
+    <path d="M130 50 V210"/>
+    <circle cx="350" cy="130" r="80"/>
+  </g>
+  <!-- σ = σ1 and its circle -->
+  <g fill="none" stroke-width="2" style="stroke:var(--il)">
+    <path d="M110 50 V210"/>
+    <circle cx="350" cy="130" r="36.5"/>
+  </g>
+  <!-- the pole pair and its image -->
+  <g fill="none" stroke-width="2.4" stroke-linecap="round" style="stroke:var(--callout-warning)">
+    <path d="M104 97.3 L116 109.3 M116 97.3 L104 109.3"/>
+    <path d="M104 150.7 L116 162.7 M116 150.7 L104 162.7"/>
+    <path d="M362.3 92.4 L374.3 104.4 M374.3 92.4 L362.3 104.4"/>
+    <path d="M362.3 155.6 L374.3 167.6 M374.3 155.6 L362.3 167.6"/>
+  </g>
+  <!-- s = 0 → z = 1; ±jπ/Ts → z = −1 -->
+  <g style="fill:var(--text)">
+    <circle cx="130" cy="130" r="4"/>
+    <circle cx="430" cy="130" r="4"/>
+  </g>
+  <g style="fill:var(--callout-example)">
+    <circle cx="130" cy="50" r="4.5"/>
+    <circle cx="130" cy="210" r="4.5"/>
+    <circle cx="270" cy="130" r="4.5"/>
+  </g>
+  <!-- labels; Portuguese (l-pt) and English (l-en) where they differ: the notes show one set by the page's language -->
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="14" style="fill:var(--text)">
+    <text x="6" y="16" font-size="13" font-weight="600" class="l-pt" style="fill:var(--muted)">plano s</text>
+    <text x="6" y="16" font-size="13" font-weight="600" class="l-en" style="fill:var(--muted)">s-plane</text>
+    <text x="454" y="16" text-anchor="end" font-size="13" font-weight="600" class="l-pt" style="fill:var(--muted)">plano z</text>
+    <text x="454" y="16" text-anchor="end" font-size="13" font-weight="600" class="l-en" style="fill:var(--muted)">z-plane</text>
+    <text x="236" y="16" text-anchor="middle"><tspan font-style="italic">z</tspan> = <tspan font-style="italic">e</tspan><tspan dy="-6" font-size="11"><tspan font-style="italic">sT</tspan>ₛ</tspan><tspan dy="6"> →</tspan></text>
+    <text x="210" y="148" text-anchor="end" font-style="italic">σ</text>
+    <text x="137" y="30"><tspan font-style="italic">j</tspan>ω</text>
+    <text x="138" y="46" style="fill:var(--callout-example)">+<tspan font-style="italic">j</tspan>π/<tspan font-style="italic">T</tspan>ₛ</text>
+    <text x="138" y="226" style="fill:var(--callout-example)">−<tspan font-style="italic">j</tspan>π/<tspan font-style="italic">T</tspan>ₛ</text>
+    <text x="137" y="148"><tspan font-style="italic">s</tspan> = 0</text>
+    <text x="110" y="228" text-anchor="middle" style="fill:var(--il)"><tspan font-style="italic">σ</tspan>₁</text>
+    <text x="99" y="99" text-anchor="end" font-style="italic" style="fill:var(--callout-warning)">p</text>
+    <text x="99" y="167" text-anchor="end" style="fill:var(--callout-warning)"><tspan font-style="italic">p</tspan>*</text>
+    <text x="356" y="38" font-style="italic">Im</text>
+    <text x="452" y="120" text-anchor="end" font-style="italic">Re</text>
+    <text x="425" y="148" text-anchor="end">1</text>
+    <text x="266" y="148" text-anchor="end" style="fill:var(--callout-example)">−1</text>
+    <text x="345" y="86" text-anchor="end" style="fill:var(--callout-warning)"><tspan font-style="italic">e</tspan><tspan dy="-6" font-size="11"><tspan font-style="italic">pT</tspan>ₛ</tspan></text>
+    <text x="410" y="62" style="fill:var(--vout)">|<tspan font-style="italic">z</tspan>| = 1</text>
+    <text x="330" y="186" text-anchor="middle" style="fill:var(--il)"><tspan font-style="italic">e</tspan><tspan dy="-6" font-size="11"><tspan font-style="italic">σ</tspan>₁<tspan font-style="italic">T</tspan>ₛ</tspan></text>
+  </g>
+</svg>
