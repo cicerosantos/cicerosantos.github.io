@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 610" aria-hidden="true">
-  <!-- Op-amp stages: (a) inverting, Z_i from u to the - input, Z_f from the - input to y, + to ground; (b) non-inverting, u to the + input, Z_g from the - input to ground, Z_f to y; (c) type II, R1 in, R2 in series with C1 parallel with C2 in the feedback, + to V_ref; (d) type III, the same with R3 in series with C3 across R1 and the divider's bottom resistor R_b from the - input to ground -->
+  <!-- Op-amp stages: (a) inverting, Z_i from u to the - input, Z_f from the - input to y, + to ground; (b) non-inverting, u to the + input, Z_g from the - input to ground, Z_f to y; (c) type II, R1 in, R2 in series with C1 parallel with C2 in the feedback, + to V_ref, the divider's bottom resistor R_b from the - input to ground; (d) type III, the same with R3 in series with C3 across R1 -->
   <g fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--text)">
     <path d="M120 70 L172 94 L120 118 Z"/>
     <path d="M125 106 H133 M129 102 V110 M125 82 H133"/>
@@ -41,6 +41,10 @@
     <path d="M21.4 294 L90 294"/>
     <path d="M90 294 L92.8333 300 L98.5 288 L104.167 300 L109.833 288 L115.5 300 L121.167 288 L124 294"/>
     <path d="M124 294 L280 294"/>
+    <path d="M222 294 L222 310"/>
+    <path d="M222 310 L216 312.833 L228 318.5 L216 324.167 L228 329.833 L216 335.5 L228 341.167 L222 344"/>
+    <path d="M222 344 L222 350"/>
+    <path d="M213 350 H231 M216.5 354 H227.5 M220 358 H224"/>
     <path d="M332 306 L380 306"/>
     <path d="M380 254 L380 306"/>
     <path d="M380 306 L430.6 306"/>
@@ -102,6 +106,7 @@
     <circle cx="200" cy="254" r="2.6"/>
     <circle cx="380" cy="254" r="2.6"/>
     <circle cx="200" cy="294" r="2.6"/>
+    <circle cx="222" cy="294" r="2.6"/>
     <circle cx="380" cy="306" r="2.6"/>
     <circle cx="200" cy="468" r="2.6"/>
     <circle cx="380" cy="468" r="2.6"/>
@@ -135,6 +140,7 @@
     <text x="107" y="279" text-anchor="middle"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">1</tspan></text>
     <text x="18" y="284" text-anchor="middle"><tspan font-style="italic">u</tspan></text>
     <text x="434" y="296" text-anchor="middle"><tspan font-style="italic">y</tspan></text>
+    <text x="210" y="332" text-anchor="end"><tspan font-style="italic">R</tspan><tspan font-size="10" dy="4">b</tspan></text>
     <text x="278" y="347" text-anchor="start"><tspan font-style="italic">V</tspan><tspan font-size="10" dy="4">ref</tspan></text>
     <text x="6" y="410" text-anchor="start" font-size="13" font-weight="600" class="l-pt" style="fill:var(--muted)">(d) tipo III</text>
     <text x="6" y="410" text-anchor="start" font-size="13" font-weight="600" class="l-en" style="fill:var(--muted)">(d) type III</text>
